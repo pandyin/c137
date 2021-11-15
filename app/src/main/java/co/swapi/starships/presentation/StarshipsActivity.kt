@@ -1,11 +1,12 @@
-package co.swapi
+package co.swapi.starships.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import co.swapi.R
 
-class MainActivity : AppCompatActivity() {
+class StarshipsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_starships)
     }
 }
