@@ -2,9 +2,7 @@ package co.swapi.starships.domain
 
 import io.reactivex.rxjava3.core.Completable
 
-class GetAllStarshipsUseCase {
+interface GetAllStarshipsUseCase {
 
-    fun execute(): Completable {
-        return Completable.never()
-    }
+    fun execute(): Completable
 }
