@@ -6,6 +6,6 @@ import io.reactivex.rxjava3.core.Completable
 class StarshipsRepositoryImpl(private val remoteApi: StarshipsApi) : StarshipsRepository {
 
     override fun getAllStarships(): Completable {
-        return Completable.never()
+        return remoteApi.getAllStarships().ignoreElement()
     }
 }
