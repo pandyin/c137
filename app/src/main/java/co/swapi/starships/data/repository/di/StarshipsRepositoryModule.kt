@@ -5,7 +5,7 @@ import co.swapi.starships.data.repository.StarshipsRepositoryImpl
 import org.koin.dsl.module
 
 val repositoryModule = module {
-    single<StarshipsRepository> {
+    factory<StarshipsRepository> {
         StarshipsRepositoryImpl(get())
     }
 }

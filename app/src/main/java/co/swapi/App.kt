@@ -2,6 +2,7 @@ package co.swapi
 
 import android.app.Application
 import co.swapi.di.appModule
+import co.swapi.starships.data.repository.datastore.di.datastoreModule
 import co.swapi.starships.data.repository.di.repositoryModule
 import co.swapi.starships.domain.di.useCaseModule
 import co.swapi.starships.presentation.di.viewModelModule
@@ -17,6 +18,7 @@ class App : Application() {
             modules(
                 listOf(
                     appModule,
+                    datastoreModule,
                     repositoryModule,
                     useCaseModule,
                     viewModelModule
