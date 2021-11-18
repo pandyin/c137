@@ -2,8 +2,6 @@ package co.swapi.di
 
 import co.swapi.R
 import co.swapi.starships.data.repository.datastore.remote.api.StarshipsApi
-import io.socket.client.IO
-import io.socket.client.Socket
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
@@ -23,9 +21,6 @@ val networkModule = module {
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()
-    }
-    single<Socket> {
-        IO.socket(androidContext().getString(R.string.chat_base_url))
     }
     factory<StarshipsApi> {
         get<Retrofit>().create(StarshipsApi::class.java)

@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">SWAPI</string>
     <string name="swapi_base_url">https://swapi.dev/api/</string>
-    <string name="chat_base_url">https://socket-io-chat.now.sh/</string>
 </resources>

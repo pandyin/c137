@@ -6,15 +6,11 @@ import co.swapi.starships.data.repository.datastore.di.datastoreModule
 import co.swapi.starships.data.repository.di.repositoryModule
 import co.swapi.starships.domain.di.useCaseModule
 import co.swapi.starships.presentation.di.viewModelModule
-import io.socket.client.Socket
 import io.socket.client.Socket.*
-import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 class App : Application() {
-
-    private val socket: Socket by inject()
 
     override fun onCreate() {
         super.onCreate()
@@ -30,7 +26,5 @@ class App : Application() {
                 )
             )
         }
-
-        socket.connect()
     }
 }
