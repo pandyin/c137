@@ -6,6 +6,6 @@ import org.koin.dsl.module
 
 val datastoreModule = module {
     factory<StarshipsRemoteRepository> {
-        StarshipsRemoteRepositoryImpl(get())
+        StarshipsRemoteRepositoryImpl(get(), get())
     }
 }

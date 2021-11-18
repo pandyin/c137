@@ -1,6 +1,8 @@
 package co.swapi.di
 
 import co.swapi.starships.data.repository.datastore.remote.api.StarshipsApi
+import io.socket.client.IO
+import io.socket.client.Socket
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
@@ -13,6 +15,9 @@ fun testAppModule(baseUrl: String) = module {
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()
+    }
+    single<Socket> {
+        IO.socket(baseUrl)
     }
     factory<StarshipsApi> {
         get<Retrofit>().create(StarshipsApi::class.java)
