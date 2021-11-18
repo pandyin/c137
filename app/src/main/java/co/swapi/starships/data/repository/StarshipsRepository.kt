@@ -1,8 +1,8 @@
 package co.swapi.starships.data.repository
 
-import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 
 interface StarshipsRepository {
 
-    fun getAllStarships(): Completable
+    fun getAllStarships(): Single<String>
 }

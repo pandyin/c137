@@ -1,8 +1,8 @@
 package co.swapi.starships.domain
 
-import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 
 interface GetAllStarshipsUseCase {
 
-    fun execute(): Completable
+    fun execute(): Single<String>
 }
