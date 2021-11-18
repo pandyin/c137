@@ -6,7 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 
-fun testAppModule(baseUrl: String) = module {
+fun testNetworkModule(baseUrl: String) = module {
     single<Retrofit> {
         Retrofit.Builder()
             .baseUrl(baseUrl)
