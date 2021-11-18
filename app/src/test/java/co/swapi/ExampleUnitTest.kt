@@ -1,7 +1,7 @@
 package co.swapi
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import co.swapi.di.testAppModule
+import co.swapi.di.testNetworkModule
 import co.swapi.starships.data.model.Starship
 import co.swapi.starships.data.repository.datastore.di.datastoreModule
 import co.swapi.starships.data.repository.di.repositoryModule
@@ -43,7 +43,7 @@ class ExampleUnitTest : KoinTest {
         startKoin {
             modules(
                 listOf(
-                    testAppModule(mockWebServer.url("/").toString()),
+                    testNetworkModule(mockWebServer.url("/").toString()),
                     datastoreModule,
                     repositoryModule,
                     useCaseModule
