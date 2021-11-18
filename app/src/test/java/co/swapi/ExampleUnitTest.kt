@@ -1,9 +1,13 @@
 package co.swapi
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import co.swapi.di.testAppModule
+import co.swapi.starships.data.model.Starship
 import co.swapi.starships.data.repository.di.repositoryModule
 import co.swapi.starships.domain.GetAllStarshipsUseCase
 import co.swapi.starships.domain.di.useCaseModule
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -23,6 +27,9 @@ import kotlin.test.assertEquals
 class ExampleUnitTest : KoinTest {
 
     private lateinit var mockWebServer: MockWebServer
+
+    @get:Rule
+    var instantExecutorRule = InstantTaskExecutorRule()
 
     @get:Rule
     var rxTrampolineSchedulerRule = RxTrampolineSchedulerRule()
@@ -45,16 +52,20 @@ class ExampleUnitTest : KoinTest {
 
     @Test
     fun addition_isCorrect() {
+        val body = JsonObject().apply {
+            addProperty("name", "Death Star")
+        }
+
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(HttpURLConnection.HTTP_OK)
-                .setBody("hi")
+                .setBody(body.toString())
         )
 
         val useCase: GetAllStarshipsUseCase by inject()
         useCase.execute()
             .test()
-            .assertValue("hi")
+            .assertValue(Gson().fromJson(body, Starship::class.java))
             .assertComplete()
 
         val request = mockWebServer.takeRequest()
