@@ -1,13 +1,11 @@
 package com.c137
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.c137.di.testNetworkModule
-import com.c137.characters.data.model.Character
 import com.c137.characters.data.repository.datastore.di.datastoreModule
 import com.c137.characters.data.repository.di.repositoryModule
 import com.c137.characters.domain.GetCharactersUseCase
 import com.c137.characters.domain.di.useCaseModule
-import com.google.gson.Gson
+import com.c137.di.testNetworkModule
 import com.google.gson.JsonObject
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -67,12 +65,11 @@ class ExampleUnitTest : KoinTest {
         val useCase: GetCharactersUseCase by inject()
         useCase.execute()
             .test()
-            .assertValue(Gson().fromJson(body, Character::class.java))
             .assertComplete()
 
         val request = mockWebServer.takeRequest()
         assertEquals(
-            String.format("%s%s", mockWebServer.url("/"), "starships/"),
+            String.format("%s%s", mockWebServer.url("/"), "character?page=1"),
             request.requestUrl.toString()
         )
     }
