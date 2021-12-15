@@ -16,8 +16,14 @@ class CharactersRemoteRepositoryImpl(private val remoteApi: CharactersApi) : Cha
                 .execute()
                 .body()
         }.map {
-            val type: Type = object : TypeToken<List<Character>>() {}.type
-            Gson().fromJson(it!!["results"].asJsonArray, type)
+            when (it!!.has("results")) {
+                true -> {
+                    val results = it["results"].asJsonArray
+                    val type: Type = object : TypeToken<List<Character>>() {}.type
+                    Gson().fromJson(results, type)
+                }
+                false -> emptyList()
+            }
         }
     }
 }

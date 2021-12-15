@@ -52,19 +52,18 @@ class ExampleUnitTest : KoinTest {
 
     @Test
     fun addition_isCorrect() {
-        val body = JsonObject().apply {
-            addProperty("name", "Death Star")
-        }
+        val results = JsonObject()
 
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(HttpURLConnection.HTTP_OK)
-                .setBody(body.toString())
+                .setBody(results.toString())
         )
 
         val useCase: GetCharactersUseCase by inject()
         useCase.execute()
             .test()
+            .assertValue(emptyList())
             .assertComplete()
 
         val request = mockWebServer.takeRequest()
