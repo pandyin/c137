@@ -14,7 +14,7 @@ class CharactersActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_characters)
 
-        viewModel.getAllCharacters()
+        viewModel.getCharacters()
             .subscribeOn(Schedulers.io())
             .subscribe()
     }
