@@ -1,0 +1,48 @@
+package com.c137
+
+import com.c137.characters.data.repository.datastore.di.datastoreModule
+import com.c137.characters.data.repository.di.repositoryModule
+import com.c137.characters.domain.GetCharactersUseCase
+import com.c137.characters.domain.di.useCaseModule
+import com.c137.di.dummyCharactersApi
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.junit.runners.JUnit4
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
+import org.koin.test.KoinTest
+import org.koin.test.inject
+
+@RunWith(JUnit4::class)
+class GetCharactersDummyUnitTest : KoinTest {
+
+    @Before
+    fun setup() {
+        startKoin {
+            modules(
+                listOf(
+                    dummyCharactersApi(),
+                    datastoreModule,
+                    repositoryModule,
+                    useCaseModule
+                )
+            )
+        }
+    }
+
+    @Test
+    fun getCharacters_assertComplete() {
+        val useCase: GetCharactersUseCase by inject()
+        useCase.execute()
+            .test()
+            .assertValue(emptyList())
+            .assertComplete()
+    }
+
+    @After
+    fun tearDown() {
+        stopKoin()
+    }
+}
