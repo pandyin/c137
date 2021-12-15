@@ -5,7 +5,7 @@ import com.c137.characters.data.repository.datastore.di.datastoreModule
 import com.c137.characters.data.repository.di.repositoryModule
 import com.c137.characters.domain.GetCharactersUseCase
 import com.c137.characters.domain.di.useCaseModule
-import com.c137.di.dummyCharactersApiModule
+import com.c137.di.mockCharacterApiModule
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -18,7 +18,7 @@ import org.koin.test.KoinTest
 import org.koin.test.inject
 
 @RunWith(JUnit4::class)
-class GetCharactersDummyUnitTest : KoinTest {
+class GetCharactersMockUnitTest : KoinTest {
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
@@ -31,7 +31,7 @@ class GetCharactersDummyUnitTest : KoinTest {
         startKoin {
             modules(
                 listOf(
-                    dummyCharactersApiModule(),
+                    mockCharacterApiModule(),
                     datastoreModule,
                     repositoryModule,
                     useCaseModule

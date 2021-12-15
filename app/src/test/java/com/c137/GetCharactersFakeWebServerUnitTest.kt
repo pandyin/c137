@@ -5,7 +5,7 @@ import com.c137.characters.data.repository.datastore.di.datastoreModule
 import com.c137.characters.data.repository.di.repositoryModule
 import com.c137.characters.domain.GetCharactersUseCase
 import com.c137.characters.domain.di.useCaseModule
-import com.c137.di.mockCharacterApi
+import com.c137.di.fakeCharacterApiModule
 import com.google.gson.JsonObject
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -23,7 +23,7 @@ import java.net.HttpURLConnection
 import kotlin.test.assertEquals
 
 @RunWith(JUnit4::class)
-class GetCharactersMockWebServerUnitTest : KoinTest {
+class GetCharactersFakeWebServerUnitTest : KoinTest {
 
     private lateinit var mockWebServer: MockWebServer
 
@@ -41,7 +41,7 @@ class GetCharactersMockWebServerUnitTest : KoinTest {
         startKoin {
             modules(
                 listOf(
-                    mockCharacterApi(mockWebServer.url("/").toString()),
+                    fakeCharacterApiModule(mockWebServer.url("/").toString()),
                     datastoreModule,
                     repositoryModule,
                     useCaseModule

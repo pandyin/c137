@@ -2,6 +2,8 @@ package com.c137.di
 
 import com.c137.characters.data.repository.datastore.remote.api.CharactersApi
 import com.google.gson.JsonObject
+import io.mockk.every
+import io.mockk.mockk
 import okhttp3.Request
 import okio.Timeout
 import org.koin.dsl.module
@@ -13,7 +15,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.HttpURLConnection
 
-fun mockCharacterApi(baseUrl: String) = module {
+fun fakeCharacterApiModule(baseUrl: String) = module {
     single<Retrofit> {
         Retrofit.Builder()
             .baseUrl(baseUrl)
@@ -26,7 +28,18 @@ fun mockCharacterApi(baseUrl: String) = module {
     }
 }
 
-fun dummyCharactersApi() = module {
+fun mockCharacterApiModule() = module {
+    factory<CharactersApi> {
+        val mockCall = mockk<Call<JsonObject>>()
+        every { mockCall.execute() } returns Response.success(HttpURLConnection.HTTP_OK, JsonObject())
+
+        val mockApi = mockk<CharactersApi>()
+        every { mockApi.getCharactersByPage(any()) } returns mockCall
+        mockApi
+    }
+}
+
+fun dummyCharactersApiModule() = module {
     factory<CharactersApi> {
         object : CharactersApi {
             override fun getCharactersByPage(page: Int): Call<JsonObject> {
