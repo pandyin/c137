@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">SWAPI</string>
-    <string name="swapi_base_url">https://swapi.dev/api/</string>
+    <string name="app_name">Rick And Morty</string>
+    <string name="swapi_base_url">https://rickandmortyapi.com/api/</string>
 </resources>
