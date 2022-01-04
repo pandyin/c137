@@ -1,9 +1,7 @@
-package com.c137.di
+package com.c137.classical.di
 
 import com.c137.characters.data.repository.datastore.remote.api.CharactersApi
 import com.google.gson.JsonObject
-import io.mockk.every
-import io.mockk.mockk
 import okhttp3.Request
 import okio.Timeout
 import org.koin.dsl.module
@@ -11,17 +9,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.net.HttpURLConnection
-
-val mockCharacterApiModule = module {
-    factory<CharactersApi> {
-        val mockCall = mockk<Call<JsonObject>>()
-        every { mockCall.execute() } returns Response.success(HttpURLConnection.HTTP_OK, JsonObject())
-
-        val mockApi = mockk<CharactersApi>()
-        every { mockApi.getCharactersByPage(any()) } returns mockCall
-        mockApi
-    }
-}
 
 val stubCharactersApiModule = module {
     factory<CharactersApi> {

@@ -5,7 +5,7 @@ import com.c137.characters.data.repository.datastore.di.datastoreModule
 import com.c137.characters.data.repository.di.repositoryModule
 import com.c137.characters.domain.di.useCaseModule
 import com.c137.characters.presentation.di.viewModelModule
-import com.c137.di.networkModule
+import com.c137.mockist.di.networkModule
 import io.socket.client.Socket.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin

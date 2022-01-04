@@ -8,7 +8,7 @@ import com.c137.characters.domain.di.useCaseModule
 import com.c137.characters.presentation.CharactersViewModel
 import com.c137.characters.presentation.CharactersViewModelImpl
 import com.c137.characters.presentation.di.viewModelModule
-import com.c137.di.stubCharactersApiModule
+import com.c137.classical.di.stubCharactersApiModule
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -29,7 +29,7 @@ class GetCharactersUnitTest : KoinTest {
     @get:Rule
     var rxTrampolineSchedulerRule = RxTrampolineSchedulerRule()
 
-    //setup data
+    //setup data.
     @Before
     fun setup() {
         startKoin {
@@ -45,7 +45,7 @@ class GetCharactersUnitTest : KoinTest {
         }
     }
 
-    //exercise and state verification
+    //exercise and verity data.
     @Test
     fun getCharacters_assertComplete() {
         val viewModel = get<CharactersViewModel>()
@@ -64,7 +64,7 @@ class GetCharactersUnitTest : KoinTest {
             .assertComplete()
     }
 
-    //teardown
+    //teardown.
     @After
     fun teardown() {
         stopKoin()

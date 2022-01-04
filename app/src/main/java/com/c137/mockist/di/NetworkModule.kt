@@ -1,4 +1,4 @@
-package com.c137.di
+package com.c137.mockist.di
 
 import com.c137.R
 import com.c137.characters.data.repository.datastore.remote.api.CharactersApi
