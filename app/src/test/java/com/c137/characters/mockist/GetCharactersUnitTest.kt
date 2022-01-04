@@ -1,7 +1,8 @@
-package com.c137.mockist
+package com.c137.characters.mockist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.c137.RxTrampolineSchedulerRule
+import com.c137.characters.classical.di.testViewModelModule
 import com.c137.characters.data.repository.CharactersRepository
 import com.c137.characters.data.repository.CharactersRepositoryImpl
 import com.c137.characters.data.repository.datastore.remote.CharactersRemoteDatastore
@@ -11,7 +12,6 @@ import com.c137.characters.domain.GetCharactersUseCase
 import com.c137.characters.domain.GetCharactersUseCaseImpl
 import com.c137.characters.presentation.CharactersViewModel
 import com.c137.characters.presentation.CharactersViewModelImpl
-import com.c137.di.testCharactersViewModelModule
 import com.google.gson.JsonObject
 import io.mockk.every
 import io.mockk.mockk
@@ -42,7 +42,7 @@ class GetCharactersUnitTest : KoinTest {
     @Before
     fun setup() {
         startKoin {
-            modules(testCharactersViewModelModule)
+            modules(testViewModelModule)
         }
     }
 

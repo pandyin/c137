@@ -1,4 +1,4 @@
-package com.c137.classical
+package com.c137.characters.classical
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.c137.RxTrampolineSchedulerRule
@@ -8,7 +8,7 @@ import com.c137.characters.domain.di.useCaseModule
 import com.c137.characters.presentation.CharactersViewModel
 import com.c137.characters.presentation.CharactersViewModelImpl
 import com.c137.characters.presentation.di.viewModelModule
-import com.c137.di.stubCharactersApiModule
+import com.c137.characters.mockist.di.stubApiModule
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -35,7 +35,7 @@ class GetCharactersUnitTest : KoinTest {
         startKoin {
             modules(
                 listOf(
-                    stubCharactersApiModule,
+                    stubApiModule,
                     datastoreModule,
                     repositoryModule,
                     useCaseModule,
