@@ -24,6 +24,7 @@ import org.junit.runners.JUnit4
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
+import org.koin.test.get
 import retrofit2.Call
 import retrofit2.Response
 import java.net.HttpURLConnection
@@ -42,6 +43,12 @@ class GetCharactersUnitTest : KoinTest {
         startKoin {
             modules(emptyList())
         }
+    }
+
+    //setup expectations, exercise and verify expectations.
+    @Test
+    fun getCharacters_assertComplete() {
+        val viewModel = get<CharactersViewModel>()
     }
 
     //setup expectations, exercise and verify expectations.

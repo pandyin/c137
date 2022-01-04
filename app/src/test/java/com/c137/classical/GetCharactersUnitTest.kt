@@ -55,6 +55,7 @@ class GetCharactersUnitTest : KoinTest {
             .assertComplete()
     }
 
+    //exercise and verity data.
     @Test
     fun getCharacters_assertComplete_withoutDI() {
         val viewModel: CharactersViewModel = CharactersViewModelImpl()
