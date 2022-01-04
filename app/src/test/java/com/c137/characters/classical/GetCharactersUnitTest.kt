@@ -5,10 +5,10 @@ import com.c137.RxTrampolineSchedulerRule
 import com.c137.characters.data.repository.datastore.di.datastoreModule
 import com.c137.characters.data.repository.di.repositoryModule
 import com.c137.characters.domain.di.useCaseModule
+import com.c137.characters.mockist.di.stubApiModule
 import com.c137.characters.presentation.CharactersViewModel
 import com.c137.characters.presentation.CharactersViewModelImpl
 import com.c137.characters.presentation.di.viewModelModule
-import com.c137.characters.mockist.di.stubApiModule
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
