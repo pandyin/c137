@@ -1,11 +1,9 @@
-package com.c137
+package com.c137.mockist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.c137.characters.data.repository.datastore.di.datastoreModule
-import com.c137.characters.data.repository.di.repositoryModule
-import com.c137.characters.domain.GetCharactersUseCase
-import com.c137.characters.domain.di.useCaseModule
-import com.c137.di.mockCharacterApiModule
+import com.c137.RxTrampolineSchedulerRule
+import com.c137.characters.presentation.CharactersViewModel
+import com.c137.di.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -15,10 +13,10 @@ import org.junit.runners.JUnit4
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
-import org.koin.test.inject
+import org.koin.test.get
 
 @RunWith(JUnit4::class)
-class GetCharactersMockUnitTest : KoinTest {
+class GetCharactersUnitTest : KoinTest {
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
@@ -31,10 +29,11 @@ class GetCharactersMockUnitTest : KoinTest {
         startKoin {
             modules(
                 listOf(
-                    mockCharacterApiModule(),
-                    datastoreModule,
-                    repositoryModule,
-                    useCaseModule
+                    mockCharacterApiModule,
+                    mockCharacterRemoteDatastoreModule,
+                    mockCharacterRepositoryModule,
+                    mockGetCharactersUseCaseModule,
+                    mockCharactersViewModelModule
                 )
             )
         }
@@ -42,15 +41,15 @@ class GetCharactersMockUnitTest : KoinTest {
 
     @Test
     fun getCharacters_assertComplete() {
-        val useCase: GetCharactersUseCase by inject()
-        useCase.execute()
+        val viewModel = get<CharactersViewModel>()
+        viewModel.getCharacters()
             .test()
             .assertValue(emptyList())
             .assertComplete()
     }
 
     @After
-    fun tearDown() {
+    fun teardown() {
         stopKoin()
     }
 }

@@ -10,25 +10,9 @@ import org.koin.dsl.module
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 import java.net.HttpURLConnection
 
-fun fakeCharacterApiModule(baseUrl: String) = module {
-    single<Retrofit> {
-        Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .build()
-    }
-    factory<CharactersApi> {
-        get<Retrofit>().create(CharactersApi::class.java)
-    }
-}
-
-fun mockCharacterApiModule() = module {
+val mockCharacterApiModule = module {
     factory<CharactersApi> {
         val mockCall = mockk<Call<JsonObject>>()
         every { mockCall.execute() } returns Response.success(HttpURLConnection.HTTP_OK, JsonObject())
@@ -39,7 +23,7 @@ fun mockCharacterApiModule() = module {
     }
 }
 
-fun dummyCharactersApiModule() = module {
+val stubCharactersApiModule = module {
     factory<CharactersApi> {
         object : CharactersApi {
             override fun getCharactersByPage(page: Int): Call<JsonObject> {
