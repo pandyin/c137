@@ -2,10 +2,14 @@ package com.c137.mockist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.c137.RxTrampolineSchedulerRule
+import com.c137.characters.data.repository.CharactersRepository
 import com.c137.characters.data.repository.CharactersRepositoryImpl
+import com.c137.characters.data.repository.datastore.remote.CharactersRemoteDatastore
 import com.c137.characters.data.repository.datastore.remote.CharactersRemoteDatastoreImpl
 import com.c137.characters.data.repository.datastore.remote.api.CharactersApi
+import com.c137.characters.domain.GetCharactersUseCase
 import com.c137.characters.domain.GetCharactersUseCaseImpl
+import com.c137.characters.presentation.CharactersViewModel
 import com.c137.characters.presentation.CharactersViewModelImpl
 import com.google.gson.JsonObject
 import io.mockk.every
@@ -50,18 +54,18 @@ class GetCharactersUnitTest : KoinTest {
         val api = mockk<CharactersApi>()
         every { api.getCharactersByPage(any()) } returns call
 
-        val remoteDatastore = mockk<CharactersRemoteDatastoreImpl>()
+        val remoteDatastore: CharactersRemoteDatastore = mockk<CharactersRemoteDatastoreImpl>()
         val dummyPage = 0
         every { remoteDatastore.getCharacters() } returns Single.just(api.getCharactersByPage(dummyPage))
             .map { emptyList() }
 
-        val repository = mockk<CharactersRepositoryImpl>()
+        val repository: CharactersRepository = mockk<CharactersRepositoryImpl>()
         every { repository.getCharacters() } returns remoteDatastore.getCharacters()
 
-        val useCase = mockk<GetCharactersUseCaseImpl>()
+        val useCase: GetCharactersUseCase = mockk<GetCharactersUseCaseImpl>()
         every { useCase.execute() } returns repository.getCharacters()
 
-        val viewModel = mockk<CharactersViewModelImpl>()
+        val viewModel: CharactersViewModel = mockk<CharactersViewModelImpl>()
         every { viewModel.getCharacters() } returns useCase.execute()
 
         viewModel.getCharacters()
