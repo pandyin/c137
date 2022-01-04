@@ -14,7 +14,6 @@ import com.c137.characters.presentation.CharactersViewModelImpl
 import com.google.gson.JsonObject
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verifySequence
 import io.reactivex.rxjava3.core.Single
 import org.junit.After
 import org.junit.Before
@@ -47,7 +46,7 @@ class GetCharactersUnitTest : KoinTest {
 
     //setup expectations, exercise and verify expectations.
     @Test
-    fun getCharacters_assertComplete() {
+    fun getCharacters_assertComplete_withoutDI() {
         val call = mockk<Call<JsonObject>>()
         every { call.execute() } returns Response.success(HttpURLConnection.HTTP_OK, JsonObject())
 
@@ -65,19 +64,11 @@ class GetCharactersUnitTest : KoinTest {
         val useCase: GetCharactersUseCase = mockk<GetCharactersUseCaseImpl>()
         every { useCase.execute() } returns repository.getCharacters()
 
-        val viewModel: CharactersViewModel = mockk<CharactersViewModelImpl>()
-        every { viewModel.getCharacters() } returns useCase.execute()
-
+        val viewModel: CharactersViewModel = CharactersViewModelImpl()
         viewModel.getCharacters()
             .test()
-
-        verifySequence {
-            api.getCharactersByPage(any())
-            remoteDatastore.getCharacters()
-            repository.getCharacters()
-            useCase.execute()
-            viewModel.getCharacters()
-        }
+            .assertValue(emptyList())
+            .assertComplete()
     }
 
     //teardown.
