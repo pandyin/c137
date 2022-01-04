@@ -6,12 +6,12 @@ import com.c137.characters.domain.GetCharactersUseCaseImpl
 import io.reactivex.rxjava3.core.Single
 import org.jetbrains.annotations.TestOnly
 
-class CharactersViewModelImpl(private val getCharacters: GetCharactersUseCase) : CharactersViewModel() {
+class CharactersViewModelImpl(private val getCharactersUseCase: GetCharactersUseCase) : CharactersViewModel() {
 
     @TestOnly
     constructor() : this(GetCharactersUseCaseImpl())
 
     override fun getCharacters(): Single<List<Character>> {
-        return getCharacters.execute()
+        return getCharactersUseCase.execute()
     }
 }

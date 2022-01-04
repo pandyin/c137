@@ -8,7 +8,7 @@ import com.c137.characters.domain.di.useCaseModule
 import com.c137.characters.presentation.CharactersViewModel
 import com.c137.characters.presentation.CharactersViewModelImpl
 import com.c137.characters.presentation.di.viewModelModule
-import com.c137.classical.di.stubCharactersApiModule
+import com.c137.di.stubCharactersApiModule
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule

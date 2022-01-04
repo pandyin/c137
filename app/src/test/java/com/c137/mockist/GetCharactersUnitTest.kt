@@ -11,6 +11,7 @@ import com.c137.characters.domain.GetCharactersUseCase
 import com.c137.characters.domain.GetCharactersUseCaseImpl
 import com.c137.characters.presentation.CharactersViewModel
 import com.c137.characters.presentation.CharactersViewModelImpl
+import com.c137.di.testCharactersViewModelModule
 import com.google.gson.JsonObject
 import io.mockk.every
 import io.mockk.mockk
@@ -24,6 +25,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
+import org.koin.core.parameter.parametersOf
 import org.koin.test.KoinTest
 import org.koin.test.get
 import retrofit2.Call
@@ -42,14 +44,40 @@ class GetCharactersUnitTest : KoinTest {
     @Before
     fun setup() {
         startKoin {
-            modules(emptyList())
+            modules(testCharactersViewModelModule)
         }
     }
 
     //setup expectations, exercise and verify expectations.
     @Test
     fun getCharacters_assertComplete() {
-        val viewModel = get<CharactersViewModel>()
+        val call = mockk<Call<JsonObject>>()
+        every { call.execute() } returns Response.success(HttpURLConnection.HTTP_OK, JsonObject())
+
+        val api = mockk<CharactersApi>()
+        every { api.getCharactersByPage(any()) } returns call
+
+        val remoteDatastore: CharactersRemoteDatastore = mockk<CharactersRemoteDatastoreImpl>()
+        val dummyPage = 0
+        every { remoteDatastore.getCharacters() } returns Single.just(api.getCharactersByPage(dummyPage))
+            .map { emptyList() }
+
+        val repository: CharactersRepository = mockk<CharactersRepositoryImpl>()
+        every { repository.getCharacters() } returns remoteDatastore.getCharacters()
+
+        val useCase: GetCharactersUseCase = mockk<GetCharactersUseCaseImpl>()
+        every { useCase.execute() } returns repository.getCharacters()
+
+        val viewModel = get<CharactersViewModel> { parametersOf(useCase) }
+        viewModel.getCharacters()
+            .test()
+
+        verifySequence {
+            api.getCharactersByPage(any())
+            remoteDatastore.getCharacters()
+            repository.getCharacters()
+            useCase.execute()
+        }
     }
 
     //setup expectations, exercise and verify expectations.
