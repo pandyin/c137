@@ -8,7 +8,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CharactersActivity : AppCompatActivity() {
 
-    private val viewModel: CharactersViewModel by viewModel()
+    private val viewModel by viewModel<CharactersViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
