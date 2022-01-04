@@ -7,6 +7,7 @@ import com.c137.characters.data.repository.datastore.remote.CharactersRemoteData
 import com.c137.characters.data.repository.datastore.remote.api.CharactersApi
 import com.c137.characters.domain.GetCharactersUseCaseImpl
 import com.c137.characters.presentation.CharactersViewModelImpl
+import com.google.gson.JsonObject
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verifySequence
@@ -20,6 +21,9 @@ import org.junit.runners.JUnit4
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
+import retrofit2.Call
+import retrofit2.Response
+import java.net.HttpURLConnection
 
 @RunWith(JUnit4::class)
 class GetCharactersUnitTest : KoinTest {
@@ -40,23 +44,31 @@ class GetCharactersUnitTest : KoinTest {
     //setup expectations, exercise and verify expectations.
     @Test
     fun getCharacters_assertComplete() {
-        val api = mockk<CharactersApi>()
-        val remoteDatastore = mockk<CharactersRemoteDatastoreImpl>()
-        val repository = mockk<CharactersRepositoryImpl>()
-        val useCase = mockk<GetCharactersUseCaseImpl>()
-        val viewModel = mockk<CharactersViewModelImpl>()
+        val call = mockk<Call<JsonObject>>()
+        every { call.execute() } returns Response.success(HttpURLConnection.HTTP_OK, JsonObject())
 
-//        every { api.getCharactersByPage(any()) }
-        every { remoteDatastore.getCharacters() } returns Single.just(emptyList())
+        val api = mockk<CharactersApi>()
+        every { api.getCharactersByPage(any()) } returns call
+
+        val remoteDatastore = mockk<CharactersRemoteDatastoreImpl>()
+        val dummyPage = 0
+        every { remoteDatastore.getCharacters() } returns Single.just(api.getCharactersByPage(dummyPage))
+            .map { emptyList() }
+
+        val repository = mockk<CharactersRepositoryImpl>()
         every { repository.getCharacters() } returns remoteDatastore.getCharacters()
+
+        val useCase = mockk<GetCharactersUseCaseImpl>()
         every { useCase.execute() } returns repository.getCharacters()
+
+        val viewModel = mockk<CharactersViewModelImpl>()
         every { viewModel.getCharacters() } returns useCase.execute()
 
         viewModel.getCharacters()
             .test()
 
         verifySequence {
-//            api.getCharactersByPage(any())
+            api.getCharactersByPage(any())
             remoteDatastore.getCharacters()
             repository.getCharacters()
             useCase.execute()
