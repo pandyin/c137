@@ -29,8 +29,6 @@ import org.koin.core.parameter.parametersOf
 import org.koin.test.KoinTest
 import org.koin.test.get
 import retrofit2.Call
-import retrofit2.Response
-import java.net.HttpURLConnection
 
 @RunWith(JUnit4::class)
 class GetCharactersUnitTest : KoinTest {
@@ -52,8 +50,6 @@ class GetCharactersUnitTest : KoinTest {
     @Test
     fun getCharacters_assertComplete() {
         val call = mockk<Call<JsonObject>>()
-        every { call.execute() } returns Response.success(HttpURLConnection.HTTP_OK, JsonObject())
-
         val api = mockk<CharactersApi>()
         every { api.getCharactersByPage(any()) } returns call
 
@@ -84,8 +80,6 @@ class GetCharactersUnitTest : KoinTest {
     @Test
     fun getCharacters_assertComplete_withoutDI() {
         val call = mockk<Call<JsonObject>>()
-        every { call.execute() } returns Response.success(HttpURLConnection.HTTP_OK, JsonObject())
-
         val api = mockk<CharactersApi>()
         every { api.getCharactersByPage(any()) } returns call
 
