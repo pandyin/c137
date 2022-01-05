@@ -10,7 +10,7 @@ val stubDatabaseModule = module {
     single<CharactersDao> {
         object : CharactersDao {
             override fun insertCharacters(characters: List<Character>): Completable {
-                TODO("Not yet implemented")
+                return Completable.complete()
             }
 
             override fun getCharacters(): Flowable<List<Character>> {

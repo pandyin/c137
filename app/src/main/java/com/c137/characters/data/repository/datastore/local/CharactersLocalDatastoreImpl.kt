@@ -11,11 +11,15 @@ class CharactersLocalDatastoreImpl(private val charactersDao: CharactersDao) : C
     @TestOnly
     constructor() : this(object : CharactersDao {
         override fun insertCharacters(characters: List<Character>): Completable {
-            TODO("Not yet implemented")
+            return Completable.complete()
         }
 
         override fun getCharacters(): Flowable<List<Character>> {
             TODO("Not yet implemented")
         }
     })
+
+    override fun insertCharacters(characters: List<Character>): Completable {
+        return charactersDao.insertCharacters(characters)
+    }
 }

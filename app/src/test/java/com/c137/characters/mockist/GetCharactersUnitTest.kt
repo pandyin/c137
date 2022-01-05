@@ -3,8 +3,12 @@ package com.c137.characters.mockist
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.c137.RxTrampolineSchedulerRule
 import com.c137.characters.classical.di.testViewModelModule
+import com.c137.characters.data.model.Character
 import com.c137.characters.data.repository.CharactersRepository
 import com.c137.characters.data.repository.CharactersRepositoryImpl
+import com.c137.characters.data.repository.datastore.local.CharactersLocalDatastore
+import com.c137.characters.data.repository.datastore.local.CharactersLocalDatastoreImpl
+import com.c137.characters.data.repository.datastore.local.api.CharactersDao
 import com.c137.characters.data.repository.datastore.remote.CharactersRemoteDatastore
 import com.c137.characters.data.repository.datastore.remote.CharactersRemoteDatastoreImpl
 import com.c137.characters.data.repository.datastore.remote.api.CharactersApi
@@ -15,7 +19,8 @@ import com.c137.characters.presentation.CharactersViewModelImpl
 import com.google.gson.JsonObject
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verifySequence
+import io.mockk.verify
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import org.junit.After
 import org.junit.Before
@@ -49,6 +54,13 @@ class GetCharactersUnitTest : KoinTest {
     //setup expectations, exercise and verify expectations.
     @Test
     fun getCharacters_assertComplete() {
+        val dao = mockk<CharactersDao>()
+        every { dao.insertCharacters(any()) } returns Completable.complete()
+
+        val localDatastore: CharactersLocalDatastore = mockk<CharactersLocalDatastoreImpl>()
+        val dummyCharacters = emptyList<Character>()
+        every { localDatastore.insertCharacters(any()) } returns dao.insertCharacters(dummyCharacters)
+
         val call = mockk<Call<JsonObject>>()
         val api = mockk<CharactersApi>()
         every { api.getCharactersByPage(any()) } returns call
@@ -60,6 +72,10 @@ class GetCharactersUnitTest : KoinTest {
 
         val repository: CharactersRepository = mockk<CharactersRepositoryImpl>()
         every { repository.getCharacters() } returns remoteDatastore.getCharacters()
+            .flatMap {
+                localDatastore.insertCharacters(it)
+                    .andThen(Single.just(it))
+            }
 
         val useCase: GetCharactersUseCase = mockk<GetCharactersUseCaseImpl>()
         every { useCase.execute() } returns repository.getCharacters()
@@ -67,8 +83,11 @@ class GetCharactersUnitTest : KoinTest {
         val viewModel = get<CharactersViewModel> { parametersOf(useCase) }
         viewModel.getCharacters()
             .test()
+            .assertComplete()
 
-        verifySequence {
+        verify(exactly = 1) {
+            dao.insertCharacters(any())
+            localDatastore.insertCharacters(any())
             api.getCharactersByPage(any())
             remoteDatastore.getCharacters()
             repository.getCharacters()
@@ -79,6 +98,13 @@ class GetCharactersUnitTest : KoinTest {
     //setup expectations, exercise and verify expectations.
     @Test
     fun getCharacters_assertComplete_withoutDI() {
+        val dao = mockk<CharactersDao>()
+        every { dao.insertCharacters(any()) } returns Completable.complete()
+
+        val localDatastore: CharactersLocalDatastore = mockk<CharactersLocalDatastoreImpl>()
+        val dummyCharacters = emptyList<Character>()
+        every { localDatastore.insertCharacters(any()) } returns dao.insertCharacters(dummyCharacters)
+
         val call = mockk<Call<JsonObject>>()
         val api = mockk<CharactersApi>()
         every { api.getCharactersByPage(any()) } returns call
@@ -90,6 +116,10 @@ class GetCharactersUnitTest : KoinTest {
 
         val repository: CharactersRepository = mockk<CharactersRepositoryImpl>()
         every { repository.getCharacters() } returns remoteDatastore.getCharacters()
+            .flatMap {
+                localDatastore.insertCharacters(it)
+                    .andThen(Single.just(it))
+            }
 
         val useCase: GetCharactersUseCase = mockk<GetCharactersUseCaseImpl>()
         every { useCase.execute() } returns repository.getCharacters()
@@ -97,8 +127,11 @@ class GetCharactersUnitTest : KoinTest {
         val viewModel: CharactersViewModel = CharactersViewModelImpl(useCase)
         viewModel.getCharacters()
             .test()
+            .assertComplete()
 
-        verifySequence {
+        verify(exactly = 1) {
+            dao.insertCharacters(any())
+            localDatastore.insertCharacters(any())
             api.getCharactersByPage(any())
             remoteDatastore.getCharacters()
             repository.getCharacters()
