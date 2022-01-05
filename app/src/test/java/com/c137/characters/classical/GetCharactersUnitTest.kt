@@ -2,10 +2,12 @@ package com.c137.characters.classical
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.c137.RxTrampolineSchedulerRule
+import com.c137.characters.data.repository.datastore.di.localDatastoreModule
 import com.c137.characters.data.repository.datastore.di.remoteDatastoreModule
 import com.c137.characters.data.repository.di.repositoryModule
 import com.c137.characters.domain.di.useCaseModule
 import com.c137.characters.mockist.di.stubApiModule
+import com.c137.characters.mockist.di.stubDatabaseModule
 import com.c137.characters.presentation.CharactersViewModel
 import com.c137.characters.presentation.CharactersViewModelImpl
 import com.c137.characters.presentation.di.viewModelModule
@@ -35,7 +37,9 @@ class GetCharactersUnitTest : KoinTest {
         startKoin {
             modules(
                 listOf(
+                    stubDatabaseModule,
                     stubApiModule,
+                    localDatastoreModule,
                     remoteDatastoreModule,
                     repositoryModule,
                     useCaseModule,
