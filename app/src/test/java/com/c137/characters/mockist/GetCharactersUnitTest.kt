@@ -5,19 +5,17 @@ import com.c137.RxTrampolineSchedulerRule
 import com.c137.characters.classical.di.testViewModelModule
 import com.c137.characters.data.model.Character
 import com.c137.characters.data.repository.CharactersRepository
-import com.c137.characters.data.repository.CharactersRepositoryImpl
 import com.c137.characters.data.repository.datastore.local.CharactersLocalDatastore
-import com.c137.characters.data.repository.datastore.local.CharactersLocalDatastoreImpl
 import com.c137.characters.data.repository.datastore.local.api.CharactersDao
 import com.c137.characters.data.repository.datastore.remote.CharactersRemoteDatastore
-import com.c137.characters.data.repository.datastore.remote.CharactersRemoteDatastoreImpl
 import com.c137.characters.data.repository.datastore.remote.api.CharactersApi
 import com.c137.characters.domain.GetCharactersUseCase
-import com.c137.characters.domain.GetCharactersUseCaseImpl
 import com.c137.characters.presentation.CharactersViewModel
 import com.c137.characters.presentation.CharactersViewModelImpl
 import com.google.gson.JsonObject
+import io.mockk.MockKAnnotations
 import io.mockk.every
+import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import io.mockk.verify
 import io.reactivex.rxjava3.core.Completable
@@ -57,7 +55,7 @@ class GetCharactersUnitTest : KoinTest {
         val dao = mockk<CharactersDao>()
         every { dao.insertCharacters(any()) } returns Completable.complete()
 
-        val localDatastore: CharactersLocalDatastore = mockk<CharactersLocalDatastoreImpl>()
+        val localDatastore = mockk<CharactersLocalDatastore>()
         val dummyCharacters = emptyList<Character>()
         every { localDatastore.insertCharacters(any()) } returns dao.insertCharacters(dummyCharacters)
 
@@ -65,19 +63,19 @@ class GetCharactersUnitTest : KoinTest {
         val api = mockk<CharactersApi>()
         every { api.getCharactersByPage(any()) } returns call
 
-        val remoteDatastore: CharactersRemoteDatastore = mockk<CharactersRemoteDatastoreImpl>()
+        val remoteDatastore = mockk<CharactersRemoteDatastore>()
         val dummyPage = 0
         every { remoteDatastore.getCharacters() } returns Single.just(api.getCharactersByPage(dummyPage))
             .map { emptyList() }
 
-        val repository: CharactersRepository = mockk<CharactersRepositoryImpl>()
+        val repository = mockk<CharactersRepository>()
         every { repository.getCharacters() } returns remoteDatastore.getCharacters()
             .flatMap {
                 localDatastore.insertCharacters(it)
                     .andThen(Single.just(it))
             }
 
-        val useCase: GetCharactersUseCase = mockk<GetCharactersUseCaseImpl>()
+        val useCase = mockk<GetCharactersUseCase>()
         every { useCase.execute() } returns repository.getCharacters()
 
         val viewModel = get<CharactersViewModel> { parametersOf(useCase) }
@@ -95,33 +93,53 @@ class GetCharactersUnitTest : KoinTest {
         }
     }
 
+    @MockK
+    lateinit var dao: CharactersDao
+
+    @MockK
+    lateinit var localDatastore: CharactersLocalDatastore
+
+    @MockK
+    lateinit var api: CharactersApi
+
+    @MockK
+    lateinit var remoteDatastore: CharactersRemoteDatastore
+
+    @MockK
+    lateinit var repository: CharactersRepository
+
+    @MockK
+    lateinit var useCase: GetCharactersUseCase
+
+    @Before
+    fun setUpMockk() = MockKAnnotations.init(this)
+
+    @Before
+    fun setupCommonExpectations() {
+
+    }
+
     //setup expectations, exercise and verify expectations.
     @Test
     fun getCharacters_assertComplete_withoutDI() {
-        val dao = mockk<CharactersDao>()
         every { dao.insertCharacters(any()) } returns Completable.complete()
 
-        val localDatastore: CharactersLocalDatastore = mockk<CharactersLocalDatastoreImpl>()
         val dummyCharacters = emptyList<Character>()
         every { localDatastore.insertCharacters(any()) } returns dao.insertCharacters(dummyCharacters)
 
         val call = mockk<Call<JsonObject>>()
-        val api = mockk<CharactersApi>()
         every { api.getCharactersByPage(any()) } returns call
 
-        val remoteDatastore: CharactersRemoteDatastore = mockk<CharactersRemoteDatastoreImpl>()
         val dummyPage = 0
         every { remoteDatastore.getCharacters() } returns Single.just(api.getCharactersByPage(dummyPage))
             .map { emptyList() }
 
-        val repository: CharactersRepository = mockk<CharactersRepositoryImpl>()
         every { repository.getCharacters() } returns remoteDatastore.getCharacters()
             .flatMap {
                 localDatastore.insertCharacters(it)
                     .andThen(Single.just(it))
             }
 
-        val useCase: GetCharactersUseCase = mockk<GetCharactersUseCaseImpl>()
         every { useCase.execute() } returns repository.getCharacters()
 
         val viewModel: CharactersViewModel = CharactersViewModelImpl(useCase)
