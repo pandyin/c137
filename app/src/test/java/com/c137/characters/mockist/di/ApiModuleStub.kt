@@ -10,7 +10,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.net.HttpURLConnection
 
-val stubApiModule = module {
+val ApiModuleStub = module {
     factory<CharactersApi> {
         object : CharactersApi {
             override fun getCharactersByPage(page: Int): Call<JsonObject> {

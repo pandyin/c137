@@ -6,7 +6,7 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import org.koin.dsl.module
 
-val stubDatabaseModule = module {
+val databaseModuleStub = module {
     single<CharactersDao> {
         object : CharactersDao {
             override fun insertCharacters(characters: List<Character>): Completable {
