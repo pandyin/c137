@@ -8,5 +8,8 @@ import retrofit2.http.Query
 interface CharactersApi {
 
     @GET("character")
-    fun getCharactersByPage(@Query("page") page: Int): Call<JsonObject>
+    fun getCharactersByStatus(@Query("page") page: Int, @Query("status") status: String): Call<JsonObject>
+
+    @GET("character")
+    fun getCharacters(@Query("page") page: Int): Call<JsonObject>
 }

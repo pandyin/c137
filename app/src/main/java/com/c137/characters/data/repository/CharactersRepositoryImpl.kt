@@ -1,6 +1,7 @@
 package com.c137.characters.data.repository
 
 import com.c137.characters.data.model.Character
+import com.c137.characters.data.model.Status
 import com.c137.characters.data.repository.datastore.local.CharactersLocalDatastore
 import com.c137.characters.data.repository.datastore.local.CharactersLocalDatastoreImpl
 import com.c137.characters.data.repository.datastore.remote.CharactersRemoteDatastore
@@ -15,6 +16,10 @@ class CharactersRepositoryImpl(
 
     @TestOnly
     constructor() : this(CharactersLocalDatastoreImpl(), CharactersRemoteDatastoreImpl())
+
+    override fun getCharactersByStatus(status: Status): Single<List<Character>> {
+        return remoteDatastore.getCharactersByStatus(status)
+    }
 
     override fun getCharacters(): Single<List<Character>> {
         return remoteDatastore.getCharacters()

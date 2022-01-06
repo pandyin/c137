@@ -13,41 +13,47 @@ import java.net.HttpURLConnection
 val ApiModuleStub = module {
     factory<CharactersApi> {
         object : CharactersApi {
-            override fun getCharactersByPage(page: Int): Call<JsonObject> {
-                return object : Call<JsonObject> {
-                    override fun clone(): Call<JsonObject> {
-                        TODO("Not yet implemented")
-                    }
+            override fun getCharactersByStatus(page: Int, status: String): Call<JsonObject> {
+                return CallStub()
+            }
 
-                    override fun execute(): Response<JsonObject> {
-                        return Response.success(HttpURLConnection.HTTP_OK, JsonObject())
-                    }
-
-                    override fun enqueue(callback: Callback<JsonObject>) {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun isExecuted(): Boolean {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun cancel() {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun isCanceled(): Boolean {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun request(): Request {
-                        TODO("Not yet implemented")
-                    }
-
-                    override fun timeout(): Timeout {
-                        TODO("Not yet implemented")
-                    }
-                }
+            override fun getCharacters(page: Int): Call<JsonObject> {
+                return CallStub()
             }
         }
+    }
+}
+
+private class CallStub : Call<JsonObject> {
+    override fun clone(): Call<JsonObject> {
+        TODO("Not yet implemented")
+    }
+
+    override fun execute(): Response<JsonObject> {
+        return Response.success(HttpURLConnection.HTTP_OK, JsonObject())
+    }
+
+    override fun enqueue(callback: Callback<JsonObject>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun isExecuted(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun cancel() {
+        TODO("Not yet implemented")
+    }
+
+    override fun isCanceled(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun request(): Request {
+        TODO("Not yet implemented")
+    }
+
+    override fun timeout(): Timeout {
+        TODO("Not yet implemented")
     }
 }

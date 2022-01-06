@@ -1,10 +1,10 @@
 package com.c137.characters.data.repository.datastore.remote
 
+import com.c137.characters.common.ResultConverter
 import com.c137.characters.data.model.Character
+import com.c137.characters.data.model.Status
 import com.c137.characters.data.repository.datastore.remote.api.CharactersApi
-import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.google.gson.reflect.TypeToken
 import io.reactivex.rxjava3.core.Single
 import okhttp3.Request
 import okio.Timeout
@@ -12,7 +12,6 @@ import org.jetbrains.annotations.TestOnly
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.reflect.Type
 import java.net.HttpURLConnection
 
 
@@ -20,57 +19,66 @@ class CharactersRemoteDatastoreImpl(private val remoteApi: CharactersApi) : Char
 
     @TestOnly
     constructor() : this(object : CharactersApi {
-        override fun getCharactersByPage(page: Int): Call<JsonObject> {
-            return object : Call<JsonObject> {
-                override fun clone(): Call<JsonObject> {
-                    TODO("Not yet implemented")
-                }
+        override fun getCharactersByStatus(page: Int, status: String): Call<JsonObject> {
+            return CallStub()
+        }
 
-                override fun execute(): Response<JsonObject> {
-                    return Response.success(HttpURLConnection.HTTP_OK, JsonObject())
-                }
-
-                override fun enqueue(callback: Callback<JsonObject>) {
-                    TODO("Not yet implemented")
-                }
-
-                override fun isExecuted(): Boolean {
-                    TODO("Not yet implemented")
-                }
-
-                override fun cancel() {
-                    TODO("Not yet implemented")
-                }
-
-                override fun isCanceled(): Boolean {
-                    TODO("Not yet implemented")
-                }
-
-                override fun request(): Request {
-                    TODO("Not yet implemented")
-                }
-
-                override fun timeout(): Timeout {
-                    TODO("Not yet implemented")
-                }
-            }
+        override fun getCharacters(page: Int): Call<JsonObject> {
+            return CallStub()
         }
     })
 
-    override fun getCharacters(): Single<List<Character>> {
+    override fun getCharactersByStatus(status: Status): Single<List<Character>> {
         return Single.fromCallable {
-            remoteApi.getCharactersByPage(1)
+            remoteApi.getCharacters(1)
                 .execute()
                 .body()
         }.map {
-            when (it!!.has("results")) {
-                true -> {
-                    val results = it["results"].asJsonArray
-                    val type: Type = object : TypeToken<List<Character>>() {}.type
-                    Gson().fromJson(results, type)
-                }
-                false -> emptyList()
-            }
+            ResultConverter.convert(it)
         }
+    }
+
+    override fun getCharacters(): Single<List<Character>> {
+        return Single.fromCallable {
+            remoteApi.getCharacters(1)
+                .execute()
+                .body()
+        }.map {
+            ResultConverter.convert(it)
+        }
+    }
+}
+
+private class CallStub : Call<JsonObject> {
+    override fun clone(): Call<JsonObject> {
+        TODO("Not yet implemented")
+    }
+
+    override fun execute(): Response<JsonObject> {
+        return Response.success(HttpURLConnection.HTTP_OK, JsonObject())
+    }
+
+    override fun enqueue(callback: Callback<JsonObject>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun isExecuted(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun cancel() {
+        TODO("Not yet implemented")
+    }
+
+    override fun isCanceled(): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    override fun request(): Request {
+        TODO("Not yet implemented")
+    }
+
+    override fun timeout(): Timeout {
+        TODO("Not yet implemented")
     }
 }

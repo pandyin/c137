@@ -4,11 +4,13 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.c137.RxTrampolineSchedulerRule
 import com.c137.characters.classical.di.testViewModelModule
 import com.c137.characters.data.model.Character
+import com.c137.characters.data.model.Status
 import com.c137.characters.data.repository.CharactersRepository
 import com.c137.characters.data.repository.datastore.local.CharactersLocalDatastore
 import com.c137.characters.data.repository.datastore.local.api.CharactersDao
 import com.c137.characters.data.repository.datastore.remote.CharactersRemoteDatastore
 import com.c137.characters.data.repository.datastore.remote.api.CharactersApi
+import com.c137.characters.domain.GetCharactersByStatusUseCase
 import com.c137.characters.domain.GetCharactersUseCase
 import com.c137.characters.presentation.CharactersViewModel
 import com.c137.characters.presentation.CharactersViewModelImpl
@@ -61,35 +63,59 @@ class GetCharactersUnitTest : KoinTest {
 
         val call = mockk<Call<JsonObject>>()
         val api = mockk<CharactersApi>()
-        every { api.getCharactersByPage(any()) } returns call
+        every { api.getCharactersByStatus(any(), any()) } returns call
+        every { api.getCharacters(any()) } returns call
 
         val remoteDatastore = mockk<CharactersRemoteDatastore>()
         val dummyPage = 0
-        every { remoteDatastore.getCharacters() } returns Single.just(api.getCharactersByPage(dummyPage))
+        every { remoteDatastore.getCharactersByStatus(any()) } returns Single.just(api.getCharactersByStatus(dummyPage, Status.Alive.value))
+            .map { emptyList() }
+        every { remoteDatastore.getCharacters() } returns Single.just(api.getCharacters(dummyPage))
             .map { emptyList() }
 
         val repository = mockk<CharactersRepository>()
+        every { repository.getCharactersByStatus(any()) } returns remoteDatastore.getCharactersByStatus(Status.Alive)
+            .flatMap {
+                localDatastore.insertCharacters(it)
+                    .andThen(Single.just(it))
+            }
         every { repository.getCharacters() } returns remoteDatastore.getCharacters()
             .flatMap {
                 localDatastore.insertCharacters(it)
                     .andThen(Single.just(it))
             }
 
-        val useCase = mockk<GetCharactersUseCase>()
-        every { useCase.execute() } returns repository.getCharacters()
+        val getCharactersByStatusUseCase = mockk<GetCharactersByStatusUseCase>()
+        every { getCharactersByStatusUseCase.execute(any()) } returns repository.getCharactersByStatus(Status.Alive)
 
-        val viewModel = get<CharactersViewModel> { parametersOf(useCase) }
+        val getCharactersUseCase = mockk<GetCharactersUseCase>()
+        every { getCharactersUseCase.execute() } returns repository.getCharacters()
+
+        val viewModel = get<CharactersViewModel> { parametersOf(getCharactersByStatusUseCase, getCharactersUseCase) }
         viewModel.getCharacters()
             .test()
             .assertComplete()
 
-        verify(exactly = 1) {
+        viewModel.getCharactersByStatus(Status.Alive)
+            .test()
+            .assertComplete()
+
+        verify {
             dao.insertCharacters(any())
             localDatastore.insertCharacters(any())
-            api.getCharactersByPage(any())
+            api.getCharactersByStatus(any(), any())
+            remoteDatastore.getCharactersByStatus(any())
+            repository.getCharactersByStatus(any())
+            getCharactersByStatusUseCase.execute(any())
+        }
+
+        verify {
+            dao.insertCharacters(any())
+            localDatastore.insertCharacters(any())
+            api.getCharacters(any())
             remoteDatastore.getCharacters()
             repository.getCharacters()
-            useCase.execute()
+            getCharactersUseCase.execute()
         }
     }
 
@@ -109,7 +135,10 @@ class GetCharactersUnitTest : KoinTest {
     lateinit var repository: CharactersRepository
 
     @MockK
-    lateinit var useCase: GetCharactersUseCase
+    lateinit var getCharactersByStatusUseCase: GetCharactersByStatusUseCase
+
+    @MockK
+    lateinit var getCharactersUseCase: GetCharactersUseCase
 
     @Before
     fun setUpMockk() = MockKAnnotations.init(this)
@@ -128,32 +157,54 @@ class GetCharactersUnitTest : KoinTest {
         every { localDatastore.insertCharacters(any()) } returns dao.insertCharacters(dummyCharacters)
 
         val call = mockk<Call<JsonObject>>()
-        every { api.getCharactersByPage(any()) } returns call
+        every { api.getCharactersByStatus(any(), any()) } returns call
+        every { api.getCharacters(any()) } returns call
 
         val dummyPage = 0
-        every { remoteDatastore.getCharacters() } returns Single.just(api.getCharactersByPage(dummyPage))
+        every { remoteDatastore.getCharactersByStatus(any()) } returns Single.just(api.getCharactersByStatus(dummyPage, Status.Alive.value))
+            .map { emptyList() }
+        every { remoteDatastore.getCharacters() } returns Single.just(api.getCharacters(dummyPage))
             .map { emptyList() }
 
+        every { repository.getCharactersByStatus(any()) } returns remoteDatastore.getCharactersByStatus(Status.Alive)
+            .flatMap {
+                localDatastore.insertCharacters(it)
+                    .andThen(Single.just(it))
+            }
         every { repository.getCharacters() } returns remoteDatastore.getCharacters()
             .flatMap {
                 localDatastore.insertCharacters(it)
                     .andThen(Single.just(it))
             }
 
-        every { useCase.execute() } returns repository.getCharacters()
+        every { getCharactersByStatusUseCase.execute(any()) } returns repository.getCharactersByStatus(Status.Alive)
+        every { getCharactersUseCase.execute() } returns repository.getCharacters()
 
-        val viewModel: CharactersViewModel = CharactersViewModelImpl(useCase)
+        val viewModel: CharactersViewModel = CharactersViewModelImpl(getCharactersByStatusUseCase, getCharactersUseCase)
+        viewModel.getCharactersByStatus(Status.Alive)
+            .test()
+            .assertComplete()
+
         viewModel.getCharacters()
             .test()
             .assertComplete()
 
-        verify(exactly = 1) {
+        verify {
             dao.insertCharacters(any())
             localDatastore.insertCharacters(any())
-            api.getCharactersByPage(any())
+            api.getCharactersByStatus(any(), any())
+            remoteDatastore.getCharactersByStatus(any())
+            repository.getCharactersByStatus(any())
+            getCharactersByStatusUseCase.execute(any())
+        }
+
+        verify {
+            dao.insertCharacters(any())
+            localDatastore.insertCharacters(any())
+            api.getCharacters(any())
             remoteDatastore.getCharacters()
             repository.getCharacters()
-            useCase.execute()
+            getCharactersUseCase.execute()
         }
     }
 
