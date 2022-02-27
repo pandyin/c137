@@ -2,6 +2,7 @@ package com.c137.character.presentation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.c137.RxTrampolineSchedulerRule
+import com.c137.character.data.model.Status
 import com.c137.character.data.repository.datastore.di.localDatastoreModule
 import com.c137.character.data.repository.datastore.di.networkModule
 import com.c137.character.data.repository.datastore.di.remoteDatastoreModule
@@ -75,6 +76,27 @@ class CharacterViewModelUnitTest : AutoCloseKoinTest() {
 
         val sut = get<CharacterViewModel>()
         sut.getCharacters(1)
+            .test()
+            .assertComplete()
+
+        assertEquals(
+            "/character?page=1",
+            mockWebServer.takeRequest().path
+        )
+    }
+
+    @Test
+    fun get_characters_by_type() {
+        mockWebServer.enqueue(
+            MockResponse()
+                .setResponseCode(HttpURLConnection.HTTP_OK)
+                .setBody(JsonObject().toString())
+        )
+
+        val dao = declareMock<CharacterDao>()
+
+        val sut = get<CharacterViewModel>()
+        sut.getCharactersByStatus(1, Status.Dead)
             .test()
             .assertComplete()
 
