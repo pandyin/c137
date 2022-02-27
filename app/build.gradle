@@ -19,6 +19,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures {
+        viewBinding true
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -76,4 +79,7 @@ dependencies {
     androidTestImplementation 'io.mockk:mockk-android:1.12.1'
 
     testImplementation 'org.robolectric:robolectric:4.6'
+
+    implementation 'com.github.bumptech.glide:glide:4.13.0'
+    kapt 'com.github.bumptech.glide:compiler:4.13.0'
 }

@@ -7,26 +7,34 @@ import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.NotificationManagerCompat.IMPORTANCE_DEFAULT
+import com.c137.character.data.model.Character
 import com.c137.character.domain.GetCharactersUseCase
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.subjects.BehaviorSubject
 import org.koin.android.ext.android.inject
 
 private const val DIMENSION = "c137"
 
 class CharacterService : Service() {
 
+    private val characterSubject: BehaviorSubject<Character> = BehaviorSubject.create()
+    private val binder = CharacterServiceBinder(characterSubject)
+
+    private val useCase: GetCharactersUseCase by inject()
     private var disposable: Disposable? = null
 
-    val useCase: GetCharactersUseCase by inject()
+    override fun onBind(intent: Intent?): IBinder {
+        return binder
+    }
 
-    override fun onBind(intent: Intent?): IBinder? {
-        return null
+    override fun onCreate() {
+        super.onCreate()
+        subscribeToStreamOfCharacters()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        subscribeToStreamOfCharacters()
         startForeground(startId)
         return START_STICKY
     }
@@ -37,14 +45,16 @@ class CharacterService : Service() {
     }
 
     private fun subscribeToStreamOfCharacters() {
-        if (disposable == null) {
-            disposable = Flowable.range(1, 1000)
-                .flatMapSingle { useCase.execute(it) }
-                .flatMapIterable { it }
-                .doOnNext { Thread.sleep(1000) }
-                .subscribeOn(Schedulers.io())
-                .subscribe()
-        }
+        disposable?.dispose()
+        disposable = Flowable.range(1, 1000)
+            .flatMapSingle { useCase.execute(it) }
+            .flatMapIterable { it }
+            .doOnNext {
+                Thread.sleep(1000)
+                characterSubject.onNext(it)
+            }
+            .subscribeOn(Schedulers.io())
+            .subscribe()
     }
 
     private fun startForeground(startId: Int) {
