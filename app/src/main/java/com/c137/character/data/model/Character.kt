@@ -4,4 +4,9 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Character(@PrimaryKey val id: Int, val name: String, val image: String)
+data class Character(
+    @PrimaryKey val characterId: Int,
+    val name: String,
+    val image: String,
+    val status: Status
+) : BaseEntity(characterId)

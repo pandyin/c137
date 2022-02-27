@@ -13,4 +13,7 @@ val useCaseModule = module {
     factory<GetCharacterByIdUseCase> {
         GetCharacterByIdUseCaseImpl(get())
     }
+    factory<GetLocationUseCase> {
+        GetLocationUseCaseImpl(get())
+    }
 }

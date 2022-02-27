@@ -11,7 +11,11 @@ import com.c137.character.data.repository.di.repositoryModule
 import com.c137.character.domain.di.useCaseModule
 import com.c137.character.presentation.di.viewModelModule
 import com.google.gson.JsonObject
+import io.mockk.every
 import io.mockk.mockkClass
+import io.mockk.verify
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Flowable
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -73,11 +77,18 @@ class CharacterViewModelUnitTest : AutoCloseKoinTest() {
         )
 
         val dao = declareMock<CharacterDao>()
+        every { dao.getCharacters() } returns Flowable.just(emptyList())
+        every { dao.insertCharacters(any()) } returns Completable.complete()
 
         val sut = get<CharacterViewModel>()
         sut.getCharacters(1)
             .test()
             .assertComplete()
+
+        verify(exactly = 1) {
+            dao.getCharacters()
+            dao.insertCharacters(any())
+        }
 
         assertEquals(
             "/character?page=1",
@@ -86,44 +97,66 @@ class CharacterViewModelUnitTest : AutoCloseKoinTest() {
     }
 
     @Test
-    fun get_characters_by_type() {
+    fun get_characters_by_status() {
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(HttpURLConnection.HTTP_OK)
                 .setBody(JsonObject().toString())
         )
 
+        val status = Status.Dead
+
         val dao = declareMock<CharacterDao>()
+        every { dao.getCharactersByStatus(status) } returns Flowable.just(emptyList())
+        every { dao.insertCharacters(any()) } returns Completable.complete()
 
         val sut = get<CharacterViewModel>()
-        sut.getCharactersByStatus(1, Status.Dead)
+        sut.getCharactersByStatus(1, status)
             .test()
             .assertComplete()
 
+        verify(exactly = 1) {
+            dao.getCharactersByStatus(status)
+            dao.insertCharacters(any())
+        }
+
         assertEquals(
-            "/character?page=1&status=Dead",
+            String.format("/character?page=1&status=%s", status.name),
             mockWebServer.takeRequest().path
         )
     }
 
     @Test
     fun get_character_by_id() {
+        val dummyId = UUID.randomUUID().toString().hashCode()
+
         mockWebServer.enqueue(
             MockResponse()
                 .setResponseCode(HttpURLConnection.HTTP_OK)
-                .setBody(JsonObject().toString())
+                .setBody(JsonObject().apply {
+                    addProperty("id", dummyId)
+                    addProperty("name", UUID.randomUUID().toString())
+                    addProperty("image", UUID.randomUUID().toString())
+                    addProperty("status", Status.Alive.name)
+                }.toString())
         )
 
         val dao = declareMock<CharacterDao>()
+        every { dao.getCharacterById(dummyId) } returns Flowable.empty()
+        every { dao.insertCharacter(any()) } returns Completable.complete()
 
-        val dummyId = UUID.randomUUID().toString()
         val sut = get<CharacterViewModel>()
-        sut.getCharacterById(dummyId.hashCode())
+        sut.getCharacterById(dummyId)
             .test()
             .assertComplete()
 
+        verify(exactly = 1) {
+            dao.getCharacterById(dummyId)
+            dao.insertCharacter(any())
+        }
+
         assertEquals(
-            String.format("/character/%s", dummyId.hashCode()),
+            String.format("/character/%s", dummyId),
             mockWebServer.takeRequest().path
         )
     }

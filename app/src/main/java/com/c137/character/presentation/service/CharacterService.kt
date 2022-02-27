@@ -47,12 +47,6 @@ class CharacterService : Service() {
     private fun subscribeToStreamOfCharacters() {
         disposable?.dispose()
         disposable = Flowable.range(1, 1000)
-            .flatMapSingle { useCase.execute(it) }
-            .flatMapIterable { it }
-            .doOnNext {
-                Thread.sleep(1000)
-                characterSubject.onNext(it)
-            }
             .subscribeOn(Schedulers.io())
             .subscribe()
     }

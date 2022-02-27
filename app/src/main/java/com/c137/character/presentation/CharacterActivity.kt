@@ -5,15 +5,11 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import androidx.core.content.ContextCompat
-import com.bumptech.glide.Glide
 import com.c137.character.presentation.service.CharacterServiceBinder
 import com.c137.character.presentation.service.CharacterServiceIntent
 import com.c137.databinding.ActivityCharactersBinding
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity
-import com.trello.rxlifecycle4.kotlin.bindToLifecycle
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CharacterActivity : RxAppCompatActivity() {
@@ -39,7 +35,15 @@ class CharacterActivity : RxAppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        bindService()
+    }
 
+    override fun onStop() {
+        super.onStop()
+        unbindService(serviceConnection)
+    }
+
+    private fun bindService() {
         serviceConnection = object : ServiceConnection {
             override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
                 binder = service as CharacterServiceBinder
@@ -63,25 +67,7 @@ class CharacterActivity : RxAppCompatActivity() {
         )
     }
 
-    override fun onStop() {
-        super.onStop()
-        unbindService(serviceConnection)
-    }
-
     private fun subscribeToStreamOfCharacters(): Disposable? {
-        return binder?.let {
-            it.characterFlowable()
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext { character ->
-                    Glide.with(this)
-                        .load(character.image)
-                        .into(binding.imageView)
-
-                    binding.nameTextView.text = character.name
-                }
-                .bindToLifecycle(this)
-                .subscribeOn(Schedulers.io())
-                .subscribe()
-        }
+        return null
     }
 }
