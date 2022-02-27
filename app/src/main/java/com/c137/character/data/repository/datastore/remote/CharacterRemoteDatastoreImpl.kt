@@ -11,7 +11,7 @@ class CharacterRemoteDatastoreImpl(private val remoteApi: CharacterApi) :
 
     override fun getCharactersByStatus(page: Int, status: Status): Single<List<Character>> {
         return Single.fromCallable {
-            remoteApi.getCharactersByPage(page)
+            remoteApi.getCharactersByStatus(page, status.value)
                 .execute()
                 .body()
                 ?.characters ?: emptyList()

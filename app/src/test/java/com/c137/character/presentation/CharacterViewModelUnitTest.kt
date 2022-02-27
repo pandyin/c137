@@ -101,7 +101,7 @@ class CharacterViewModelUnitTest : AutoCloseKoinTest() {
             .assertComplete()
 
         assertEquals(
-            "/character?page=1",
+            "/character?page=1&status=Dead",
             mockWebServer.takeRequest().path
         )
     }
