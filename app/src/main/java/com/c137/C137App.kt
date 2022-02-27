@@ -5,7 +5,6 @@ import com.c137.characters.data.repository.datastore.di.*
 import com.c137.characters.data.repository.di.repositoryModule
 import com.c137.characters.domain.di.useCaseModule
 import com.c137.characters.presentation.di.viewModelModule
-import io.socket.client.Socket.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -17,7 +16,7 @@ class C137App : Application() {
             androidContext(this@C137App)
             modules(
                 listOf(
-                    networkModule,
+                    networkModule(),
                     databaseDaoModule,
                     localDatastoreModule,
                     remoteDatastoreModule,

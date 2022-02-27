@@ -16,4 +16,7 @@ interface CharactersDao {
 
     @Query("select * from character")
     fun getCharacters(): Flowable<List<Character>>
+
+    @Query("select * from character")
+    fun getCharacter(): List<Character>
 }
