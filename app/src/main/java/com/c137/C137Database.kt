@@ -4,13 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.c137.characters.data.model.Character
-import com.c137.characters.data.repository.datastore.local.api.CharactersDao
+import com.c137.character.data.model.Character
+import com.c137.character.data.repository.datastore.local.api.CharacterDao
 
 @Database(version = 1, entities = [Character::class])
 abstract class C137Database : RoomDatabase() {
 
-    abstract fun charactersDao(): CharactersDao
+    abstract fun charactersDao(): CharacterDao
 
     companion object {
 
