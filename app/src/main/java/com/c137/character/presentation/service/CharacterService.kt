@@ -19,6 +19,8 @@ class CharacterService : Service() {
 
     private var disposable: Disposable? = null
 
+    val useCase: GetCharactersUseCase by inject()
+
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
@@ -36,9 +38,8 @@ class CharacterService : Service() {
 
     private fun subscribeToStreamOfCharacters() {
         if (disposable == null) {
-            val uc: GetCharactersUseCase by inject()
             disposable = Flowable.range(1, 1000)
-                .flatMapSingle { uc.execute(it) }
+                .flatMapSingle { useCase.execute(it) }
                 .flatMapIterable { it }
                 .doOnNext { Thread.sleep(1000) }
                 .subscribeOn(Schedulers.io())
