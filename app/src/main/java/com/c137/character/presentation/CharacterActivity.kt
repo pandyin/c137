@@ -9,6 +9,7 @@ import com.c137.character.presentation.service.CharacterServiceBinder
 import com.c137.character.presentation.service.CharacterServiceIntent
 import com.c137.databinding.ActivityCharactersBinding
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity
+import com.trello.rxlifecycle4.kotlin.bindToLifecycle
 import io.reactivex.rxjava3.disposables.Disposable
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -35,12 +36,23 @@ class CharacterActivity : RxAppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        bindToViewState()
         bindService()
     }
 
     override fun onStop() {
         super.onStop()
         unbindService(serviceConnection)
+    }
+
+    private fun bindToViewState() {
+        viewModel.buttonStateFlowable
+            .doOnNext {
+                binding.button.text = it.name
+                binding.button.isEnabled = it.enabled
+            }
+            .bindToLifecycle(this)
+            .subscribe()
     }
 
     private fun bindService() {
