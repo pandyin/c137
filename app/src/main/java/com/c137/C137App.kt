@@ -1,10 +1,10 @@
 package com.c137
 
 import android.app.Application
-import com.c137.data.repository.datastore.di.koin.characterLocalDatastoreKoinModule
-import com.c137.data.repository.datastore.di.koin.characterRemoteDatastoreKoinModule
 import com.c137.data.repository.datastore.di.koin.databaseDaoKoinModule
 import com.c137.data.repository.datastore.di.koin.networkKoinModule
+import com.c137.data.repository.datastore.local.di.koin.characterLocalDatastoreKoinModule
+import com.c137.data.repository.datastore.remote.di.koin.characterRemoteDatastoreKoinModule
 import com.c137.data.repository.di.koin.characterRepositoryKoinModule
 import com.c137.di.ContextModule
 import com.c137.di.DaggerAppComponent

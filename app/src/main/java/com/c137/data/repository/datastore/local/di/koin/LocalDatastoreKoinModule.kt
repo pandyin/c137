@@ -1,4 +1,4 @@
-package com.c137.data.repository.datastore.di.koin
+package com.c137.data.repository.datastore.local.di.koin
 
 import com.c137.data.repository.datastore.local.CharacterLocalDatastore
 import com.c137.data.repository.datastore.local.CharacterLocalDatastoreImpl
@@ -9,11 +9,5 @@ import org.koin.dsl.module
 val characterLocalDatastoreKoinModule = module {
     factory<CharacterLocalDatastore> {
         CharacterLocalDatastoreImpl(get())
-    }
-}
-
-val characterRemoteDatastoreKoinModule = module {
-    factory<CharacterRemoteDatastore> {
-        CharacterRemoteDatastoreImpl(get())
     }
 }

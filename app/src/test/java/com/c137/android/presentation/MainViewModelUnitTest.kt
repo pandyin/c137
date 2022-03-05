@@ -3,10 +3,10 @@ package com.c137.android.presentation
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.c137.RxTrampolineSchedulerRule
 import com.c137.data.model.Status
-import com.c137.data.repository.datastore.di.koin.characterLocalDatastoreKoinModule
 import com.c137.data.repository.datastore.di.koin.networkKoinModule
-import com.c137.data.repository.datastore.di.koin.characterRemoteDatastoreKoinModule
 import com.c137.data.repository.datastore.local.api.CharacterDao
+import com.c137.data.repository.datastore.local.di.koin.characterLocalDatastoreKoinModule
+import com.c137.data.repository.datastore.remote.di.koin.characterRemoteDatastoreKoinModule
 import com.c137.data.repository.di.koin.characterRepositoryKoinModule
 import com.c137.domain.di.koin.useCaseKoinModule
 import com.c137.presentation.MainViewModel
