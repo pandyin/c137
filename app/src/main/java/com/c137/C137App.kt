@@ -6,6 +6,8 @@ import com.c137.data.repository.datastore.di.koin.characterRemoteDatastoreKoinMo
 import com.c137.data.repository.datastore.di.koin.databaseDaoKoinModule
 import com.c137.data.repository.datastore.di.koin.networkKoinModule
 import com.c137.data.repository.di.koin.characterRepositoryKoinModule
+import com.c137.di.ContextModule
+import com.c137.di.DaggerAppComponent
 import com.c137.domain.di.koin.useCaseKoinModule
 import com.c137.presentation.di.koin.viewModelKoinModule
 import org.koin.android.ext.koin.androidContext
@@ -15,8 +17,16 @@ class C137App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        startDagger()
+    }
 
+    private fun startDagger() {
+        val appComponent = DaggerAppComponent.builder()
+            .contextModule(ContextModule(this))
+            .build()
+    }
 
+    private fun startKoin() {
         startKoin {
             androidContext(this@C137App)
             modules(

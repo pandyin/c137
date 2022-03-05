@@ -3,28 +3,30 @@ package com.c137.data.repository.datastore.di.dagger
 import android.content.Context
 import com.c137.R
 import com.c137.data.repository.datastore.remote.api.CharacterService
+import com.c137.di.ContextModule
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.migration.DisableInstallInCheck
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-@Singleton
-@Module
-class NetworkModule(private val context: Context) {
+@DisableInstallInCheck
+@Module(includes = [ContextModule::class])
+class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(): OkHttpClient {
+    fun okHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .build()
     }
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    fun retrofit(context: Context, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(context.getString(R.string.swapi_base_url))
@@ -35,7 +37,7 @@ class NetworkModule(private val context: Context) {
 
     @Singleton
     @Provides
-    fun provideCharacterService(retrofit: Retrofit): CharacterService {
+    fun characterService(retrofit: Retrofit): CharacterService {
         return retrofit.create(CharacterService::class.java)
     }
 }
