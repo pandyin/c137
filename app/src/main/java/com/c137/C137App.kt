@@ -24,9 +24,8 @@ class C137App : Application() {
     }
 
     private fun startDagger() {
-        appComponent = DaggerAppComponent.builder()
-            .contextModule(ContextModule(this))
-            .build()
+        appComponent = DaggerAppComponent.factory()
+            .create(ContextModule(this))
     }
 
     private fun startKoin() {
