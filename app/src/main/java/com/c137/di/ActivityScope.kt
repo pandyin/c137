@@ -1,7 +1,7 @@
-package com.c137.presentation.di.dagger
+package com.c137.di
 
 import javax.inject.Scope
 
 @Scope
 @Retention(value = AnnotationRetention.RUNTIME)
-annotation class MainActivityScope
+annotation class ActivityScope

@@ -1,13 +1,18 @@
 package com.c137.presentation.di.dagger
 
-import com.c137.di.AppComponent
-import com.c137.domain.GetCharactersUseCase
+import com.c137.di.ActivityScope
 import com.c137.domain.di.dagger.UseCaseModule
-import dagger.Component
+import com.c137.presentation.MainActivity
+import dagger.Subcomponent
 
-@MainActivityScope
-@Component(modules = [UseCaseModule::class], dependencies = [AppComponent::class])
+@ActivityScope
+@Subcomponent(modules = [UseCaseModule::class])
 interface MainActivityComponent {
 
-    fun useCase(): GetCharactersUseCase
+    @Subcomponent.Factory
+    interface Factory {
+        fun create(): MainActivityComponent
+    }
+
+    fun inject(mainActivity: MainActivity)
 }

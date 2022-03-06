@@ -6,9 +6,8 @@ import com.c137.data.model.dto.CharacterDtoMapper
 import com.c137.data.repository.datastore.local.CharacterLocalDatastore
 import com.c137.data.repository.datastore.remote.CharacterRemoteDatastore
 import io.reactivex.rxjava3.core.Flowable
-import javax.inject.Inject
 
-class CharacterRepositoryImpl @Inject constructor(
+class CharacterRepositoryImpl(
     private val localDatastore: CharacterLocalDatastore,
     private val remoteDatastore: CharacterRemoteDatastore,
 ) : CharacterRepository {
