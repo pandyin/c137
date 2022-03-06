@@ -5,9 +5,12 @@ import com.c137.data.model.Status
 import com.c137.data.model.dto.CharacterDtoMapper
 import com.c137.data.repository.datastore.local.CharacterLocalDatastore
 import com.c137.data.repository.datastore.remote.CharacterRemoteDatastore
+import com.c137.di.ActivityScope
 import io.reactivex.rxjava3.core.Flowable
+import javax.inject.Inject
 
-class CharacterRepositoryImpl(
+@ActivityScope
+class CharacterRepositoryImpl @Inject constructor(
     private val localDatastore: CharacterLocalDatastore,
     private val remoteDatastore: CharacterRemoteDatastore,
 ) : CharacterRepository {
