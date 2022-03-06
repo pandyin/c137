@@ -7,18 +7,13 @@ import android.os.IBinder
 import androidx.core.content.ContextCompat
 import com.c137.C137App
 import com.c137.databinding.ActivityMainBinding
-import com.c137.domain.GetCharactersUseCase
 import com.c137.presentation.di.dagger.DaggerMainActivityComponent
 import com.c137.presentation.service.MainServiceBinder
 import com.c137.presentation.service.MainServiceIntent
-import javax.inject.Inject
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
 //    private val viewModel by viewModel<MainViewModel>()
-
-    @Inject
-    lateinit var uc: GetCharactersUseCase
 
     private lateinit var serviceConnection: ServiceConnection
 
