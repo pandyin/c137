@@ -3,7 +3,6 @@ package com.c137.data.repository.datastore.di.dagger
 import android.content.Context
 import com.c137.R
 import com.c137.data.repository.datastore.remote.api.CharacterService
-import com.c137.di.ContextModule
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.migration.DisableInstallInCheck
@@ -14,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @DisableInstallInCheck
-@Module(includes = [ContextModule::class])
+@Module
 class NetworkModule {
 
     @Singleton

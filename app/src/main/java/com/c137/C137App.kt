@@ -7,7 +7,6 @@ import com.c137.data.repository.datastore.local.di.koin.characterLocalDatastoreK
 import com.c137.data.repository.datastore.remote.di.koin.characterRemoteDatastoreKoinModule
 import com.c137.data.repository.di.koin.characterRepositoryKoinModule
 import com.c137.di.AppComponent
-import com.c137.di.ContextModule
 import com.c137.di.DaggerAppComponent
 import com.c137.domain.di.koin.useCaseKoinModule
 import com.c137.presentation.di.koin.viewModelKoinModule
@@ -25,7 +24,7 @@ class C137App : Application() {
 
     private fun startDagger() {
         appComponent = DaggerAppComponent.factory()
-            .create(ContextModule(this))
+            .create(this)
     }
 
     private fun startKoin() {
