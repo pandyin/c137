@@ -23,8 +23,8 @@ class C137App : Application() {
     }
 
     private fun startDagger() {
-        appComponent = DaggerAppComponent.factory()
-            .create(this)
+        appComponent = DaggerAppComponent.factory().create(this)
+        appComponent.inject(this)
     }
 
     private fun startKoin() {

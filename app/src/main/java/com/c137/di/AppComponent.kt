@@ -1,6 +1,7 @@
 package com.c137.di
 
 import android.content.Context
+import com.c137.C137App
 import com.c137.data.repository.datastore.di.dagger.DatabaseModule
 import com.c137.data.repository.datastore.di.dagger.NetworkModule
 import com.c137.data.repository.datastore.local.api.CharacterDao
@@ -21,4 +22,6 @@ interface AppComponent {
     fun service(): CharacterService
 
     fun dao(): CharacterDao
+
+    fun inject(app: C137App)
 }
