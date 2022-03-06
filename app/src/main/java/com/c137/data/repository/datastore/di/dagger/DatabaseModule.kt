@@ -5,10 +5,8 @@ import com.c137.C137Database
 import com.c137.data.repository.datastore.local.api.CharacterDao
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.migration.DisableInstallInCheck
 import javax.inject.Singleton
 
-@DisableInstallInCheck
 @Module
 class DatabaseModule {
 
