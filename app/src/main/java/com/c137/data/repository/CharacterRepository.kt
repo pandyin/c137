@@ -3,6 +3,7 @@ package com.c137.data.repository
 import com.c137.data.model.Character
 import com.c137.data.model.Status
 import io.reactivex.rxjava3.core.Flowable
+import kotlinx.coroutines.flow.Flow
 
 interface CharacterRepository {
 
@@ -10,5 +11,5 @@ interface CharacterRepository {
 
     fun getCharacters(page: Int): Flowable<List<Character>>
 
-    fun getCharacterById(id: Int): Flowable<Character>
+    fun getCharacterById(id: Int): Flow<Character>
 }

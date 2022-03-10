@@ -7,6 +7,8 @@ import com.c137.data.repository.datastore.local.CharacterLocalDatastore
 import com.c137.data.repository.datastore.remote.CharacterRemoteDatastore
 import com.c137.di.ActivityScope
 import io.reactivex.rxjava3.core.Flowable
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 @ActivityScope
@@ -29,10 +31,13 @@ class CharacterRepositoryImpl @Inject constructor(
                 .flatMapCompletable { localDatastore.insertCharacters(it) })
     }
 
-    override fun getCharacterById(id: Int): Flowable<Character> {
+    override fun getCharacterById(id: Int): Flow<Character> {
         return localDatastore.getCharacterById(id)
-            .mergeWith(remoteDatastore.getCharacterById(id)
-                .map { CharacterDtoMapper().map(it) }
-                .flatMapCompletable { localDatastore.insertCharacter(it) })
+            .onStart {
+                remoteDatastore.getCharacterById(id)?.let {
+                    val character = CharacterDtoMapper().map(it)
+                    localDatastore.insertCharacter(character)
+                }
+            }
     }
 }

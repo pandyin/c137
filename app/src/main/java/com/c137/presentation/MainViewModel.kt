@@ -21,5 +21,5 @@ abstract class MainViewModel : ViewModel() {
 
     abstract fun getCharacters(page: Int): Flowable<List<Character>>
 
-    abstract fun getCharacterById(id: Int): Flowable<Character>
+    abstract fun getCharacterById(id: Int): Flowable<Response>
 }

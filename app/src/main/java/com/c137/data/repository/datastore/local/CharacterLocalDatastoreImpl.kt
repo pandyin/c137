@@ -6,19 +6,12 @@ import com.c137.data.repository.datastore.local.api.CharacterDao
 import com.c137.di.ActivityScope
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @ActivityScope
 class CharacterLocalDatastoreImpl @Inject constructor(private val dao: CharacterDao) :
     CharacterLocalDatastore {
-
-    override fun insertCharacter(character: Character): Completable {
-        return dao.insertCharacter(character)
-    }
-
-    override fun insertCharacters(characters: List<Character>): Completable {
-        return dao.insertCharacters(characters)
-    }
 
     override fun getCharactersByStatus(status: Status): Flowable<List<Character>> {
         return dao.getCharactersByStatus(status)
@@ -28,7 +21,15 @@ class CharacterLocalDatastoreImpl @Inject constructor(private val dao: Character
         return dao.getCharacters()
     }
 
-    override fun getCharacterById(id: Int): Flowable<Character> {
+    override fun insertCharacters(characters: List<Character>): Completable {
+        return dao.insertCharacters(characters)
+    }
+
+    override fun getCharacterById(id: Int): Flow<Character> {
         return dao.getCharacterById(id)
+    }
+
+    override suspend fun insertCharacter(character: Character) {
+        return dao.insertCharacter(character)
     }
 }
