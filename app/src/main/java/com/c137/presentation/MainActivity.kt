@@ -10,19 +10,22 @@ import com.c137.databinding.ActivityMainBinding
 import com.c137.presentation.di.dagger.DaggerMainActivityComponent
 import com.c137.presentation.service.MainServiceBinder
 import com.c137.presentation.service.MainServiceIntent
+import com.trello.rxlifecycle4.components.support.RxAppCompatActivity
 
-class MainActivity : BaseActivity<ActivityMainBinding>() {
+class MainActivity : RxAppCompatActivity() {
 
 //    private val viewModel by viewModel<MainViewModel>()
+
+    private lateinit var viewBinding: ActivityMainBinding
 
     private lateinit var serviceConnection: ServiceConnection
 
     private var binder: MainServiceBinder? = null
 
-    override fun viewBinding(): ActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(viewBinding.root)
 
         DaggerMainActivityComponent
             .factory()
