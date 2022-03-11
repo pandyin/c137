@@ -12,7 +12,6 @@ import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,10 +33,9 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 getCharacterByIdUseCase.execute(id)
-                    .onCompletion { subject.onComplete() }
                     .collect { subject.onNext(Response.Next(it)) }
             } catch (e: Exception) {
-                subject.onNext(Response.Error(e))
+                subject.onNext(Response.Error(e.message))
             }
         }
 
@@ -58,5 +56,5 @@ class MainViewModel @Inject constructor(
 sealed class Response(val isSuccessful: Boolean) {
 
     data class Next<T>(val item: T) : Response(true)
-    data class Error(val exception: Exception) : Response(false)
+    data class Error(val errorMessage: String?) : Response(false)
 }

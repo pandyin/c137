@@ -5,8 +5,10 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import com.c137.R
 import com.c137.databinding.ActivityMainBinding
 import com.c137.presentation.service.MainServiceBinder
 import com.c137.presentation.service.MainServiceIntent
@@ -49,7 +51,15 @@ class MainActivity : RxAppCompatActivity() {
 
     private fun subscribeToListOfCharacters() {
         viewModel.getCharacterById(3)
-            .doOnNext { Log.e("testtest", Gson().toJson(it)) }
+            .doOnNext {
+                when (it is Response.Error) {
+                    true -> {
+                        val errorMessage = it.errorMessage ?: getString(R.string.unknown_error)
+                        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                    }
+                    false -> Log.e("testtest", Gson().toJson(it))
+                }
+            }
             .subscribe()
     }
 
