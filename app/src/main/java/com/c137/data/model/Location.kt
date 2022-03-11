@@ -6,5 +6,6 @@ import androidx.room.PrimaryKey
 @Entity
 data class Location(
     @PrimaryKey val locationId: Int,
-    val name: String, val dimension: Int
+    val name: String,
+    val dimension: Int,
 ) : BaseEntity(locationId)

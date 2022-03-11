@@ -9,7 +9,6 @@ import com.c137.data.repository.datastore.local.di.koin.characterLocalDatastoreK
 import com.c137.data.repository.datastore.remote.di.koin.characterRemoteDatastoreKoinModule
 import com.c137.data.repository.di.koin.characterRepositoryKoinModule
 import com.c137.domain.di.koin.useCaseKoinModule
-import com.c137.presentation.MainViewModel
 import com.c137.presentation.di.koin.viewModelKoinModule
 import com.google.gson.JsonObject
 import io.mockk.every

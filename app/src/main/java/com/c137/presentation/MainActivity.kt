@@ -4,18 +4,20 @@ import android.content.ComponentName
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
+import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import com.c137.databinding.ActivityMainBinding
 import com.c137.presentation.service.MainServiceBinder
 import com.c137.presentation.service.MainServiceIntent
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 @AndroidEntryPoint
 class MainActivity : RxAppCompatActivity() {
 
-    private val viewModel by viewModel<MainViewModel>()
+    private val viewModel by viewModels<MainViewModel>()
 
     private lateinit var viewBinding: ActivityMainBinding
 
@@ -36,7 +38,7 @@ class MainActivity : RxAppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        bindToViewState()
+        subscribeToListOfCharacters()
         bindService()
     }
 
@@ -45,14 +47,11 @@ class MainActivity : RxAppCompatActivity() {
         unbindService(serviceConnection)
     }
 
-    private fun bindToViewState() {
-//        viewModel.buttonStateFlowable
-//            .doOnNext {
-//                binding.button.text = it.name
-//                binding.button.isEnabled = it.enabled
-//            }
-//            .bindToLifecycle(this)
-//            .subscribe()
+    private fun subscribeToListOfCharacters() {
+        viewModel.getCharacterById(3)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .subscribe()
     }
 
     private fun bindService() {

@@ -1,9 +1,13 @@
 package com.c137.data.repository.datastore.di.dagger
 
+import android.content.Context
+import com.c137.R
 import com.c137.data.repository.datastore.remote.api.CharacterService
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -17,6 +21,12 @@ class NetworkModule {
 
     @Singleton
     @Provides
+    fun gson(): Gson {
+        return Gson()
+    }
+
+    @Singleton
+    @Provides
     fun okHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .build()
@@ -24,11 +34,15 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun retrofit( okHttpClient: OkHttpClient): Retrofit {
+    fun retrofit(
+        @ApplicationContext context: Context,
+        gson: Gson,
+        okHttpClient: OkHttpClient,
+    ): Retrofit {
         return Retrofit.Builder()
             .client(okHttpClient)
-//            .baseUrl(context.getString(R.string.swapi_base_url))
-            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(context.getString(R.string.swapi_base_url))
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .build()
     }

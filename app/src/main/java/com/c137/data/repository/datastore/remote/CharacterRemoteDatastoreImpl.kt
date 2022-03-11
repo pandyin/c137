@@ -31,7 +31,5 @@ class CharacterRemoteDatastoreImpl @Inject constructor(private val service: Char
 
     override suspend fun getCharacterById(id: Int): CharacterDto? {
         return service.getCharacterById(id)
-            .execute()
-            .body()
     }
 }

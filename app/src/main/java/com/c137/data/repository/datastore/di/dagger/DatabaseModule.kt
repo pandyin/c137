@@ -1,10 +1,12 @@
 package com.c137.data.repository.datastore.di.dagger
 
+import android.content.Context
 import com.c137.C137Database
 import com.c137.data.repository.datastore.local.api.CharacterDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -14,8 +16,8 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun database(): C137Database {
-        return C137Database.invoke(null!!)
+    fun database(@ApplicationContext context: Context): C137Database {
+        return C137Database.invoke(context)
     }
 
     @Singleton

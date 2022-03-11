@@ -7,14 +7,14 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.c137.data.model.Character
 import com.c137.data.model.Location
-import com.c137.data.model.converter.RestaurantStatusConverter
+import com.c137.data.model.converter.CharacterStatusConverter
 import com.c137.data.repository.datastore.local.api.CharacterDao
 
 @Database(
     version = 1,
     entities = [Character::class, Location::class]
 )
-@TypeConverters(RestaurantStatusConverter::class)
+@TypeConverters(CharacterStatusConverter::class)
 abstract class C137Database : RoomDatabase() {
 
     abstract fun characterDao(): CharacterDao
