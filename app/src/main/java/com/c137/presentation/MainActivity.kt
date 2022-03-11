@@ -5,16 +5,17 @@ import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
 import androidx.core.content.ContextCompat
-import com.c137.C137App
 import com.c137.databinding.ActivityMainBinding
-import com.c137.presentation.di.dagger.DaggerMainActivityComponent
 import com.c137.presentation.service.MainServiceBinder
 import com.c137.presentation.service.MainServiceIntent
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity
+import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
+@AndroidEntryPoint
 class MainActivity : RxAppCompatActivity() {
 
-//    private val viewModel by viewModel<MainViewModel>()
+    private val viewModel by viewModel<MainViewModel>()
 
     private lateinit var viewBinding: ActivityMainBinding
 
@@ -26,11 +27,6 @@ class MainActivity : RxAppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
-
-        DaggerMainActivityComponent
-            .factory()
-            .create((application as C137App).appComponent)
-            .inject(this)
 
         ContextCompat.startForegroundService(
             this,

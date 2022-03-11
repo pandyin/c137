@@ -17,9 +17,9 @@ abstract class MainViewModel : ViewModel() {
         buttonStateSubject.toFlowable(BackpressureStrategy.BUFFER)
     }
 
-    abstract fun getCharactersByStatus(page: Int, status: Status): Flowable<List<Character>>
+    abstract fun getCharacterById(id: Int): Flowable<Response>
 
     abstract fun getCharacters(page: Int): Flowable<List<Character>>
 
-    abstract fun getCharacterById(id: Int): Flowable<Response>
+    abstract fun getCharactersByStatus(page: Int, status: Status): Flowable<List<Character>>
 }

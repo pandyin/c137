@@ -5,13 +5,13 @@ import com.c137.data.model.Status
 import com.c137.data.model.dto.CharacterDtoMapper
 import com.c137.data.repository.datastore.local.CharacterLocalDatastore
 import com.c137.data.repository.datastore.remote.CharacterRemoteDatastore
-import com.c137.di.ActivityScope
+import dagger.hilt.android.scopes.ViewModelScoped
 import io.reactivex.rxjava3.core.Flowable
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
-@ActivityScope
+@ViewModelScoped
 class CharacterRepositoryImpl @Inject constructor(
     private val localDatastore: CharacterLocalDatastore,
     private val remoteDatastore: CharacterRemoteDatastore,

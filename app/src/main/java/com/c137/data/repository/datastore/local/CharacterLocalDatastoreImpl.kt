@@ -3,13 +3,13 @@ package com.c137.data.repository.datastore.local
 import com.c137.data.model.Character
 import com.c137.data.model.Status
 import com.c137.data.repository.datastore.local.api.CharacterDao
-import com.c137.di.ActivityScope
+import dagger.hilt.android.scopes.ViewModelScoped
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-@ActivityScope
+@ViewModelScoped
 class CharacterLocalDatastoreImpl @Inject constructor(private val dao: CharacterDao) :
     CharacterLocalDatastore {
 
