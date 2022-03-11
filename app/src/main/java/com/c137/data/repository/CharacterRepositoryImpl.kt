@@ -8,7 +8,9 @@ import com.c137.data.repository.datastore.remote.CharacterRemoteDatastore
 import dagger.hilt.android.scopes.ViewModelScoped
 import io.reactivex.rxjava3.core.Flowable
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 @ViewModelScoped
@@ -31,13 +33,13 @@ class CharacterRepositoryImpl @Inject constructor(
                 .flatMapCompletable { localDatastore.insertCharacters(it) })
     }
 
-    override fun getCharacterById(id: Int): Flow<Character> {
-        return localDatastore.getCharacterById(id)
-            .onStart {
-                remoteDatastore.getCharacterById(id)?.let {
-                    val character = CharacterDtoMapper().map(it)
-                    localDatastore.insertCharacter(character)
-                }
-            }
+    override fun getCharacterById(id: Int): Flow<Character> = flow {
+        val flow = localDatastore.getCharacterById(id)
+        flow.firstOrNull()?.let { emit(it) }
+        remoteDatastore.getCharacterById(id)?.let {
+            val dto = CharacterDtoMapper().map(it)
+            localDatastore.insertCharacter(dto)
+        }
+        emitAll(flow)
     }
 }

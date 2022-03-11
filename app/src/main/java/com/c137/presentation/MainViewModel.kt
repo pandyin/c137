@@ -43,6 +43,7 @@ class MainViewModel @Inject constructor(
 
         characterByIdMap[id] = subject
         return subject.toFlowable(BackpressureStrategy.BUFFER)
+            .distinctUntilChanged()
     }
 
     fun getCharacters(page: Int): Flowable<List<Character>> {
@@ -56,6 +57,6 @@ class MainViewModel @Inject constructor(
 
 sealed class Response(val isSuccessful: Boolean) {
 
-    class Next<T>(val item: T) : Response(true)
-    class Error(val exception: Exception) : Response(false)
+    data class Next<T>(val item: T) : Response(true)
+    data class Error(val exception: Exception) : Response(false)
 }

@@ -4,15 +4,15 @@ import android.content.ComponentName
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import com.c137.databinding.ActivityMainBinding
 import com.c137.presentation.service.MainServiceBinder
 import com.c137.presentation.service.MainServiceIntent
+import com.google.gson.Gson
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
 
 @AndroidEntryPoint
 class MainActivity : RxAppCompatActivity() {
@@ -49,8 +49,7 @@ class MainActivity : RxAppCompatActivity() {
 
     private fun subscribeToListOfCharacters() {
         viewModel.getCharacterById(3)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
+            .doOnNext { Log.e("testtest", Gson().toJson(it)) }
             .subscribe()
     }
 
