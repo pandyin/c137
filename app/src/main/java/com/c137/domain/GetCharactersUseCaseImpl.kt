@@ -10,7 +10,7 @@ import javax.inject.Inject
 class GetCharactersUseCaseImpl @Inject constructor(private val repository: CharacterRepository) :
     GetCharactersUseCase {
 
-    override fun execute(page: Int): Flowable<List<Character>> {
-        return repository.getCharacters(page)
+    override fun execute(): Flowable<List<Character>> {
+        return repository.getCharacters()
     }
 }

@@ -19,16 +19,16 @@ class CharacterRepositoryImpl @Inject constructor(
     private val remoteDatastore: CharacterRemoteDatastore,
 ) : CharacterRepository {
 
-    override fun getCharactersByStatus(page: Int, status: Status): Flowable<List<Character>> {
+    override fun getCharactersByStatus(status: Status): Flowable<List<Character>> {
         return localDatastore.getCharactersByStatus(status)
-            .mergeWith(remoteDatastore.getCharactersByStatus(page, status)
+            .mergeWith(remoteDatastore.getCharactersByStatus(1, status)
                 .map { it.map { dto -> CharacterDtoMapper().map(dto) } }
                 .flatMapCompletable { localDatastore.insertCharacters(it) })
     }
 
-    override fun getCharacters(page: Int): Flowable<List<Character>> {
+    override fun getCharacters(): Flowable<List<Character>> {
         return localDatastore.getCharacters()
-            .mergeWith(remoteDatastore.getCharacters(page)
+            .mergeWith(remoteDatastore.getCharacters(1)
                 .map { it.map { dto -> CharacterDtoMapper().map(dto) } }
                 .flatMapCompletable { localDatastore.insertCharacters(it) })
     }

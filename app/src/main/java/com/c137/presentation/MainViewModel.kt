@@ -44,12 +44,12 @@ class MainViewModel @Inject constructor(
             .distinctUntilChanged()
     }
 
-    fun getCharacters(page: Int): Flowable<List<Character>> {
-        return getCharactersUseCase.execute(page)
+    fun getCharacters(): Flowable<List<Character>> {
+        return getCharactersUseCase.execute()
     }
 
-    fun getCharactersByStatus(page: Int, status: Status): Flowable<List<Character>> {
-        return getCharactersByStatusUseCase.execute(page, status)
+    fun getCharactersByStatus(status: Status): Flowable<List<Character>> {
+        return getCharactersByStatusUseCase.execute(status)
     }
 }
 

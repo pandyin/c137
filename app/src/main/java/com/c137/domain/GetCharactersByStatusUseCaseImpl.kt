@@ -11,7 +11,7 @@ import javax.inject.Inject
 class GetCharactersByStatusUseCaseImpl @Inject constructor(private val repository: CharacterRepository) :
     GetCharactersByStatusUseCase {
 
-    override fun execute(page: Int, status: Status): Flowable<List<Character>> {
-        return repository.getCharactersByStatus(page, status)
+    override fun execute(status: Status): Flowable<List<Character>> {
+        return repository.getCharactersByStatus(status)
     }
 }

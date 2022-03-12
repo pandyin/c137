@@ -6,5 +6,5 @@ import io.reactivex.rxjava3.core.Flowable
 
 interface GetCharactersByStatusUseCase {
 
-    fun execute(page: Int, status: Status): Flowable<List<Character>>
+    fun execute(status: Status): Flowable<List<Character>>
 }
