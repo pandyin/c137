@@ -1,4 +1,4 @@
-package com.c137.android.presentation
+package com.c137.android.presentation.doubles
 
 import com.c137.data.model.Character
 import com.c137.domain.GetCharacterByIdUseCase
