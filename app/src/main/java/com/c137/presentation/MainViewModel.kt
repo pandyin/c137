@@ -6,7 +6,7 @@ import com.c137.data.model.Status
 import com.c137.presentation.api.GetCharacterByIdUseCase
 import com.c137.presentation.api.GetCharactersByStatusUseCase
 import com.c137.presentation.api.GetCharactersUseCase
-import com.c137.presentation.model.CharacterPresentationModel
+import com.c137.presentation.model.CharacterPresentation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Flowable
@@ -44,11 +44,11 @@ class MainViewModel @Inject constructor(
             .distinctUntilChanged()
     }
 
-    fun getCharacters(): Flowable<List<CharacterPresentationModel>> {
+    fun getCharacters(): Flowable<List<CharacterPresentation>> {
         return getCharactersUseCase.execute()
     }
 
-    fun getCharactersByStatus(status: Status): Flowable<List<CharacterPresentationModel>> {
+    fun getCharactersByStatus(status: Status): Flowable<List<CharacterPresentation>> {
         return getCharactersByStatusUseCase.execute(status)
     }
 }

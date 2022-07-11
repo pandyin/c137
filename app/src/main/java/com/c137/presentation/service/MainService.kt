@@ -7,7 +7,7 @@ import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.NotificationManagerCompat.IMPORTANCE_DEFAULT
-import com.c137.data.model.CharacterDataModel
+import com.c137.data.model.CharacterData
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -17,7 +17,7 @@ private const val DIMENSION = "c137"
 
 class MainService : Service() {
 
-    private val characterSubject: BehaviorSubject<CharacterDataModel> = BehaviorSubject.create()
+    private val characterSubject: BehaviorSubject<CharacterData> = BehaviorSubject.create()
     private val binder = MainServiceBinder(characterSubject)
 
     private var disposable: Disposable? = null

@@ -1,6 +1,6 @@
 package com.c137.data.datastore.local
 
-import com.c137.data.model.CharacterDataModel
+import com.c137.data.model.CharacterData
 import com.c137.data.model.Status
 import com.c137.data.repository.api.CharacterLocalDatastore
 import com.c137.data.datastore.local.api.CharacterDao
@@ -14,23 +14,23 @@ import javax.inject.Inject
 class CharacterLocalDatastoreImpl @Inject constructor(private val dao: CharacterDao) :
     CharacterLocalDatastore {
 
-    override fun getCharactersByStatus(status: Status): Flowable<List<CharacterDataModel>> {
+    override fun getCharactersByStatus(status: Status): Flowable<List<CharacterData>> {
         return dao.getCharactersByStatus(status)
     }
 
-    override fun getCharacters(): Flowable<List<CharacterDataModel>> {
+    override fun getCharacters(): Flowable<List<CharacterData>> {
         return dao.getCharacters()
     }
 
-    override fun insertCharacters(characters: List<CharacterDataModel>): Completable {
+    override fun insertCharacters(characters: List<CharacterData>): Completable {
         return dao.insertCharacters(characters)
     }
 
-    override fun getCharacterById(id: Int): Flow<CharacterDataModel> {
+    override fun getCharacterById(id: Int): Flow<CharacterData> {
         return dao.getCharacterById(id)
     }
 
-    override suspend fun insertCharacter(character: CharacterDataModel) {
+    override suspend fun insertCharacter(character: CharacterData) {
         return dao.insertCharacter(character)
     }
 }

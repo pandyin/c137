@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.c137.data.model.CharacterDataModel
+import com.c137.data.model.CharacterData
 import com.c137.data.model.Status
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
@@ -14,17 +14,17 @@ import kotlinx.coroutines.flow.Flow
 interface CharacterDao {
 
     @Query("select * from character where status = :status")
-    fun getCharactersByStatus(status: Status): Flowable<List<CharacterDataModel>>
+    fun getCharactersByStatus(status: Status): Flowable<List<CharacterData>>
 
     @Query("select * from character")
-    fun getCharacters(): Flowable<List<CharacterDataModel>>
+    fun getCharacters(): Flowable<List<CharacterData>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertCharacters(characters: List<CharacterDataModel>): Completable
+    fun insertCharacters(characters: List<CharacterData>): Completable
 
     @Query("select * from character where characterId = :id")
-    fun getCharacterById(id: Int): Flow<CharacterDataModel>
+    fun getCharacterById(id: Int): Flow<CharacterData>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertCharacter(character: CharacterDataModel)
+    suspend fun insertCharacter(character: CharacterData)
 }

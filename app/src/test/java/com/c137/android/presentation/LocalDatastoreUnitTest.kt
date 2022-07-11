@@ -5,7 +5,7 @@ import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
 import com.c137.C137Database
 import com.c137.RxTrampolineSchedulerRule
-import com.c137.data.model.CharacterDataModel
+import com.c137.data.model.CharacterData
 import com.c137.data.model.Status
 import org.junit.After
 import org.junit.Before
@@ -41,7 +41,7 @@ class LocalDatastoreUnitTest {
 
     @Test
     fun get_characters() {
-        val expectedCharacters = listOf(CharacterDataModel(UUID.randomUUID().hashCode(),
+        val expectedCharacters = listOf(CharacterData(UUID.randomUUID().hashCode(),
             UUID.randomUUID().toString(),
             UUID.randomUUID().toString(),
             Status.Alive
