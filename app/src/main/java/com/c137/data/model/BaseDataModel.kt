@@ -2,4 +2,4 @@ package com.c137.data.model
 
 import androidx.room.Ignore
 
-open class BaseEntity(@Ignore val id: Int)
+open class BaseDataModel(@Ignore val id: Int)

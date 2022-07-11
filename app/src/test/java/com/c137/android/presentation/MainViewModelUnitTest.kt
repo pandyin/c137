@@ -7,7 +7,7 @@ import com.c137.android.presentation.doubles.DummyGetCharactersByStatusUseCase
 import com.c137.android.presentation.doubles.FakeCharacterDao
 import com.c137.data.model.Status
 import com.c137.data.model.dto.CharacterDto
-import com.c137.data.model.dto.CharacterDtoMapper
+import com.c137.data.model.mapper.CharacterDtoMapper
 import com.c137.data.repository.CharacterRepositoryImpl
 import com.c137.data.datastore.local.CharacterLocalDatastoreImpl
 import com.c137.data.datastore.remote.CharacterRemoteDatastoreImpl

@@ -2,11 +2,11 @@ package com.c137.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.c137.data.model.Character
 import com.c137.data.model.Status
 import com.c137.presentation.api.GetCharacterByIdUseCase
 import com.c137.presentation.api.GetCharactersByStatusUseCase
 import com.c137.presentation.api.GetCharactersUseCase
+import com.c137.presentation.model.CharacterPresentationModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Flowable
@@ -44,11 +44,11 @@ class MainViewModel @Inject constructor(
             .distinctUntilChanged()
     }
 
-    fun getCharacters(): Flowable<List<Character>> {
+    fun getCharacters(): Flowable<List<CharacterPresentationModel>> {
         return getCharactersUseCase.execute()
     }
 
-    fun getCharactersByStatus(status: Status): Flowable<List<Character>> {
+    fun getCharactersByStatus(status: Status): Flowable<List<CharacterPresentationModel>> {
         return getCharactersByStatusUseCase.execute(status)
     }
 }
