@@ -1,8 +1,11 @@
 package com.c137.domain.usecase.model.mapper
 
-class CharacterDomainMapper : DataMapper<com.c137.domain.usecase.model.CharacterDomain, Character> {
+import com.c137.domain.usecase.model.CharacterDomain
+import com.c137.presentation.model.CharacterPresentation
 
-    override fun map(domain: com.c137.domain.usecase.model.CharacterDomain): Character {
-        return Character(domain.name)
+class CharacterDomainMapper : DataMapper<CharacterDomain, CharacterPresentation> {
+
+    override fun map(domain: CharacterDomain): CharacterPresentation {
+        return CharacterPresentation(domain.name)
     }
 }
