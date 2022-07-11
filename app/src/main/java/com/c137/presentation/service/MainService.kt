@@ -8,12 +8,10 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.NotificationManagerCompat.IMPORTANCE_DEFAULT
 import com.c137.data.model.Character
-import com.c137.domain.GetCharactersUseCase
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import io.reactivex.rxjava3.subjects.BehaviorSubject
-import org.koin.android.ext.android.inject
 
 private const val DIMENSION = "c137"
 
@@ -22,7 +20,6 @@ class MainService : Service() {
     private val characterSubject: BehaviorSubject<Character> = BehaviorSubject.create()
     private val binder = MainServiceBinder(characterSubject)
 
-    private val useCase: GetCharactersUseCase by inject()
     private var disposable: Disposable? = null
 
     override fun onBind(intent: Intent?): IBinder {
