@@ -1,4 +1,4 @@
-package com.c137.presentation.viewmodel
+package com.c137.presentation
 
 sealed class ViewState(val name: String, val enabled: Boolean) {
 

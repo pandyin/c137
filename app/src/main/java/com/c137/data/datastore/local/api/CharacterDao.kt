@@ -1,4 +1,4 @@
-package com.c137.data.datastore.local
+package com.c137.data.datastore.local.api
 
 import androidx.room.Dao
 import androidx.room.Insert

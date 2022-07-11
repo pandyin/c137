@@ -1,11 +1,11 @@
 package com.c137.data.repository
 
-import com.c137.data.CharacterLocalDatastore
-import com.c137.data.CharacterRemoteDatastore
+import com.c137.data.repository.api.CharacterLocalDatastore
+import com.c137.data.repository.api.CharacterRemoteDatastore
 import com.c137.data.model.Character
 import com.c137.data.model.Status
 import com.c137.data.model.dto.CharacterDtoMapper
-import com.c137.domain.CharacterRepository
+import com.c137.domain.usecase.api.CharacterRepository
 import dagger.hilt.android.scopes.ViewModelScoped
 import io.reactivex.rxjava3.core.Flowable
 import kotlinx.coroutines.flow.Flow

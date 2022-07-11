@@ -1,4 +1,4 @@
-package com.c137.data.datastore.remote
+package com.c137.data.datastore.remote.api
 
 import com.c137.data.model.dto.CharacterDto
 import com.c137.data.model.dto.ResultsDto

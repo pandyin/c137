@@ -2,7 +2,8 @@ package com.c137.data.datastore.local
 
 import com.c137.data.model.Character
 import com.c137.data.model.Status
-import com.c137.data.CharacterLocalDatastore
+import com.c137.data.repository.api.CharacterLocalDatastore
+import com.c137.data.datastore.local.api.CharacterDao
 import dagger.hilt.android.scopes.ViewModelScoped
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable

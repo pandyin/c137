@@ -2,7 +2,8 @@ package com.c137.data.datastore.remote
 
 import com.c137.data.model.Status
 import com.c137.data.model.dto.CharacterDto
-import com.c137.data.CharacterRemoteDatastore
+import com.c137.data.repository.api.CharacterRemoteDatastore
+import com.c137.data.datastore.remote.api.CharacterService
 import dagger.hilt.android.scopes.ViewModelScoped
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject

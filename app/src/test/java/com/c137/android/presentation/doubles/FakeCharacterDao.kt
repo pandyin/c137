@@ -2,7 +2,7 @@ package com.c137.android.presentation.doubles
 
 import com.c137.data.model.Character
 import com.c137.data.model.Status
-import com.c137.data.datastore.local.CharacterDao
+import com.c137.data.datastore.local.api.CharacterDao
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import kotlinx.coroutines.flow.Flow

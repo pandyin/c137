@@ -1,8 +1,8 @@
 package com.c137.domain.usecase
 
 import com.c137.data.model.Character
-import com.c137.domain.CharacterRepository
-import com.c137.presentation.GetCharacterByIdUseCase
+import com.c137.domain.usecase.api.CharacterRepository
+import com.c137.presentation.api.GetCharacterByIdUseCase
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

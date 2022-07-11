@@ -2,7 +2,7 @@ package com.c137.di
 
 import android.content.Context
 import com.c137.R
-import com.c137.data.datastore.remote.CharacterService
+import com.c137.data.datastore.remote.api.CharacterService
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides

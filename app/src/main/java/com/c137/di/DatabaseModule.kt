@@ -2,7 +2,7 @@ package com.c137.di
 
 import android.content.Context
 import com.c137.C137Database
-import com.c137.data.datastore.local.CharacterDao
+import com.c137.data.datastore.local.api.CharacterDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

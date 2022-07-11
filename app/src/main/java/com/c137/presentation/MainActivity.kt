@@ -12,8 +12,6 @@ import com.c137.R
 import com.c137.databinding.ActivityMainBinding
 import com.c137.presentation.service.MainServiceBinder
 import com.c137.presentation.service.MainServiceIntent
-import com.c137.presentation.viewmodel.MainViewModel
-import com.c137.presentation.viewmodel.Response
 import com.google.gson.Gson
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint

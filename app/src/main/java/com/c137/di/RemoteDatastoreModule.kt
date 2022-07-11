@@ -1,6 +1,6 @@
 package com.c137.di
 
-import com.c137.data.CharacterRemoteDatastore
+import com.c137.data.repository.api.CharacterRemoteDatastore
 import com.c137.data.datastore.remote.CharacterRemoteDatastoreImpl
 import dagger.Binds
 import dagger.Module

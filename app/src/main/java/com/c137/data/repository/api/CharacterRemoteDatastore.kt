@@ -1,4 +1,4 @@
-package com.c137.data
+package com.c137.data.repository.api
 
 import com.c137.data.model.Status
 import com.c137.data.model.dto.CharacterDto

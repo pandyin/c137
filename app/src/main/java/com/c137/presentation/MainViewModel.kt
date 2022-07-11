@@ -1,12 +1,12 @@
-package com.c137.presentation.viewmodel
+package com.c137.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.c137.data.model.Character
 import com.c137.data.model.Status
-import com.c137.presentation.GetCharacterByIdUseCase
-import com.c137.presentation.GetCharactersByStatusUseCase
-import com.c137.presentation.GetCharactersUseCase
+import com.c137.presentation.api.GetCharacterByIdUseCase
+import com.c137.presentation.api.GetCharactersByStatusUseCase
+import com.c137.presentation.api.GetCharactersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Flowable
