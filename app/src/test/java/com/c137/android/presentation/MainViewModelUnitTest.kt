@@ -5,13 +5,13 @@ import com.c137.RxTrampolineSchedulerRule
 import com.c137.android.presentation.doubles.DummyGetCharacterByIdUseCase
 import com.c137.android.presentation.doubles.DummyGetCharactersByStatusUseCase
 import com.c137.android.presentation.doubles.FakeCharacterDao
+import com.c137.data.datastore.local.CharacterLocalDatastoreImpl
+import com.c137.data.datastore.remote.CharacterRemoteDatastoreImpl
+import com.c137.data.datastore.remote.api.CharacterService
 import com.c137.data.model.Status
 import com.c137.data.model.dto.CharacterDto
 import com.c137.data.model.mapper.CharacterDtoMapper
 import com.c137.data.repository.CharacterRepositoryImpl
-import com.c137.data.datastore.local.CharacterLocalDatastoreImpl
-import com.c137.data.datastore.remote.CharacterRemoteDatastoreImpl
-import com.c137.data.datastore.remote.api.CharacterService
 import com.c137.domain.usecase.GetCharactersUseCaseImpl
 import com.c137.presentation.MainViewModel
 import com.google.gson.Gson
@@ -24,6 +24,7 @@ import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -32,7 +33,6 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.HttpURLConnection
 import java.util.*
-import kotlin.test.assertEquals
 
 class MainViewModelUnitTest {
 
@@ -57,7 +57,8 @@ class MainViewModelUnitTest {
 
     @Test
     fun get_characters() {
-        val expectedCharacter = CharacterDto(UUID.randomUUID().hashCode(),
+        val expectedCharacter = CharacterDto(
+            UUID.randomUUID().hashCode(),
             UUID.randomUUID().toString(),
             UUID.randomUUID().toString(),
             Status.Alive.name
@@ -92,9 +93,11 @@ class MainViewModelUnitTest {
         val repository = CharacterRepositoryImpl(localDatastore, remoteDatastore)
         val useCase = GetCharactersUseCaseImpl(repository)
 
-        val sut = MainViewModel(DummyGetCharacterByIdUseCase(),
+        val sut = MainViewModel(
+            DummyGetCharacterByIdUseCase(),
             useCase,
-            DummyGetCharactersByStatusUseCase())
+            DummyGetCharactersByStatusUseCase()
+        )
 
         sut.getCharacters()
             .test()
