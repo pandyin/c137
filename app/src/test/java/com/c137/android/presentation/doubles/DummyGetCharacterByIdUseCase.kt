@@ -1,7 +1,7 @@
 package com.c137.android.presentation.doubles
 
 import com.c137.data.model.Character
-import com.c137.domain.GetCharacterByIdUseCase
+import com.c137.presentation.GetCharacterByIdUseCase
 import kotlinx.coroutines.flow.Flow
 
 class DummyGetCharacterByIdUseCase : GetCharacterByIdUseCase {

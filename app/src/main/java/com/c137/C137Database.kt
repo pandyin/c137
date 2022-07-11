@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import com.c137.data.model.Character
 import com.c137.data.model.Location
 import com.c137.data.model.converter.CharacterStatusConverter
-import com.c137.data.repository.datastore.local.api.CharacterDao
+import com.c137.data.datastore.local.CharacterDao
 
 @Database(
     version = 1,

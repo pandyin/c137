@@ -9,11 +9,11 @@ import com.c137.data.model.Status
 import com.c137.data.model.dto.CharacterDto
 import com.c137.data.model.dto.CharacterDtoMapper
 import com.c137.data.repository.CharacterRepositoryImpl
-import com.c137.data.repository.datastore.local.CharacterLocalDatastoreImpl
-import com.c137.data.repository.datastore.remote.CharacterRemoteDatastoreImpl
-import com.c137.data.repository.datastore.remote.api.CharacterService
-import com.c137.domain.GetCharactersUseCaseImpl
-import com.c137.presentation.MainViewModel
+import com.c137.data.datastore.local.CharacterLocalDatastoreImpl
+import com.c137.data.datastore.remote.CharacterRemoteDatastoreImpl
+import com.c137.data.datastore.remote.CharacterService
+import com.c137.domain.usecase.GetCharactersUseCaseImpl
+import com.c137.presentation.viewmodel.MainViewModel
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
