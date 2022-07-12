@@ -1,9 +1,8 @@
 package com.c137.domain.usecase.model.mapper
 
 import com.c137.domain.usecase.model.BaseDomainModel
-import com.c137.domain.usecase.model.BasePresentationModel
 
-interface DataMapper<DOMAIN : BaseDomainModel, BasePresentation : BasePresentationModel> {
+interface DataMapper<DOMAIN : BaseDomainModel, BasePresentation : com.c137.presentation.model.BasePresentationModel> {
 
     fun map(domain: DOMAIN): BasePresentation
 }
