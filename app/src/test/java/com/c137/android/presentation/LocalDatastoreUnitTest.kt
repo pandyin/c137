@@ -6,7 +6,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.c137.C137Database
 import com.c137.RxTrampolineSchedulerRule
 import com.c137.data.model.CharacterData
-import com.c137.common.model.CharacterStatus
+import com.c137.data.model.CharacterStatus
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule

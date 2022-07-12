@@ -2,10 +2,10 @@ package com.c137.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.c137.common.model.CharacterStatus
+import com.c137.presentation.api.GetAliveCharactersUseCase
 import com.c137.presentation.api.GetCharacterByIdUseCase
-import com.c137.presentation.api.GetCharactersByStatusUseCase
 import com.c137.presentation.api.GetCharactersUseCase
+import com.c137.presentation.api.GetDeadCharactersUseCase
 import com.c137.presentation.model.CharacterPresentation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.BackpressureStrategy
@@ -19,7 +19,8 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val getCharacterByIdUseCase: GetCharacterByIdUseCase,
     private val getCharactersUseCase: GetCharactersUseCase,
-    private val getCharactersByStatusUseCase: GetCharactersByStatusUseCase,
+    private val getAliveCharactersUseCase: GetAliveCharactersUseCase,
+    private val getDeadCharactersUseCase: GetDeadCharactersUseCase
 ) : ViewModel() {
 
     private val characterByIdMap: MutableMap<Int, BehaviorSubject<Response>> = mutableMapOf()
@@ -48,8 +49,12 @@ class MainViewModel @Inject constructor(
         return getCharactersUseCase.execute()
     }
 
-    fun getCharactersByStatus(status: CharacterStatus): Flowable<List<CharacterPresentation>> {
-        return getCharactersByStatusUseCase.execute(status)
+    fun getAliveCharacters(): Flowable<List<CharacterPresentation>> {
+        return getAliveCharactersUseCase.execute()
+    }
+
+    fun getDeadCharacters(): Flowable<List<CharacterPresentation>> {
+        return getDeadCharactersUseCase.execute()
     }
 }
 

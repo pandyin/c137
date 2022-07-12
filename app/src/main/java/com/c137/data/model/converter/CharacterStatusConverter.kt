@@ -1,7 +1,7 @@
 package com.c137.data.model.converter
 
 import androidx.room.TypeConverter
-import com.c137.common.model.CharacterStatus
+import com.c137.data.model.CharacterStatus
 
 class CharacterStatusConverter {
 

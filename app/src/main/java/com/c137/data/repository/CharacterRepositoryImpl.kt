@@ -2,7 +2,6 @@ package com.c137.data.repository
 
 import com.c137.data.model.mapper.CharacterDataMapper
 import com.c137.data.model.mapper.CharacterDtoMapper
-import com.c137.common.model.CharacterStatus
 import com.c137.data.repository.api.CharacterLocalDatastore
 import com.c137.data.repository.api.CharacterRemoteDatastore
 import com.c137.domain.usecase.api.CharacterRepository
@@ -18,10 +17,19 @@ class CharacterRepositoryImpl @Inject constructor(
     private val remoteDatastore: CharacterRemoteDatastore,
 ) : CharacterRepository {
 
-    override fun getCharactersByStatus(status: CharacterStatus): Flowable<List<CharacterDomain>> {
-        return localDatastore.getCharactersByStatus(status)
+    override fun getAliveCharacters(): Flowable<List<CharacterDomain>> {
+        return localDatastore.getAliveCharacters()
             .map { it.map { data -> CharacterDataMapper().map(data) } }
-            .mergeWith(remoteDatastore.getCharactersByStatus(1, status)
+            .mergeWith(remoteDatastore.getAliveCharacters(1)
+                .map { it.map { dto -> CharacterDtoMapper().map(dto) } }
+                .flatMapCompletable { localDatastore.insertCharacters(it) })
+    }
+
+
+    override fun getDeadCharacters(): Flowable<List<CharacterDomain>> {
+        return localDatastore.getDeadCharacters()
+            .map { it.map { data -> CharacterDataMapper().map(data) } }
+            .mergeWith(remoteDatastore.getDeadCharacters(1)
                 .map { it.map { dto -> CharacterDtoMapper().map(dto) } }
                 .flatMapCompletable { localDatastore.insertCharacters(it) })
     }

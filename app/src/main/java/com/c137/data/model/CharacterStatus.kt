@@ -1,4 +1,4 @@
-package com.c137.common.model
+package com.c137.data.model
 
 sealed class CharacterStatus(val name: String) {
 

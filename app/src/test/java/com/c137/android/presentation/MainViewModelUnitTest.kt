@@ -8,7 +8,7 @@ import com.c137.android.presentation.doubles.FakeCharacterDao
 import com.c137.data.datastore.local.CharacterLocalDatastoreImpl
 import com.c137.data.datastore.remote.CharacterRemoteDatastoreImpl
 import com.c137.data.datastore.remote.api.CharacterService
-import com.c137.common.model.CharacterStatus
+import com.c137.data.model.CharacterStatus
 import com.c137.data.model.dto.CharacterDto
 import com.c137.data.model.mapper.CharacterDtoMapper
 import com.c137.data.repository.CharacterRepositoryImpl

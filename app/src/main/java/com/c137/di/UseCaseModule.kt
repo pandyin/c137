@@ -1,11 +1,13 @@
 package com.c137.di
 
+import com.c137.domain.usecase.GetAliveCharactersUseCaseImpl
 import com.c137.domain.usecase.GetCharacterByIdUseCaseImpl
-import com.c137.domain.usecase.GetCharactersByStatusUseCaseImpl
 import com.c137.domain.usecase.GetCharactersUseCaseImpl
+import com.c137.domain.usecase.GetDeadCharactersUseCaseImpl
+import com.c137.presentation.api.GetAliveCharactersUseCase
 import com.c137.presentation.api.GetCharacterByIdUseCase
-import com.c137.presentation.api.GetCharactersByStatusUseCase
 import com.c137.presentation.api.GetCharactersUseCase
+import com.c137.presentation.api.GetDeadCharactersUseCase
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -26,5 +28,9 @@ abstract class UseCaseModule {
 
     @ViewModelScoped
     @Binds
-    abstract fun bindGetCharactersByStatusUseCase(useCase: GetCharactersByStatusUseCaseImpl): GetCharactersByStatusUseCase
+    abstract fun bindGetAliveCharactersUseCase(useCase: GetAliveCharactersUseCaseImpl): GetAliveCharactersUseCase
+
+    @ViewModelScoped
+    @Binds
+    abstract fun bindGetDeadCharactersUseCase(useCase: GetDeadCharactersUseCaseImpl): GetDeadCharactersUseCase
 }
