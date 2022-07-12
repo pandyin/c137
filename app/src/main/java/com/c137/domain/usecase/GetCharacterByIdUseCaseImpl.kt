@@ -3,7 +3,7 @@ package com.c137.domain.usecase
 import com.c137.domain.usecase.api.CharacterRepository
 import com.c137.domain.usecase.model.mapper.CharacterDomainMapper
 import com.c137.presentation.api.GetCharacterByIdUseCase
-import com.c137.presentation.model.CharacterPresentation
+import com.c137.domain.usecase.model.CharacterPresentation
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
