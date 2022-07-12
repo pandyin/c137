@@ -3,7 +3,7 @@ package com.c137.data.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "character")
 data class CharacterData(
     @PrimaryKey val characterId: Int,
     val name: String,
