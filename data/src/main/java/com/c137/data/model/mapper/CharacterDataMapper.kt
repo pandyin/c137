@@ -1,7 +1,7 @@
 package com.c137.data.model.mapper
 
 import com.c137.data.model.CharacterData
-import com.c137.model.CharacterDomain
+import com.c137.domain.model.CharacterDomain
 
 class CharacterDataMapper : DataMapper<CharacterData, CharacterDomain> {
 

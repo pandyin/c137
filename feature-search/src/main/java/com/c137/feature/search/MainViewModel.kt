@@ -6,7 +6,7 @@ import com.c137.feature.search.api.GetAliveCharactersUseCase
 import com.c137.feature.search.api.GetCharacterByIdUseCase
 import com.c137.feature.search.api.GetCharactersUseCase
 import com.c137.feature.search.api.GetDeadCharactersUseCase
-import com.c137.model.CharacterPresentation
+import com.c137.domain.model.CharacterPresentation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Flowable

@@ -1,7 +1,7 @@
-package com.c137.model.mapper
+package com.c137.domain.model.mapper
 
-import com.c137.model.BaseDomainModel
-import com.c137.model.BasePresentationModel
+import com.c137.domain.model.BaseDomainModel
+import com.c137.domain.model.BasePresentationModel
 
 interface DataMapper<DOMAIN : BaseDomainModel, BasePresentation : BasePresentationModel> {
 
