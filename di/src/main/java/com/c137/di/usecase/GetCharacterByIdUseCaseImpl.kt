@@ -1,0 +1,20 @@
+package com.c137.di.usecase
+
+import com.c137.api.CharacterRepository
+import com.c137.feature.search.api.GetCharacterByIdUseCase
+import com.c137.model.CharacterPresentation
+import com.c137.model.mapper.CharacterDomainMapper
+import dagger.hilt.android.scopes.ViewModelScoped
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import javax.inject.Inject
+
+@ViewModelScoped
+class GetCharacterByIdUseCaseImpl @Inject constructor(private val repository: CharacterRepository) :
+    GetCharacterByIdUseCase {
+
+    override fun execute(id: Int): Flow<CharacterPresentation> {
+        return repository.getCharacterById(id)
+            .map { CharacterDomainMapper().map(it) }
+    }
+}

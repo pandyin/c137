@@ -7,7 +7,7 @@ import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import kotlinx.coroutines.flow.Flow
 
-class FakeCharacterDao : CharacterDao {
+class FakeCharacterDao : com.c137.data.datastore.local.api.CharacterDao {
 
     override fun getCharactersByStatus(status: CharacterStatus): Flowable<List<CharacterData>> {
         TODO("Not yet implemented")

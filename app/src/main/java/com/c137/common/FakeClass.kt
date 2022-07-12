@@ -17,11 +17,7 @@ class FakeClass {
         }
     }
 
-    private val callBack = object : View.OnClickListener {
-        override fun onClick(p0: View?) {
-            TODO("Not yet implemented")
-        }
-    }
+    private val callBack = View.OnClickListener { TODO("Not yet implemented") }
 
     // Object Declaration
     object Hi {

@@ -89,8 +89,8 @@ class MainViewModelUnitTest {
 
         val service = retrofit.create(CharacterService::class.java)
 
-        val localDatastore = CharacterLocalDatastoreImpl(dao)
-        val remoteDatastore = CharacterRemoteDatastoreImpl(service)
+        val localDatastore = com.c137.data.datastore.local.CharacterLocalDatastoreImpl(dao)
+        val remoteDatastore = com.c137.data.datastore.remote.CharacterRemoteDatastoreImpl(service)
         val repository = CharacterRepositoryImpl(localDatastore, remoteDatastore)
         val useCase = GetCharactersUseCaseImpl(repository)
 

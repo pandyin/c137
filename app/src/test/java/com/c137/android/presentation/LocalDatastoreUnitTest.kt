@@ -3,7 +3,7 @@ package com.c137.android.presentation
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.platform.app.InstrumentationRegistry
-import com.c137.C137Database
+import com.c137.data.C137Database
 import com.c137.RxTrampolineSchedulerRule
 import com.c137.data.model.CharacterData
 import com.c137.data.model.CharacterStatus
@@ -18,7 +18,7 @@ import java.util.*
 @RunWith(RobolectricTestRunner::class)
 class LocalDatastoreUnitTest {
 
-    private lateinit var db: C137Database
+    private lateinit var db: com.c137.data.C137Database
 
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
@@ -29,7 +29,7 @@ class LocalDatastoreUnitTest {
     @Before
     fun setup() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        db = Room.inMemoryDatabaseBuilder(context, C137Database::class.java)
+        db = Room.inMemoryDatabaseBuilder(context, com.c137.data.C137Database::class.java)
             .allowMainThreadQueries()
             .build()
     }

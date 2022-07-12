@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">Rick And Morty</string>
-    <string name="swapi_base_url">https://rickandmortyapi.com/api/</string>
     <string name="unknown_error">Unknown Error</string>
 </resources>
