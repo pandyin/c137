@@ -1,7 +1,7 @@
 package com.c137.data.datastore.local
 
 import com.c137.data.model.CharacterData
-import com.c137.data.model.Status
+import com.c137.common.model.CharacterStatus
 import com.c137.data.repository.api.CharacterLocalDatastore
 import com.c137.data.datastore.local.api.CharacterDao
 import dagger.hilt.android.scopes.ViewModelScoped
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class CharacterLocalDatastoreImpl @Inject constructor(private val dao: CharacterDao) :
     CharacterLocalDatastore {
 
-    override fun getCharactersByStatus(status: Status): Flowable<List<CharacterData>> {
+    override fun getCharactersByStatus(status: CharacterStatus): Flowable<List<CharacterData>> {
         return dao.getCharactersByStatus(status)
     }
 

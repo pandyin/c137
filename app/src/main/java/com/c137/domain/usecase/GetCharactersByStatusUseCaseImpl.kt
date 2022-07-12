@@ -1,6 +1,6 @@
 package com.c137.domain.usecase
 
-import com.c137.data.model.Status
+import com.c137.common.model.CharacterStatus
 import com.c137.domain.usecase.api.CharacterRepository
 import com.c137.domain.usecase.model.mapper.CharacterDomainMapper
 import com.c137.presentation.api.GetCharactersByStatusUseCase
@@ -13,7 +13,7 @@ import javax.inject.Inject
 class GetCharactersByStatusUseCaseImpl @Inject constructor(private val repository: CharacterRepository) :
     GetCharactersByStatusUseCase {
 
-    override fun execute(status: Status): Flowable<List<CharacterPresentation>> {
+    override fun execute(status: CharacterStatus): Flowable<List<CharacterPresentation>> {
         return repository.getCharactersByStatus(status)
             .map { it.map { domain -> CharacterDomainMapper().map(domain) } }
     }

@@ -2,7 +2,7 @@ package com.c137.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.c137.data.model.Status
+import com.c137.common.model.CharacterStatus
 import com.c137.presentation.api.GetCharacterByIdUseCase
 import com.c137.presentation.api.GetCharactersByStatusUseCase
 import com.c137.presentation.api.GetCharactersUseCase
@@ -48,7 +48,7 @@ class MainViewModel @Inject constructor(
         return getCharactersUseCase.execute()
     }
 
-    fun getCharactersByStatus(status: Status): Flowable<List<CharacterPresentation>> {
+    fun getCharactersByStatus(status: CharacterStatus): Flowable<List<CharacterPresentation>> {
         return getCharactersByStatusUseCase.execute(status)
     }
 }

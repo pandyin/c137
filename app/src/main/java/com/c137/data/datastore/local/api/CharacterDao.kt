@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.c137.data.model.CharacterData
-import com.c137.data.model.Status
+import com.c137.common.model.CharacterStatus
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
 import kotlinx.coroutines.flow.Flow
@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.Flow
 interface CharacterDao {
 
     @Query("select * from character where status = :status")
-    fun getCharactersByStatus(status: Status): Flowable<List<CharacterData>>
+    fun getCharactersByStatus(status: CharacterStatus): Flowable<List<CharacterData>>
 
     @Query("select * from character")
     fun getCharacters(): Flowable<List<CharacterData>>

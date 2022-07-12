@@ -6,7 +6,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.c137.C137Database
 import com.c137.RxTrampolineSchedulerRule
 import com.c137.data.model.CharacterData
-import com.c137.data.model.Status
+import com.c137.common.model.CharacterStatus
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -44,7 +44,7 @@ class LocalDatastoreUnitTest {
         val expectedCharacters = listOf(CharacterData(UUID.randomUUID().hashCode(),
             UUID.randomUUID().toString(),
             UUID.randomUUID().toString(),
-            Status.Alive
+            CharacterStatus.Alive
         ))
 
         val dao = db.characterDao()
