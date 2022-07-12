@@ -1,9 +1,9 @@
 package com.c137.di
 
-import com.c137.domain.usecase.GetAliveCharactersUseCaseImpl
-import com.c137.domain.usecase.GetCharacterByIdUseCaseImpl
-import com.c137.domain.usecase.GetCharactersUseCaseImpl
-import com.c137.domain.usecase.GetDeadCharactersUseCaseImpl
+import com.c137.di.usecase.GetAliveCharactersUseCaseImpl
+import com.c137.di.usecase.GetCharacterByIdUseCaseImpl
+import com.c137.di.usecase.GetCharactersUseCaseImpl
+import com.c137.di.usecase.GetDeadCharactersUseCaseImpl
 import com.c137.presentation.api.GetAliveCharactersUseCase
 import com.c137.presentation.api.GetCharacterByIdUseCase
 import com.c137.presentation.api.GetCharactersUseCase

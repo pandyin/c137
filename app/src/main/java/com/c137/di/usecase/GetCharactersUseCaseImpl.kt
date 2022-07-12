@@ -1,9 +1,9 @@
-package com.c137.domain.usecase
+package com.c137.di.usecase
 
-import com.c137.domain.usecase.api.CharacterRepository
-import com.c137.domain.usecase.model.mapper.CharacterDomainMapper
+import com.c137.api.CharacterRepository
+import com.c137.model.mapper.CharacterDomainMapper
 import com.c137.presentation.api.GetCharactersUseCase
-import com.c137.domain.usecase.model.CharacterPresentation
+import com.c137.model.CharacterPresentation
 import dagger.hilt.android.scopes.ViewModelScoped
 import io.reactivex.rxjava3.core.Flowable
 import javax.inject.Inject

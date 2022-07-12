@@ -1,7 +1,7 @@
-package com.c137.domain.usecase.model.mapper
+package com.c137.model.mapper
 
-import com.c137.domain.usecase.model.CharacterDomain
-import com.c137.domain.usecase.model.CharacterPresentation
+import com.c137.model.CharacterDomain
+import com.c137.model.CharacterPresentation
 
 class CharacterDomainMapper : DataMapper<CharacterDomain, CharacterPresentation> {
 

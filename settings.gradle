@@ -2,3 +2,4 @@ rootProject.name = "c137"
 include ':app'
 include ':domain'
 include ':feature-search'
+include ':di'

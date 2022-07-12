@@ -1,3 +1,3 @@
-package com.c137.domain.usecase.model
+package com.c137.model
 
 class CharacterDomain(val name: String) : BaseDomainModel()

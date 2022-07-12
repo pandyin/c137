@@ -1,6 +1,6 @@
-package com.c137.domain.usecase.api
+package com.c137.api
 
-import com.c137.domain.usecase.model.CharacterDomain
+import com.c137.model.CharacterDomain
 import io.reactivex.rxjava3.core.Flowable
 import kotlinx.coroutines.flow.Flow
 

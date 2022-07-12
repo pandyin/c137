@@ -6,7 +6,7 @@ import com.c137.presentation.api.GetAliveCharactersUseCase
 import com.c137.presentation.api.GetCharacterByIdUseCase
 import com.c137.presentation.api.GetCharactersUseCase
 import com.c137.presentation.api.GetDeadCharactersUseCase
-import com.c137.domain.usecase.model.CharacterPresentation
+import com.c137.model.CharacterPresentation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Flowable

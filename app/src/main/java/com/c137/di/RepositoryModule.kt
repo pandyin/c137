@@ -1,6 +1,6 @@
 package com.c137.di
 
-import com.c137.domain.usecase.api.CharacterRepository
+import com.c137.api.CharacterRepository
 import com.c137.data.repository.CharacterRepositoryImpl
 import dagger.Binds
 import dagger.Module

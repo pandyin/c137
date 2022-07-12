@@ -3,6 +3,7 @@
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="1.7">
       <module name="c137.app" target="11" />
+      <module name="c137.di" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>

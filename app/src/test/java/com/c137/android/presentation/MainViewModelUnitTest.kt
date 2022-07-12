@@ -13,7 +13,7 @@ import com.c137.data.model.CharacterStatus
 import com.c137.data.model.dto.CharacterDto
 import com.c137.data.model.mapper.CharacterDtoMapper
 import com.c137.data.repository.CharacterRepositoryImpl
-import com.c137.domain.usecase.GetCharactersUseCaseImpl
+import com.c137.di.usecase.GetCharactersUseCaseImpl
 import com.c137.presentation.MainViewModel
 import com.google.gson.Gson
 import com.google.gson.JsonArray
