@@ -2,8 +2,9 @@ package com.c137.android.presentation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.c137.RxTrampolineSchedulerRule
+import com.c137.android.presentation.doubles.DummyGetAliveCharactersUseCase
 import com.c137.android.presentation.doubles.DummyGetCharacterByIdUseCase
-import com.c137.android.presentation.doubles.DummyGetCharactersByStatusUseCase
+import com.c137.android.presentation.doubles.DummyGetDeadCharactersUseCase
 import com.c137.android.presentation.doubles.FakeCharacterDao
 import com.c137.data.datastore.local.CharacterLocalDatastoreImpl
 import com.c137.data.datastore.remote.CharacterRemoteDatastoreImpl
@@ -96,7 +97,8 @@ class MainViewModelUnitTest {
         val sut = MainViewModel(
             DummyGetCharacterByIdUseCase(),
             useCase,
-            DummyGetCharactersByStatusUseCase()
+            DummyGetAliveCharactersUseCase(),
+            DummyGetDeadCharactersUseCase()
         )
 
         sut.getCharacters()
