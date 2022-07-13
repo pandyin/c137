@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import com.c137.R
 import com.c137.databinding.ActivityMainBinding
-import com.c137.feature.search.MainViewModel
+import com.c137.feature.search.SearchViewModel
 import com.c137.feature.search.Response
 import com.trello.rxlifecycle4.components.support.RxAppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -14,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : RxAppCompatActivity() {
 
-    private val viewModel by viewModels<MainViewModel>()
+    private val searchViewModel by viewModels<SearchViewModel>()
 
     private lateinit var viewBinding: ActivityMainBinding
 
@@ -37,7 +37,7 @@ class MainActivity : RxAppCompatActivity() {
     }
 
     private fun subscribeToListOfCharacters() {
-        viewModel.getCharacterById(3)
+        searchViewModel.getCharacterById(3)
             .doOnNext {
                 when (it is Response.Error) {
                     true -> {

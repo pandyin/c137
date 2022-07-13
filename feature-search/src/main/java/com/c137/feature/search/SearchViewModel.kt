@@ -15,11 +15,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
-    private val getCharacterByIdUseCase: com.c137.domain.GetCharacterByIdUseCase,
-    private val getCharactersUseCase: com.c137.domain.GetCharactersUseCase,
-    private val getAliveCharactersUseCase: com.c137.domain.GetAliveCharactersUseCase,
-    private val getDeadCharactersUseCase: com.c137.domain.GetDeadCharactersUseCase
+class SearchViewModel @Inject constructor(
+    private val getCharacterByIdUseCase: GetCharacterByIdUseCase,
+    private val getCharactersUseCase: GetCharactersUseCase,
+    private val getAliveCharactersUseCase: GetAliveCharactersUseCase,
+    private val getDeadCharactersUseCase: GetDeadCharactersUseCase
 ) : ViewModel() {
 
     private val characterByIdMap: MutableMap<Int, BehaviorSubject<Response>> = mutableMapOf()
