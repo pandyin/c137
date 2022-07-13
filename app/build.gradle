@@ -89,6 +89,7 @@ dependencies {
 }
 
 // https://github.com/google/dagger/issues/2123
+// https://github.com/google/dagger/issues/1991
 hilt {
     enableAggregatingTask = true
 }
