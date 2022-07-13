@@ -1,36 +1,41 @@
 package com.c137.di
 
-import com.c137.di.usecase.GetAliveCharactersUseCaseImpl
-import com.c137.di.usecase.GetCharacterByIdUseCaseImpl
-import com.c137.di.usecase.GetCharactersUseCaseImpl
-import com.c137.di.usecase.GetDeadCharactersUseCaseImpl
-import com.c137.feature.search.api.GetAliveCharactersUseCase
-import com.c137.feature.search.api.GetCharacterByIdUseCase
-import com.c137.feature.search.api.GetCharactersUseCase
-import com.c137.feature.search.api.GetDeadCharactersUseCase
-import dagger.Binds
+import com.c137.domain.GetAliveCharactersUseCase
+import com.c137.domain.GetCharacterByIdUseCase
+import com.c137.domain.GetCharactersUseCase
+import com.c137.domain.GetDeadCharactersUseCase
+import com.c137.domain.api.CharacterRepository
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
 @InstallIn(ViewModelComponent::class)
-abstract class UseCaseModule {
+class UseCaseModule {
 
     @ViewModelScoped
-    @Binds
-    abstract fun bindGetCharacterByIdUseCase(useCase: GetCharacterByIdUseCaseImpl): GetCharacterByIdUseCase
+    @Provides
+    fun provideGetCharacterByIdUseCase(characterRepository: CharacterRepository): GetCharacterByIdUseCase {
+        return GetCharacterByIdUseCase(characterRepository)
+    }
 
     @ViewModelScoped
-    @Binds
-    abstract fun bindGetCharactersUseCase(useCase: GetCharactersUseCaseImpl): GetCharactersUseCase
+    @Provides
+    fun provideGetCharactersUseCase(characterRepository: CharacterRepository): GetCharactersUseCase {
+        return GetCharactersUseCase(characterRepository)
+    }
 
     @ViewModelScoped
-    @Binds
-    abstract fun bindGetAliveCharactersUseCase(useCase: GetAliveCharactersUseCaseImpl): GetAliveCharactersUseCase
+    @Provides
+    fun provideGetAliveCharactersUseCase(characterRepository: CharacterRepository): GetAliveCharactersUseCase {
+        return GetAliveCharactersUseCase(characterRepository)
+    }
 
     @ViewModelScoped
-    @Binds
-    abstract fun bindGetDeadCharactersUseCase(useCase: GetDeadCharactersUseCaseImpl): GetDeadCharactersUseCase
+    @Provides
+    fun provideGetDeadCharactersUseCase(characterRepository: CharacterRepository): GetDeadCharactersUseCase {
+        return GetDeadCharactersUseCase(characterRepository)
+    }
 }

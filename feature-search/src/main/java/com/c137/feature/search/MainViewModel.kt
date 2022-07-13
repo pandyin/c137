@@ -2,10 +2,10 @@ package com.c137.feature.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.c137.feature.search.api.GetAliveCharactersUseCase
-import com.c137.feature.search.api.GetCharacterByIdUseCase
-import com.c137.feature.search.api.GetCharactersUseCase
-import com.c137.feature.search.api.GetDeadCharactersUseCase
+import com.c137.domain.GetAliveCharactersUseCase
+import com.c137.domain.GetCharacterByIdUseCase
+import com.c137.domain.GetCharactersUseCase
+import com.c137.domain.GetDeadCharactersUseCase
 import com.c137.domain.model.CharacterPresentation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.BackpressureStrategy
@@ -16,10 +16,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val getCharacterByIdUseCase: GetCharacterByIdUseCase,
-    private val getCharactersUseCase: GetCharactersUseCase,
-    private val getAliveCharactersUseCase: GetAliveCharactersUseCase,
-    private val getDeadCharactersUseCase: GetDeadCharactersUseCase
+    private val getCharacterByIdUseCase: com.c137.domain.GetCharacterByIdUseCase,
+    private val getCharactersUseCase: com.c137.domain.GetCharactersUseCase,
+    private val getAliveCharactersUseCase: com.c137.domain.GetAliveCharactersUseCase,
+    private val getDeadCharactersUseCase: com.c137.domain.GetDeadCharactersUseCase
 ) : ViewModel() {
 
     private val characterByIdMap: MutableMap<Int, BehaviorSubject<Response>> = mutableMapOf()

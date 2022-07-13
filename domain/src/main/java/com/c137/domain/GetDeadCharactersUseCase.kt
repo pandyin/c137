@@ -1,7 +1,6 @@
-package com.c137.di.usecase
+package com.c137.domain
 
 import com.c137.domain.api.CharacterRepository
-import com.c137.feature.search.api.GetCharactersUseCase
 import com.c137.domain.model.CharacterPresentation
 import com.c137.domain.model.mapper.CharacterDomainMapper
 import dagger.hilt.android.scopes.ViewModelScoped
@@ -9,11 +8,10 @@ import io.reactivex.rxjava3.core.Flowable
 import javax.inject.Inject
 
 @ViewModelScoped
-class GetCharactersUseCaseImpl @Inject constructor(private val repository: CharacterRepository) :
-    GetCharactersUseCase {
+class GetDeadCharactersUseCase @Inject constructor(private val repository: CharacterRepository) {
 
-    override fun execute(): Flowable<List<CharacterPresentation>> {
-        return repository.getCharacters()
+    fun execute(): Flowable<List<CharacterPresentation>> {
+        return repository.getDeadCharacters()
             .map { it.map { domain -> CharacterDomainMapper().map(domain) } }
     }
 }
