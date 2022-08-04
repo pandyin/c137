@@ -19,9 +19,9 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        searchViewModel.getCharacterById(3)
 
         lifecycleScope.launch {
+            searchViewModel.getCharacterById(3)
             searchViewModel.searchState.collect {
                 if (it is SearchState.Success) {
                     Log.e("testtest", it.character.name)
