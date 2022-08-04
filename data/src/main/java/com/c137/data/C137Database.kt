@@ -6,12 +6,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.c137.data.datastore.local.api.CharacterDao
-import com.c137.data.model.CharacterData
+import com.c137.data.model.DataCharacter
 import com.c137.data.model.converter.CharacterStatusConverter
 
 @Database(
     version = 1,
-    entities = [CharacterData::class]
+    entities = [DataCharacter::class]
 )
 @TypeConverters(CharacterStatusConverter::class)
 abstract class C137Database : RoomDatabase() {

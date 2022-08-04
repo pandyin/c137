@@ -1,7 +1,7 @@
 package com.c137.data.datastore.local
 
 import com.c137.data.datastore.local.api.CharacterDao
-import com.c137.data.model.CharacterData
+import com.c137.data.model.DataCharacter
 import com.c137.data.model.CharacterStatus
 import com.c137.data.repository.api.CharacterLocalDatastore
 import dagger.hilt.android.scopes.ViewModelScoped
@@ -14,27 +14,27 @@ import javax.inject.Inject
 class CharacterLocalDatastoreImpl @Inject constructor(private val dao: CharacterDao) :
     CharacterLocalDatastore {
 
-    override fun getAliveCharacters(): Flowable<List<CharacterData>> {
+    override fun getAliveCharacters(): Flowable<List<DataCharacter>> {
         return dao.getCharactersByStatus(CharacterStatus.Alive)
     }
 
-    override fun getDeadCharacters(): Flowable<List<CharacterData>> {
+    override fun getDeadCharacters(): Flowable<List<DataCharacter>> {
         return dao.getCharactersByStatus(CharacterStatus.Dead)
     }
 
-    override fun getCharacters(): Flowable<List<CharacterData>> {
+    override fun getCharacters(): Flowable<List<DataCharacter>> {
         return dao.getCharacters()
     }
 
-    override fun insertCharacters(characters: List<CharacterData>): Completable {
+    override fun insertCharacters(characters: List<DataCharacter>): Completable {
         return dao.insertCharacters(characters)
     }
 
-    override fun getCharacterById(id: Int): Flow<CharacterData> {
+    override fun getCharacterById(id: Int): Flow<DataCharacter> {
         return dao.getCharacterById(id)
     }
 
-    override suspend fun insertCharacter(character: CharacterData) {
+    override suspend fun insertCharacter(character: DataCharacter) {
         return dao.insertCharacter(character)
     }
 }

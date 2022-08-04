@@ -1,11 +1,11 @@
 package com.c137.data.model.mapper
 
-import com.c137.data.model.CharacterData
-import com.c137.domain.model.CharacterDomain
+import com.c137.data.model.DataCharacter
+import com.c137.domain.model.DomainCharacter
 
-class CharacterDataMapper : DataMapper<CharacterData, CharacterDomain> {
+class CharacterDataMapper : DataMapper<DataCharacter, DomainCharacter> {
 
-    override fun map(data: CharacterData): CharacterDomain {
-        return CharacterDomain(data.name)
+    override fun map(data: DataCharacter): DomainCharacter {
+        return DomainCharacter(data.name)
     }
 }

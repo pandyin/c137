@@ -6,7 +6,7 @@ import com.c137.domain.GetAliveCharactersUseCase
 import com.c137.domain.GetCharacterByIdUseCase
 import com.c137.domain.GetCharactersUseCase
 import com.c137.domain.GetDeadCharactersUseCase
-import com.c137.domain.model.CharacterPresentation
+import com.c137.domain.model.PresentationCharacter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.core.BackpressureStrategy
 import io.reactivex.rxjava3.core.Flowable
@@ -44,15 +44,15 @@ class SearchViewModel @Inject constructor(
             .distinctUntilChanged()
     }
 
-    fun getCharacters(): Flowable<List<CharacterPresentation>> {
+    fun getCharacters(): Flowable<List<PresentationCharacter>> {
         return getCharactersUseCase.execute()
     }
 
-    fun getAliveCharacters(): Flowable<List<CharacterPresentation>> {
+    fun getAliveCharacters(): Flowable<List<PresentationCharacter>> {
         return getAliveCharactersUseCase.execute()
     }
 
-    fun getDeadCharacters(): Flowable<List<CharacterPresentation>> {
+    fun getDeadCharacters(): Flowable<List<PresentationCharacter>> {
         return getDeadCharactersUseCase.execute()
     }
 }

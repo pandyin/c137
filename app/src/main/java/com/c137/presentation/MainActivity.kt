@@ -2,9 +2,7 @@ package com.c137.presentation
 
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.material.Text
 import com.c137.R
 import com.c137.feature.search.Response
 import com.c137.feature.search.SearchViewModel
@@ -18,7 +16,6 @@ class MainActivity : RxAppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { Text("Pan") }
     }
 
     override fun onStart() {
