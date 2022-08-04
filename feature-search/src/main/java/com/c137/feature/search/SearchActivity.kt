@@ -1,13 +1,12 @@
 package com.c137.feature.search
 
 import android.os.Bundle
-import androidx.activity.compose.setContent
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
@@ -16,11 +15,18 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { MaterialTheme { CharacterName("Hello World!") } }
     }
 
-    @Composable
-    fun CharacterName(name: String) {
-        Text(text = name)
+    override fun onStart() {
+        super.onStart()
+        searchViewModel.getCharacterById(3)
+
+        lifecycleScope.launch {
+            searchViewModel.searchState.collect {
+                if (it is SearchState.Success) {
+                    Log.e("testtest", it.character.name)
+                }
+            }
+        }
     }
 }

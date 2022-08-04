@@ -7,7 +7,6 @@ import com.c137.kmp.episode.Greeting
 class CharacterDataMapper : DataMapper<DataCharacter, DomainCharacter> {
 
     override fun map(data: DataCharacter): DomainCharacter {
-//        return DomainCharacter(data.name)
-        return DomainCharacter(Greeting().greeting())
+        return DomainCharacter(data.name + ":" + Greeting().greeting())
     }
 }
