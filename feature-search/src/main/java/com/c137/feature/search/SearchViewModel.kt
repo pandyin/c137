@@ -13,7 +13,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(private val getCharacterByIdUseCase: GetCharacterByIdUseCase) :
     ViewModel() {
 
-     val searchState = MutableSharedFlow<SearchState>()
+    val searchState = MutableSharedFlow<SearchState>()
 
     fun getCharacterById(id: Int) {
         viewModelScope.launch {
@@ -21,8 +21,6 @@ class SearchViewModel @Inject constructor(private val getCharacterByIdUseCase: G
                 .collect { searchState.emit(SearchState.Success(it)) }
         }
     }
-
-
 }
 
 sealed class SearchState {
