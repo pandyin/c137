@@ -1,0 +1,2 @@
+com/c137/kmp/services/BuildConfig.java
+ com.c137.kmp.services.BuildConfig
