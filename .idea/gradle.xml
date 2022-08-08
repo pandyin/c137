@@ -16,9 +16,7 @@
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/di" />
             <option value="$PROJECT_DIR$/domain" />
-            <option value="$PROJECT_DIR$/episode-kmp" />
             <option value="$PROJECT_DIR$/feature-search" />
-            <option value="$PROJECT_DIR$/kmp-episode" />
           </set>
         </option>
       </GradleProjectSettings>
