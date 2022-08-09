@@ -56,6 +56,9 @@ dependencies {
 
     //
 
+    implementation 'com.c137.shared.episode:domain:0.0.1'
+    implementation 'com.c137.shared.episode:data:0.0.1'
+
     implementation project(':domain')
     implementation project(':data')
 }

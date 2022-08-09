@@ -17,6 +17,10 @@
             <option value="$PROJECT_DIR$/di" />
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/feature-search" />
+            <option value="$PROJECT_DIR$/shared" />
+            <option value="$PROJECT_DIR$/shared/episode" />
+            <option value="$PROJECT_DIR$/shared/episode/data" />
+            <option value="$PROJECT_DIR$/shared/episode/domain" />
           </set>
         </option>
       </GradleProjectSettings>
