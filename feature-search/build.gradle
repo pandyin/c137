@@ -64,6 +64,9 @@ dependencies {
 
     //
 
+//    implementation 'com.c137.shared.episode:domain:0.0.1'
+    implementation project(':shared:episode:domain')
+
     implementation project(':domain')
     implementation project(':di')
 }
