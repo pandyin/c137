@@ -2,7 +2,7 @@ package com.c137.domain
 
 import com.c137.domain.api.CharacterRepository
 import com.c137.domain.model.PresentationCharacter
-import com.c137.domain.model.mapper.CharacterDomainMapper
+import com.c137.domain.model.mapper.DomainCharacterMapper
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -13,6 +13,6 @@ class GetCharacterByIdUseCase @Inject constructor(private val repository: Charac
 
     fun execute(id: Int): Flow<PresentationCharacter> {
         return repository.getCharacterById(id)
-            .map { CharacterDomainMapper().map(it) }
+            .map { DomainCharacterMapper().map(it) }
     }
 }

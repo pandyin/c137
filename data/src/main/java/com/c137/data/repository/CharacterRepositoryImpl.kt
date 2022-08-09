@@ -1,6 +1,6 @@
 package com.c137.data.repository
 
-import com.c137.data.model.mapper.CharacterDataMapper
+import com.c137.data.model.mapper.DataCharacterMapper
 import com.c137.data.model.mapper.CharacterDtoMapper
 import com.c137.data.repository.api.CharacterLocalDatastore
 import com.c137.data.repository.api.CharacterRemoteDatastore
@@ -22,11 +22,11 @@ class CharacterRepositoryImpl @Inject constructor(
 
     override fun getCharacterById(id: Int): Flow<DomainCharacter> = flow {
         val flow = localDatastore.getCharacterById(id)
-        flow.firstOrNull()?.let { emit(CharacterDataMapper().map(it)) }
+        flow.firstOrNull()?.let { emit(DataCharacterMapper().map(it)) }
         remoteDatastore.getCharacterById(id)?.let {
             val dto = CharacterDtoMapper().map(it)
             localDatastore.insertCharacter(dto)
         }
-        emitAll(flow.map { CharacterDataMapper().map(it) })
+        emitAll(flow.map { DataCharacterMapper().map(it) })
     }
 }
