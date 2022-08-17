@@ -4,8 +4,15 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material.Button
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.lifecycleScope
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import com.c137.domain.model.PresentationCharacter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -22,6 +29,43 @@ class SearchActivity : AppCompatActivity() {
 
     @Composable
     fun SearchButton() {
+        Column {
+            val scope = rememberCoroutineScope()
+            val id = remember { mutableStateOf(0) }
+            val name = remember { mutableStateOf("") }
+
+            OutlinedTextField(
+                value = when (id.value > 0) {
+                    true -> id.value.toString()
+                    false -> ""
+                },
+                onValueChange = {
+                    id.value = it.toIntOrNull() ?: 0
+                },
+                label = { Text("Id") }
+            )
+
+            Button(onClick = {
+                scope.launch {
+                    searchViewModel.getCharacterById(id.value)
+                }
+            }) {
+                Text(text = ("Search"))
+            }
+
+            LaunchedEffect(Unit) {
+                searchViewModel.searchState
+                    .collect {
+                        if (it is SearchState.Success) {
+                            name.value = isDeadOrLive { it.character }
+                        } else {
+                            name.value = ""
+                        }
+                    }
+            }
+
+            Text(text = name.value)
+        }
     }
 
     // an example of using inline usage.
@@ -31,19 +75,6 @@ class SearchActivity : AppCompatActivity() {
         return "Copy this text to a caller: " + when (isDead) {
             true -> "$name is dead."
             else -> "$name is NOT dead."
-        }
-    }
-
-    override fun onStart() {
-        super.onStart()
-
-        lifecycleScope.launch {
-            searchViewModel.getCharacterById(3)
-            searchViewModel.searchState.collect {
-                if (it is SearchState.Success) {
-                    isDeadOrLive { it.character }
-                }
-            }
         }
     }
 }
