@@ -14,6 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import com.c137.domain.model.PresentationCharacter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -25,12 +26,12 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { Search() }
+        setContent { Searøch() }
     }
 
     @Composable
     fun Search() {
-        val id = remember { mutableStateOf(0) }
+        // an example of keeping an ui state in a composable function.
         val name = remember { mutableStateOf("") }
         LaunchedEffect(Unit) {
             searchViewModel.searchState
@@ -45,8 +46,10 @@ class SearchActivity : AppCompatActivity() {
 
         MaterialTheme {
             Column {
-                SearchTextField(id = id.value, onValueChange = { id.value = it.toIntOrNull() ?: 0 })
-                SearchButton(id = id.value)
+                SearchTextField(
+                    id = searchViewModel.id.value,
+                    onValueChange = { searchViewModel.id.value = it.toIntOrNull() ?: 0 })
+                SearchButton(id = searchViewModel.id.value)
                 SearchOutput(name = name.value)
             }
         }

@@ -1,5 +1,7 @@
 package com.c137.feature.search
 
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.c137.domain.GetCharacterByIdUseCase
@@ -13,6 +15,8 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(private val getCharacterByIdUseCase: GetCharacterByIdUseCase) :
     ViewModel() {
 
+    // an example of keeping an ui state in a view model.
+    val id =  mutableStateOf(0)
     val searchState = MutableSharedFlow<SearchState>()
 
     fun getCharacterById(id: Int) {
