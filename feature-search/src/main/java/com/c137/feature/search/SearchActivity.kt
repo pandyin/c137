@@ -24,34 +24,18 @@ class SearchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent { SearchButton() }
+        setContent { Search() }
     }
 
     @Composable
-    fun SearchButton() {
+    fun Search() {
         Column {
-            val scope = rememberCoroutineScope()
             val id = remember { mutableStateOf(0) }
             val name = remember { mutableStateOf("") }
 
-            OutlinedTextField(
-                value = when (id.value > 0) {
-                    true -> id.value.toString()
-                    false -> ""
-                },
-                onValueChange = {
-                    id.value = it.toIntOrNull() ?: 0
-                },
-                label = { Text("Id") }
-            )
-
-            Button(onClick = {
-                scope.launch {
-                    searchViewModel.getCharacterById(id.value)
-                }
-            }) {
-                Text(text = ("Search"))
-            }
+            SearchTextField(id = id.value, onValueChange = { id.value = it.toIntOrNull() ?: 0 })
+            SearchButton(id = id.value)
+            SearchOutput(name = name.value)
 
             LaunchedEffect(Unit) {
                 searchViewModel.searchState
@@ -63,9 +47,36 @@ class SearchActivity : AppCompatActivity() {
                         }
                     }
             }
-
-            Text(text = name.value)
         }
+    }
+
+    @Composable
+    fun SearchTextField(id: Int, onValueChange: (String) -> Unit) {
+        OutlinedTextField(
+            value = when (id > 0) {
+                true -> id.toString()
+                false -> ""
+            },
+            onValueChange = onValueChange,
+            label = { Text("Id") }
+        )
+    }
+
+    @Composable
+    fun SearchButton(id: Int) {
+        val scope = rememberCoroutineScope()
+        Button(onClick = {
+            scope.launch {
+                searchViewModel.getCharacterById(id)
+            }
+        }) {
+            Text(text = ("Search"))
+        }
+    }
+
+    @Composable
+    fun SearchOutput(name: String) {
+        Text(text = name)
     }
 
     // an example of using inline usage.
