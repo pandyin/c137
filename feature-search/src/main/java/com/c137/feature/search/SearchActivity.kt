@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -29,23 +30,24 @@ class SearchActivity : AppCompatActivity() {
 
     @Composable
     fun Search() {
-        Column {
-            val id = remember { mutableStateOf(0) }
-            val name = remember { mutableStateOf("") }
-
-            SearchTextField(id = id.value, onValueChange = { id.value = it.toIntOrNull() ?: 0 })
-            SearchButton(id = id.value)
-            SearchOutput(name = name.value)
-
-            LaunchedEffect(Unit) {
-                searchViewModel.searchState
-                    .collect {
-                        if (it is SearchState.Success) {
-                            name.value = isDeadOrLive { it.character }
-                        } else {
-                            name.value = ""
-                        }
+        val id = remember { mutableStateOf(0) }
+        val name = remember { mutableStateOf("") }
+        LaunchedEffect(Unit) {
+            searchViewModel.searchState
+                .collect {
+                    if (it is SearchState.Success) {
+                        name.value = isDeadOrLive { it.character }
+                    } else {
+                        name.value = ""
                     }
+                }
+        }
+
+        MaterialTheme {
+            Column {
+                SearchTextField(id = id.value, onValueChange = { id.value = it.toIntOrNull() ?: 0 })
+                SearchButton(id = id.value)
+                SearchOutput(name = name.value)
             }
         }
     }
