@@ -1,4 +1,4 @@
-package com.c137.feature.search
+package com.c137.feature.character
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchViewModel @Inject constructor(private val getCharacterByIdUseCase: GetCharacterByIdUseCase) :
+class CharacterViewModel @Inject constructor(private val getCharacterByIdUseCase: GetCharacterByIdUseCase) :
     ViewModel() {
 
     // an example of keeping an ui state in a view model.

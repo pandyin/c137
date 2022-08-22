@@ -1,4 +1,4 @@
-package com.c137.feature.search
+package com.c137.feature.character
 
 import org.junit.Test
 

@@ -1,4 +1,4 @@
-package com.c137.feature.search
+package com.c137.feature.character
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -12,18 +12,16 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import com.c137.domain.model.PresentationCharacter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class SearchActivity : AppCompatActivity() {
+class CharacterDetailActivity : AppCompatActivity() {
 
-    private val searchViewModel by viewModels<SearchViewModel>()
+    private val searchViewModel by viewModels<CharacterViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

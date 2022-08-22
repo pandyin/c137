@@ -20,7 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".feature.search.SearchActivity" />
+        <activity android:name=".feature.character.CharacterListActivity" />
+        <activity android:name=".feature.character.CharacterDetailActivity" />
     </application>
 
 </manifest>

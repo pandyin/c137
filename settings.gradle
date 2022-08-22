@@ -2,7 +2,7 @@ rootProject.name = "c137"
 include ':app'
 include ':domain'
 include ':di'
-include ':feature-search'
+include ':feature-character'
 include ':data'
 include ':common'
 include ':shared:episode:domain'

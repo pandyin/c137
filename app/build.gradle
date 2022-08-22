@@ -72,10 +72,10 @@ dependencies {
 
     implementation("com.google.dagger:hilt-android:2.38.1")
     kapt("com.google.dagger:hilt-android-compiler:2.38.1")
+    implementation project(':feature-character')
 
     //
 
-    implementation project(':feature-search')
 }
 
 // https://github.com/google/dagger/issues/2123
