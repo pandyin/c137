@@ -21,6 +21,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class CharacterDetailActivity : AppCompatActivity() {
 
+    // an example of using a delegated property.
     private val searchViewModel by viewModels<CharacterViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
