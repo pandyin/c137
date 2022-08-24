@@ -49,7 +49,17 @@ class CharacterDetailActivity : AppCompatActivity() {
                 SearchTextField(
                     id = searchViewModel.id.value,
                     onValueChange = { searchViewModel.id.value = it.toIntOrNull() ?: 0 })
-                SearchButton(id = searchViewModel.id.value)
+
+                val scope = rememberCoroutineScope()
+                SearchButton(
+                    id = searchViewModel.id.value,
+                    onClick = { id ->
+                        scope.launch {
+                            searchViewModel.getCharacterById(id)
+                        }
+                    }
+                )
+
                 SearchOutput(name = name.value)
             }
         }
@@ -68,12 +78,9 @@ class CharacterDetailActivity : AppCompatActivity() {
     }
 
     @Composable
-    fun SearchButton(id: Int) {
-        val scope = rememberCoroutineScope()
+    fun SearchButton(id: Int, onClick: (id: Int) -> Unit) {
         Button(onClick = {
-            scope.launch {
-                searchViewModel.getCharacterById(id)
-            }
+            onClick.invoke(id)
         }) {
             Text(text = ("Search"))
         }
