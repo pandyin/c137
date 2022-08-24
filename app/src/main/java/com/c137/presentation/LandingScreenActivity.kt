@@ -29,6 +29,7 @@ class LandingScreenActivity : AppCompatActivity() {
         val newOnTimeOut by rememberUpdatedState(newValue = onTimeOut)
         LaunchedEffect(key1 = Unit) {
             delay(2000)
+            // always refers to a new onTimeOut
             newOnTimeOut()
         }
     }
