@@ -20,6 +20,7 @@ class LandingScreenActivity : AppCompatActivity() {
         setContent {
             LandingComposable {
                 startActivity(Intent(this, CharacterDetailActivity::class.java))
+                finish()
             }
         }
     }
