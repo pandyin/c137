@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
-import com.c137.feature.character.CharacterDetailActivity
+import com.c137.feature.character.CharacterListActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 
@@ -19,7 +19,7 @@ class LandingScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             LandingComposable {
-                startActivity(Intent(this, CharacterDetailActivity::class.java))
+                startActivity(Intent(this, CharacterListActivity::class.java))
                 finish()
             }
         }
