@@ -14,10 +14,6 @@ class CharacterRepositoryImpl @Inject constructor(
     private val remoteDatastore: CharacterRemoteDatastore,
 ) : CharacterRepository {
 
-    override fun getCharactersByPage(page: Int): Flow<List<DomainCharacter>> {
-        TODO("Not yet implemented")
-    }
-
     override fun getCharacterById(id: Int): Flow<DomainCharacter> {
         TODO("Not yet implemented")
     }

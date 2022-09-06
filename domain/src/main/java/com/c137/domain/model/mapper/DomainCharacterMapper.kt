@@ -1,5 +1,7 @@
 package com.c137.domain.model.mapper
 
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.c137.domain.model.DomainCharacter
 import com.c137.domain.model.PresentationCharacter
 
@@ -13,5 +15,5 @@ class DomainCharacterMapper : DataMapper<DomainCharacter, PresentationCharacter>
 fun DomainCharacter.toPresentationModel(): PresentationCharacter =
     DomainCharacterMapper().map(this)
 
-fun List<DomainCharacter>.toPresentationModel(): List<PresentationCharacter> =
+fun PagingData<DomainCharacter>.toPresentationModel(): PagingData<PresentationCharacter> =
     map { DomainCharacterMapper().map(it) }
