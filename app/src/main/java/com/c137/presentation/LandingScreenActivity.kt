@@ -15,7 +15,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.c137.R
-import com.c137.feature.character.CharacterListActivity
+import com.c137.feature.character.CharacterGridActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds
@@ -28,7 +28,7 @@ class LandingScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             LandingPage {
-                startActivity(Intent(this, CharacterListActivity::class.java))
+                startActivity(Intent(this, CharacterGridActivity::class.java))
                 finish()
             }
         }

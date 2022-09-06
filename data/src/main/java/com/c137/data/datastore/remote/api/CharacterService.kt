@@ -13,10 +13,10 @@ interface CharacterService {
     fun getCharactersByStatus(
         @Query("page") page: Int,
         @Query("status") status: String
-    ): Call<ResultsDto<CharacterDto>>
+    ): ResultsDto<CharacterDto>
 
     @GET("character")
-    fun getCharactersByPage(@Query("page") page: Int): Call<ResultsDto<CharacterDto>>
+    fun getCharactersByPage(@Query("page") page: Int): ResultsDto<CharacterDto>
 
     @GET("character/{id}")
     suspend fun getCharacterById(@Path("id") id: Int): CharacterDto

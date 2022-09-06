@@ -9,3 +9,9 @@ class DomainCharacterMapper : DataMapper<DomainCharacter, PresentationCharacter>
         return PresentationCharacter(domain.name)
     }
 }
+
+fun DomainCharacter.toPresentationModel(): PresentationCharacter =
+    DomainCharacterMapper().map(this)
+
+fun List<DomainCharacter>.toPresentationModel(): List<PresentationCharacter> =
+    map { DomainCharacterMapper().map(it) }

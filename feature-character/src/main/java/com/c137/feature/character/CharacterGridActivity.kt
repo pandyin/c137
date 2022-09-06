@@ -6,7 +6,7 @@ import androidx.compose.ui.platform.ComposeView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CharacterListActivity : AppCompatActivity() {
+class CharacterGridActivity : AppCompatActivity() {
 
 //    private val viewModel by viewModels<CharacterListViewModel>()
 

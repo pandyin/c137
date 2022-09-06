@@ -10,37 +10,62 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.c137.common.Catchphrase
 import com.c137.domain.model.PresentationCharacter
 import com.skydoves.landscapist.glide.GlideImage
 
 @Composable
-fun CharacterScaffold(viewModel: CharacterListViewModel = viewModel()) {
-    Scaffold(topBar = { TopBar(expandable = viewModel.expandable) }) {
-        Grid(expandable = viewModel.expandable, paddingValues = it)
+fun CharacterScaffold(viewModel: CharacterGridViewModel = viewModel()) {
+    Scaffold(topBar = {
+        TopBar(
+            expandable = viewModel.isExpandable,
+            searchKeyword = viewModel.searchKeyword,
+            onClick = { viewModel.toggleIsExpandable() },
+            onValueChange = { viewModel.updateSearchKeyword(it) }
+        )
+    }) {
+        Grid(expandable = viewModel.isExpandable, paddingValues = it) {
+            viewModel.toggleIsExpandable()
+        }
     }
 }
 
 @Composable
-private fun TopBar(expandable: MutableState<Boolean>) {
-    TopAppBar(title = {}, navigationIcon = {
+private fun TopBar(
+    expandable: Boolean,
+    searchKeyword: String,
+    onClick: () -> Unit,
+    onValueChange: (String) -> Unit
+) {
+    val label = remember(Unit) { Catchphrase.burp() }
+    val placeholder = remember(Unit) { Catchphrase.burp() }
+    TopAppBar(title = {
+        TextField(
+            value = searchKeyword,
+            onValueChange = onValueChange,
+            label = { Text(text = label) },
+            placeholder = { Text(text = placeholder) },
+            singleLine = true
+        )
+    }, navigationIcon = {
         IconButton(
-            onClick = { expandable.value = true },
-            enabled = !expandable.value
+            onClick = onClick,
+            enabled = !expandable
         ) {
-            if (expandable.value) {
+            if (expandable) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_character),
                     contentDescription = ""
@@ -56,8 +81,12 @@ private fun TopBar(expandable: MutableState<Boolean>) {
 }
 
 @Composable
-private fun Grid(expandable: MutableState<Boolean>, paddingValues: PaddingValues) {
-    val cellCount = when (expandable.value) {
+private fun Grid(
+    expandable: Boolean,
+    paddingValues: PaddingValues,
+    onClick: (character: PresentationCharacter) -> Unit
+) {
+    val cellCount = when (expandable) {
         true -> 3
         false -> 1
     }
@@ -67,9 +96,10 @@ private fun Grid(expandable: MutableState<Boolean>, paddingValues: PaddingValues
     ) {
         for (i in 1..10) {
             item {
-                GridCell(PresentationCharacter()) {
-                    expandable.value = false
-                }
+                GridCell(
+                    character = PresentationCharacter(),
+                    onClick = onClick
+                )
             }
         }
     }
@@ -86,7 +116,7 @@ private fun GridCell(
             modifier = Modifier
                 .size(128.dp)
                 .clickable { onClick.invoke(character) },
-            contentScale = ContentScale.Fit,
+            contentScale = ContentScale.Crop,
             placeHolder = painterResource(id = R.drawable.ic_place_holder),
             previewPlaceholder = R.drawable.ic_place_holder
         )
@@ -96,35 +126,29 @@ private fun GridCell(
 @Preview
 @Composable
 private fun DefaultTopAppBarPreview() {
-    val expandable = rememberUpdatedState {
-        mutableStateOf(true)
-    }
-    TopBar(expandable = expandable.value())
+    TopBar(expandable = true, searchKeyword = "", {}, {})
+}
+
+@Preview
+@Composable
+private fun DefaultTopAppBarWithSearchKeywordPreview() {
+    TopBar(expandable = true, searchKeyword = Catchphrase.burp(), {}, {})
 }
 
 @Preview
 @Composable
 private fun ClosableTopAppBarPreview() {
-    val expandable = rememberUpdatedState {
-        mutableStateOf(false)
-    }
-    TopBar(expandable = expandable.value())
+    TopBar(expandable = false, searchKeyword = "", {}, {})
 }
 
 @Preview
 @Composable
-private fun DefaultGridPreview(viewModel: CharacterListViewModel = viewModel()) {
-    val expandable = rememberUpdatedState {
-        mutableStateOf(true)
-    }
-    Grid(expandable = expandable.value(), paddingValues = PaddingValues(0.dp))
+private fun DefaultGridPreview(viewModel: CharacterGridViewModel = viewModel()) {
+    Grid(expandable = true, paddingValues = PaddingValues(0.dp)) {}
 }
 
 @Preview
 @Composable
-private fun SingleCellPerRowGridPreview(viewModel: CharacterListViewModel = viewModel()) {
-    val expandable = rememberUpdatedState {
-        mutableStateOf(false)
-    }
-    Grid(expandable = expandable.value(), paddingValues = PaddingValues(0.dp))
+private fun SingleCellPerRowGridPreview(viewModel: CharacterGridViewModel = viewModel()) {
+    Grid(expandable = false, paddingValues = PaddingValues(0.dp)) {}
 }
