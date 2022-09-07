@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "character")
 data class DataCharacter(
-    @PrimaryKey val characterId: Int,
+    @PrimaryKey override val id: Int,
     val name: String,
     val image: String,
     val status: CharacterStatus
-) : BaseDataModel(characterId)
+) : BaseDataModel(id)

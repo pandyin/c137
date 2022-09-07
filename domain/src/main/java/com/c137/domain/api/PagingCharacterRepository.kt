@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface PagingCharacterRepository {
 
-    fun getPagingCharacter(page: Int): Flow<PagingData<DomainCharacter>>
+    fun getPagingCharacter(): Flow<PagingData<DomainCharacter>>
 }

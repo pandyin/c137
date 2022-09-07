@@ -12,7 +12,6 @@ import javax.inject.Inject
 @ViewModelScoped
 class GetPagingCharacterUseCase @Inject constructor(private val repository: PagingCharacterRepository) {
 
-    fun execute(page: Int): Flow<PagingData<PresentationCharacter>> =
-        repository.getPagingCharacter(page = page)
-            .map { it.toPresentationModel() }
+    fun execute(): Flow<PagingData<PresentationCharacter>> =
+        repository.getPagingCharacter().map { it.toPresentationModel() }
 }

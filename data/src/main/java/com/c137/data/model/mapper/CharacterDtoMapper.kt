@@ -16,5 +16,8 @@ class CharacterDtoMapper : DtoMapper<CharacterDto, DataCharacter> {
 fun CharacterDto.toDataModel(): DataCharacter =
     CharacterDtoMapper().map(this)
 
+fun List<CharacterDto>.toDataModel(): List<DataCharacter> =
+    map { CharacterDtoMapper().map(it) }
+
 fun PagingData<CharacterDto>.toDataModel(): PagingData<DataCharacter> =
     map { CharacterDtoMapper().map(it) }

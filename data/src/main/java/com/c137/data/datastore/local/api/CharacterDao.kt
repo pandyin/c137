@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CharacterDao {
 
-    @Query("select * from character where characterId = :id")
+    @Query("select * from character where id = :id")
     fun getCharacterById(id: Int): Flow<DataCharacter>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

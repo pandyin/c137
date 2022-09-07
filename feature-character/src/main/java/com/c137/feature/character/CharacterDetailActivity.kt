@@ -93,8 +93,8 @@ class CharacterDetailActivity : AppCompatActivity() {
 
     // an example of using inline usage.
     private inline fun isDeadOrLive(block: () -> PresentationCharacter): String {
-        // an example of using destructuring usage.
-        val (name, isDead) = block()
+        // an example of using destructuring declarations usage.
+        val (id, name, image, isDead) = block()
         return "Copy this text to a caller: " + when (isDead) {
             true -> "$name is dead."
             else -> "$name is NOT dead."

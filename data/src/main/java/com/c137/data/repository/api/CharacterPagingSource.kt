@@ -1,3 +1,6 @@
 package com.c137.data.repository.api
 
-interface CharacterPagingSource
+import androidx.paging.PagingSource
+import com.c137.data.model.DataCharacter
+
+abstract class CharacterPagingSource : PagingSource<Int, DataCharacter>()

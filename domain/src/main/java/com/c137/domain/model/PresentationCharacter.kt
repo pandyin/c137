@@ -1,9 +1,10 @@
 package com.c137.domain.model
 
-import java.util.UUID
+data class PresentationCharacter(
+    val id: Int,
+    val name: String,
+    val image: String
+) : BasePresentationModel() {
 
-data class PresentationCharacter(val name: String = UUID.randomUUID().toString()) :
-    BasePresentationModel() {
-
-    operator fun component2(): Boolean = false
+    operator fun component4(): Boolean = false
 }

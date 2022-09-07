@@ -8,12 +8,16 @@ import com.c137.domain.model.DomainCharacter
 class DataCharacterMapper : DataMapper<DataCharacter, DomainCharacter> {
 
     override fun map(data: DataCharacter): DomainCharacter {
-        return DomainCharacter(data.name)
+        return DomainCharacter(
+            id = data.id,
+            name = data.name,
+            image = data.image
+        )
     }
 }
 
 fun DataCharacter.toDomainModel(): DomainCharacter =
-    DataCharacterMapper().map(this)
+    DataCharacterMapper().map(data = this)
 
 fun PagingData<DataCharacter>.toDomainModel(): PagingData<DomainCharacter> =
-    map { DataCharacterMapper().map(it) }
+    map { DataCharacterMapper().map(data = it) }

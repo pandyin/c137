@@ -1,5 +1,6 @@
 package com.c137.feature.character
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,9 +24,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.c137.common.Catchphrase
 import com.c137.domain.model.PresentationCharacter
 import com.skydoves.landscapist.glide.GlideImage
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
 
 @Composable
 fun CharacterScaffold(viewModel: CharacterGridViewModel = viewModel()) {
@@ -37,7 +42,11 @@ fun CharacterScaffold(viewModel: CharacterGridViewModel = viewModel()) {
             onValueChange = { viewModel.updateSearchKeyword(it) }
         )
     }) {
-        Grid(expandable = viewModel.isExpandable, paddingValues = it) {
+        Grid(
+            pagingCharacters = viewModel.pagingCharacters,
+            expandable = viewModel.isExpandable,
+            paddingValues = it
+        ) {
             viewModel.toggleIsExpandable()
         }
     }
@@ -80,12 +89,16 @@ private fun TopBar(
     })
 }
 
+
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun Grid(
+    pagingCharacters: Flow<PagingData<PresentationCharacter>>,
     expandable: Boolean,
     paddingValues: PaddingValues,
     onClick: (character: PresentationCharacter) -> Unit
 ) {
+    val lazyPagingCharacters = pagingCharacters.collectAsLazyPagingItems()
     val cellCount = when (expandable) {
         true -> 3
         false -> 1
@@ -94,13 +107,11 @@ private fun Grid(
         columns = GridCells.Fixed(cellCount),
         modifier = Modifier.padding(paddingValues)
     ) {
-        for (i in 1..10) {
-            item {
-                GridCell(
-                    character = PresentationCharacter(),
-                    onClick = onClick
-                )
-            }
+        items(lazyPagingCharacters) {
+            GridCell(
+                character = it!!,
+                onClick = onClick
+            )
         }
     }
 }
@@ -112,7 +123,7 @@ private fun GridCell(
 ) {
     Surface {
         GlideImage(
-            imageModel = "https://cdn.domestika.org/c_limit,dpr_1.0,f_auto,q_auto,w_820/v1546529902/content-items/002/696/999/rick-original.jpg?1546529902",
+            imageModel = character.image,
             modifier = Modifier
                 .size(128.dp)
                 .clickable { onClick.invoke(character) },
@@ -144,11 +155,11 @@ private fun ClosableTopAppBarPreview() {
 @Preview
 @Composable
 private fun DefaultGridPreview(viewModel: CharacterGridViewModel = viewModel()) {
-    Grid(expandable = true, paddingValues = PaddingValues(0.dp)) {}
+    Grid(pagingCharacters = emptyFlow(), expandable = true, paddingValues = PaddingValues(0.dp)) {}
 }
 
 @Preview
 @Composable
 private fun SingleCellPerRowGridPreview(viewModel: CharacterGridViewModel = viewModel()) {
-    Grid(expandable = false, paddingValues = PaddingValues(0.dp)) {}
+    Grid(pagingCharacters = emptyFlow(), expandable = false, paddingValues = PaddingValues(0.dp)) {}
 }
