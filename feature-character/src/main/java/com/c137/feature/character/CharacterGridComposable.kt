@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -111,9 +112,11 @@ private fun Grid(
         true -> 3
         false -> 2
     }
+    val lazyGridState = rememberLazyGridState()
     LazyVerticalGrid(
         columns = GridCells.Fixed(cellCount),
-        modifier = Modifier.padding(paddingValues)
+        modifier = Modifier.padding(paddingValues),
+        state = lazyGridState
     ) {
         items(lazyPagingCharacters) {
             GridCell(
