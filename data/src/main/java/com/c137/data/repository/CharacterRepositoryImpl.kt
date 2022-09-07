@@ -1,7 +1,7 @@
 package com.c137.data.repository
 
-import com.c137.data.repository.api.CharacterLocalDatastore
-import com.c137.data.repository.api.CharacterRemoteDatastore
+import com.c137.data.repository.api.CharacterLocalDataSource
+import com.c137.data.repository.api.CharacterRemoteDataSource
 import com.c137.domain.api.CharacterRepository
 import com.c137.domain.model.DomainCharacter
 import dagger.hilt.android.scopes.ViewModelScoped
@@ -10,8 +10,8 @@ import javax.inject.Inject
 
 @ViewModelScoped
 class CharacterRepositoryImpl @Inject constructor(
-    private val localDatastore: CharacterLocalDatastore,
-    private val remoteDatastore: CharacterRemoteDatastore,
+    private val localDataSource: CharacterLocalDataSource,
+    private val remoteDataSource: CharacterRemoteDataSource,
 ) : CharacterRepository {
 
     override fun getCharacterById(id: Int): Flow<DomainCharacter> {
