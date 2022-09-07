@@ -9,6 +9,8 @@ import androidx.paging.cachedIn
 import com.c137.domain.GetCharacterByIdUseCase
 import com.c137.domain.GetPagingCharacterUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,6 +32,10 @@ class CharacterGridViewModel @Inject constructor(
         getPagingCharacterUseCase.execute().cachedIn(viewModelScope)
     }
 
+    private val currentScrollingState = MutableStateFlow(ScrollingState.Idle)
+
+    val scrollingState: StateFlow<ScrollingState> = currentScrollingState
+
     fun expand() {
         if (isExpandable) {
             isExpandable = false
@@ -46,4 +52,10 @@ class CharacterGridViewModel @Inject constructor(
 
         }
     }
+}
+
+sealed class ScrollingState {
+    class ScrollTo(position: Int) : ScrollingState()
+    object Scrolling : ScrollingState()
+    object Idle : ScrollingState()
 }
