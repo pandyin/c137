@@ -47,7 +47,7 @@ fun CharacterScaffold(viewModel: CharacterGridViewModel = viewModel()) {
             expandable = viewModel.isExpandable,
             paddingValues = it
         ) {
-            viewModel.toggleIsExpandable()
+            viewModel.expand()
         }
     }
 }

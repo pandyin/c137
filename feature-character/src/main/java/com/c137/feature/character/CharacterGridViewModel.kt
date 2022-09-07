@@ -30,6 +30,12 @@ class CharacterGridViewModel @Inject constructor(
         getPagingCharacterUseCase.execute().cachedIn(viewModelScope)
     }
 
+    fun expand() {
+        if (isExpandable) {
+            isExpandable = false
+        }
+    }
+
     fun toggleIsExpandable() {
         isExpandable = !isExpandable
     }
