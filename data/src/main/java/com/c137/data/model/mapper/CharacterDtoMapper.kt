@@ -9,15 +9,20 @@ import com.c137.data.model.dto.CharacterDto
 class CharacterDtoMapper : DtoMapper<CharacterDto, DataCharacter> {
 
     override fun map(dto: CharacterDto): DataCharacter {
-        return DataCharacter(dto.id, dto.name, dto.image, CharacterStatus.fromName(dto.status))
+        return DataCharacter(
+            id = dto.id,
+            name = dto.name,
+            image = dto.image,
+            status = CharacterStatus.fromName(dto.status)
+        )
     }
 }
 
 fun CharacterDto.toDataModel(): DataCharacter =
-    CharacterDtoMapper().map(this)
+    CharacterDtoMapper().map(dto = this)
 
 fun List<CharacterDto>.toDataModel(): List<DataCharacter> =
-    map { CharacterDtoMapper().map(it) }
+    map { CharacterDtoMapper().map(dto = it) }
 
 fun PagingData<CharacterDto>.toDataModel(): PagingData<DataCharacter> =
-    map { CharacterDtoMapper().map(it) }
+    map { CharacterDtoMapper().map(dto = it) }

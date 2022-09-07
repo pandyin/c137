@@ -1,14 +1,18 @@
 package com.c137.feature.character
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -18,7 +22,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,7 +38,7 @@ import com.c137.common.Catchphrase
 import com.c137.domain.model.PresentationCharacter
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun CharacterScaffold(viewModel: CharacterGridViewModel = viewModel()) {
@@ -101,7 +109,7 @@ private fun Grid(
     val lazyPagingCharacters = pagingCharacters.collectAsLazyPagingItems()
     val cellCount = when (expandable) {
         true -> 3
-        false -> 1
+        false -> 2
     }
     LazyVerticalGrid(
         columns = GridCells.Fixed(cellCount),
@@ -121,16 +129,32 @@ private fun GridCell(
     character: PresentationCharacter,
     onClick: (character: PresentationCharacter) -> Unit
 ) {
-    Surface {
+    Surface(
+        modifier = Modifier.clickable { onClick.invoke(character) },
+        color = MaterialTheme.colors.secondary
+    ) {
         GlideImage(
             imageModel = character.image,
-            modifier = Modifier
-                .size(128.dp)
-                .clickable { onClick.invoke(character) },
             contentScale = ContentScale.Crop,
             placeHolder = painterResource(id = R.drawable.ic_place_holder),
             previewPlaceholder = R.drawable.ic_place_holder
         )
+        if (character.isDead) {
+            Box(
+                modifier = Modifier
+                    .alpha(0.5f)
+                    .background(MaterialTheme.colors.error)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_dead),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .size(48.dp)
+                        .align(Alignment.Center),
+                    colorFilter = ColorFilter.tint(Color.White)
+                )
+            }
+        }
     }
 }
 
@@ -152,14 +176,31 @@ private fun ClosableTopAppBarPreview() {
     TopBar(expandable = false, searchKeyword = "", {}, {})
 }
 
+@SuppressLint("VisibleForTests")
 @Preview
 @Composable
 private fun DefaultGridPreview(viewModel: CharacterGridViewModel = viewModel()) {
-    Grid(pagingCharacters = emptyFlow(), expandable = true, paddingValues = PaddingValues(0.dp)) {}
+    Grid(
+        pagingCharacters = flowOf(PagingData.from(listOf(toxicRick))),
+        expandable = true,
+        paddingValues = PaddingValues(0.dp)
+    ) {}
 }
 
+@SuppressLint("VisibleForTests")
 @Preview
 @Composable
 private fun SingleCellPerRowGridPreview(viewModel: CharacterGridViewModel = viewModel()) {
-    Grid(pagingCharacters = emptyFlow(), expandable = false, paddingValues = PaddingValues(0.dp)) {}
+    Grid(
+        pagingCharacters = flowOf(PagingData.from(listOf(toxicRick))),
+        expandable = false,
+        paddingValues = PaddingValues(0.dp)
+    ) {}
 }
+
+private val toxicRick = PresentationCharacter(
+    id = 361,
+    name = "Toxic Rick",
+    image = "https://rickandmortyapi.com/api/character/avatar/361.jpeg",
+    isDead = true
+)

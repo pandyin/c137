@@ -2,8 +2,8 @@ package com.c137.data.model
 
 sealed class CharacterStatus(val name: String) {
 
-    object Dead : CharacterStatus("dead")
-    object Alive : CharacterStatus("alive")
+    object Dead : CharacterStatus("Dead")
+    object Alive : CharacterStatus("Alive")
     object Unknown : CharacterStatus("unknown")
 
     companion object {
