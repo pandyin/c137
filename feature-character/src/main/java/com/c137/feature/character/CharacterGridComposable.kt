@@ -1,12 +1,12 @@
 package com.c137.feature.character
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -119,25 +119,30 @@ private fun Grid(
         state = lazyGridState
     ) {
         items(lazyPagingCharacters) {
+//        for (i in 0 until 10) {
+//            item {
             GridCell(
+                expandable = expandable,
                 character = it!!,
                 onClick = onClick
             )
+//        }
         }
     }
 }
 
 @Composable
 private fun GridCell(
+    expandable: Boolean,
     character: PresentationCharacter,
     onClick: (character: PresentationCharacter) -> Unit
 ) {
     Surface(
-        modifier = Modifier.clickable { onClick.invoke(character) },
-        color = MaterialTheme.colors.secondary
+        modifier = Modifier.clickable { onClick.invoke(character) }
     ) {
         GlideImage(
             imageModel = character.image,
+            modifier = Modifier.aspectRatio(1f),
             contentScale = ContentScale.Crop,
             placeHolder = painterResource(id = R.drawable.ic_place_holder),
             previewPlaceholder = R.drawable.ic_place_holder
@@ -145,6 +150,7 @@ private fun GridCell(
         if (character.isDead) {
             Box(
                 modifier = Modifier
+                    .aspectRatio(1f)
                     .alpha(0.5f)
                     .background(MaterialTheme.colors.error)
             ) {
@@ -152,8 +158,13 @@ private fun GridCell(
                     painter = painterResource(id = R.drawable.ic_dead),
                     contentDescription = "",
                     modifier = Modifier
-                        .size(48.dp)
-                        .align(Alignment.Center),
+                        .align(Alignment.Center)
+                        .size(
+                            when (expandable) {
+                                true -> 48.dp
+                                false -> 72.dp
+                            }
+                        ),
                     colorFilter = ColorFilter.tint(Color.White)
                 )
             }
@@ -170,7 +181,8 @@ private fun DefaultTopAppBarPreview() {
 @Preview
 @Composable
 private fun DefaultTopAppBarWithSearchKeywordPreview() {
-    TopBar(expandable = true, searchKeyword = Catchphrase.burp(), {}, {})
+    TopBar(expandable = true,
+        searchKeyword = Catchphrase.burp(), {}, {})
 }
 
 @Preview
@@ -179,10 +191,9 @@ private fun ClosableTopAppBarPreview() {
     TopBar(expandable = false, searchKeyword = "", {}, {})
 }
 
-@SuppressLint("VisibleForTests")
 @Preview
 @Composable
-private fun DefaultGridPreview(viewModel: CharacterGridViewModel = viewModel()) {
+private fun DefaultGridPreview() {
     Grid(
         pagingCharacters = flowOf(PagingData.from(listOf(toxicRick))),
         expandable = true,
@@ -190,10 +201,9 @@ private fun DefaultGridPreview(viewModel: CharacterGridViewModel = viewModel()) 
     ) {}
 }
 
-@SuppressLint("VisibleForTests")
 @Preview
 @Composable
-private fun SingleCellPerRowGridPreview(viewModel: CharacterGridViewModel = viewModel()) {
+private fun ExpandedGridPreview() {
     Grid(
         pagingCharacters = flowOf(PagingData.from(listOf(toxicRick))),
         expandable = false,
