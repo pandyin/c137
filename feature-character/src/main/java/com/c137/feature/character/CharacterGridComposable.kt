@@ -5,9 +5,10 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -42,6 +43,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.c137.common.Catchphrase
+import com.c137.common.model.toLocation
 import com.c137.domain.model.PresentationCharacter
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.flow.Flow
@@ -85,9 +87,21 @@ private fun TopBar(
         TextField(
             value = searchKeyword,
             onValueChange = onValueChange,
-            label = { Text(text = "Search by names and species") },
-            placeholder = { Text(text = "Rick, Dr. Wong, wasp, humanoid, etc.") },
-            singleLine = true
+            modifier = Modifier.fillMaxWidth(),
+            label = {
+                Text(
+                    text = "Names, Species, Whereabouts and Dimension",
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1
+                )
+            },
+            placeholder = {
+                Text(
+                    text = "Rick, Alien, Microverse, C-137, etc.",
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1
+                )
+            }
         )
     }, navigationIcon = {
         IconButton(
@@ -138,7 +152,6 @@ private fun Grid(
         modifier = Modifier.padding(paddingValues),
         state = lazyGridState
     ) {
-
         itemsIndexed(lazyPaging) { index, character ->
 //        for (i in 0 until 10) {
 //            item {
@@ -148,8 +161,8 @@ private fun Grid(
                 isExpandable = isExpandable,
                 onClick = onClick
             )
+//            }
         }
-//        }
     }
 }
 
@@ -164,51 +177,103 @@ private fun GridCell(
         modifier = Modifier.clickable { onClick(index, character) }
     ) {
         Box {
-            GlideImage(
-                imageModel = character.image,
-                modifier = Modifier.aspectRatio(1f),
-                contentScale = ContentScale.Crop,
-                placeHolder = painterResource(id = R.drawable.ic_place_holder),
-                previewPlaceholder = R.drawable.ic_place_holder
-            )
-            Row(
-                modifier = Modifier
-                    .padding(12.dp)
-                    .align(Alignment.BottomCenter)
-            ) {
-                Text(
-                    text = character.name,
-                    color = Color.White,
-                    fontWeight = FontWeight.ExtraBold,
-                    textAlign = TextAlign.Center,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 2
-                )
+            Image(url = character.image)
+            if (!isExpandable) {
+                SpeciesAndWhereaboutsColumn(character = character)
             }
+            Name(
+                name = character.name, modifier = Modifier
+                    .padding(6.dp)
+                    .align(Alignment.BottomCenter)
+            )
         }
         if (character.isDead) {
-            Box(
-                modifier = Modifier
-                    .aspectRatio(1f)
-                    .alpha(0.4f)
-                    .background(MaterialTheme.colors.error)
-            ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_dead),
-                    contentDescription = "",
-                    modifier = Modifier
-                        .padding(12.dp)
-                        .align(Alignment.TopEnd)
-                        .size(
-                            when (isExpandable) {
-                                true -> 24.dp
-                                false -> 48.dp
-                            }
-                        ),
-                    colorFilter = ColorFilter.tint(Color.White)
+            DeadBox(isExpandable)
+        }
+    }
+}
+
+@Composable
+private fun Image(url: String) {
+    GlideImage(
+        imageModel = url,
+        modifier = Modifier.aspectRatio(1f),
+        contentScale = ContentScale.Crop,
+        placeHolder = painterResource(id = R.drawable.ic_place_holder),
+        previewPlaceholder = R.drawable.ic_place_holder
+    )
+}
+
+@Composable
+private fun SpeciesAndWhereaboutsColumn(character: PresentationCharacter) {
+    Column(modifier = Modifier.padding(6.dp)) {
+        Text(
+            text = character.species,
+            color = Color.White,
+            fontWeight = FontWeight.Bold,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 1
+        )
+        listOf(character.origin, character.location)
+            .filter { !it.isUnknown() }
+            .map { it.name }
+            .distinct()
+            .forEach {
+                Text(
+                    text = it,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 1
                 )
             }
+        character.dimensions.forEach {
+            Text(
+                text = it,
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1
+            )
         }
+    }
+}
+
+@Composable
+private fun Name(name: String, modifier: Modifier) {
+    Text(
+        text = name,
+        modifier = modifier,
+        color = Color.White,
+        fontWeight = FontWeight.ExtraBold,
+        textAlign = TextAlign.Center,
+        overflow = TextOverflow.Ellipsis,
+        maxLines = 2
+    )
+}
+
+@Composable
+private fun DeadBox(isExpandable: Boolean) {
+    Box(
+        modifier = Modifier
+            .aspectRatio(1f)
+            .alpha(0.4f)
+            .background(MaterialTheme.colors.error)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_dead),
+            contentDescription = "",
+            modifier = Modifier
+                .padding(12.dp)
+                .align(Alignment.TopEnd)
+                .size(
+                    when (isExpandable) {
+                        true -> 24.dp
+                        false -> 48.dp
+                    }
+                ),
+            colorFilter = ColorFilter.tint(Color.White)
+        )
     }
 }
 
@@ -258,5 +323,8 @@ private val toxicRick = PresentationCharacter(
     name = "Toxic Rick Toxic Rick",
     image = "https://rickandmortyapi.com/api/character/avatar/361.jpeg",
     species = "Human",
+    origin = "Earth".toLocation(),
+    location = "Earth".toLocation(),
+    dimensions = emptyList(),
     isDead = false
 )

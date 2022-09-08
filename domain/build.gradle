@@ -50,4 +50,6 @@ dependencies {
     implementation("androidx.paging:paging-compose:1.0.0-alpha16")
 
     //
+
+    implementation project(':common')
 }

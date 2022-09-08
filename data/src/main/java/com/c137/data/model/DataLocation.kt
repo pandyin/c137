@@ -4,12 +4,8 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "character")
-data class DataCharacter(
+data class DataLocation(
     @PrimaryKey override val id: Int,
     val name: String,
-    val image: String,
-    val species: String,
-    val origin: String,
-    val location: String,
-    val status: CharacterStatus
+    val dimension: String
 ) : BaseDataModel(id)

@@ -14,6 +14,8 @@ class CharacterDtoMapper : DtoMapper<CharacterDto, DataCharacter> {
             name = dto.name,
             image = dto.image,
             species = dto.species,
+            origin = dto.origin.name,
+            location = dto.location.name,
             status = CharacterStatus.fromName(dto.status)
         )
     }

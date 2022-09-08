@@ -2,6 +2,7 @@ package com.c137.data.model.mapper
 
 import androidx.paging.PagingData
 import androidx.paging.map
+import com.c137.common.model.toLocation
 import com.c137.data.model.CharacterStatus
 import com.c137.data.model.DataCharacter
 import com.c137.domain.model.DomainCharacter
@@ -14,6 +15,9 @@ class DataCharacterMapper : DataMapper<DataCharacter, DomainCharacter> {
             name = data.name,
             image = data.image,
             species = data.species,
+            origin = data.origin.toLocation(),
+            location = data.location.toLocation(),
+            dimensions = emptyList(),
             isDead = data.status == CharacterStatus.Dead
         )
     }

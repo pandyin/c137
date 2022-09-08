@@ -10,6 +10,7 @@ import androidx.paging.filter
 import com.c137.domain.GetCharacterByIdUseCase
 import com.c137.domain.GetPagingCharacterUseCase
 import com.c137.domain.model.PresentationCharacter
+import com.c137.domain.model.searchKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -42,11 +43,10 @@ class CharacterGridViewModel @Inject constructor(
                 } else {
                     val notFoundIndex = -1
                     paging.filter {
-                        val keys = it.name.lowercase().trim().split(" ").toMutableList()
-                        keys.add(it.species.lowercase())
-
                         when (input.lowercase().trim().split(" ").indexOfFirst { input ->
-                            keys.indexOfFirst { key -> key.contains(input) } > notFoundIndex
+                            it.searchKeys().indexOfFirst { key ->
+                                key.contains(input)
+                            } > notFoundIndex
                         }) {
                             notFoundIndex -> false
                             else -> true
