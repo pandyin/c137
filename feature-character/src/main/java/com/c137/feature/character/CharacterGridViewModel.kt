@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.c137.domain.GetCharacterByIdUseCase
 import com.c137.domain.GetPagingCharacterUseCase
+import com.c137.domain.model.PresentationCharacter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,14 +33,16 @@ class CharacterGridViewModel @Inject constructor(
         getPagingCharacterUseCase.execute().cachedIn(viewModelScope)
     }
 
-    private val currentScrollingState = MutableStateFlow(ScrollingState.Idle)
+    private val currentScrollingState =
+        MutableStateFlow<ScrollingState>(ScrollingState.ScrollTo(index = 0))
 
     val scrollingState: StateFlow<ScrollingState> = currentScrollingState
 
-    fun expand() {
+    fun expand(index: Int, character: PresentationCharacter) {
         if (isExpandable) {
             isExpandable = false
         }
+        currentScrollingState.value = ScrollingState.ScrollTo(index = index)
     }
 
     fun toggleIsExpandable() {
@@ -55,7 +58,5 @@ class CharacterGridViewModel @Inject constructor(
 }
 
 sealed class ScrollingState {
-    class ScrollTo(position: Int) : ScrollingState()
-    object Scrolling : ScrollingState()
-    object Idle : ScrollingState()
+    class ScrollTo(val index: Int) : ScrollingState()
 }

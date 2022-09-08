@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -20,8 +21,9 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.ZoomOutMap
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +32,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -39,31 +44,36 @@ import com.c137.common.Catchphrase
 import com.c137.domain.model.PresentationCharacter
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 
 @Composable
 fun CharacterScaffold(viewModel: CharacterGridViewModel = viewModel()) {
     Scaffold(topBar = {
         TopBar(
-            expandable = viewModel.isExpandable,
+            isExpandable = viewModel.isExpandable,
             searchKeyword = viewModel.searchKeyword,
             onClick = { viewModel.toggleIsExpandable() },
             onValueChange = { viewModel.updateSearchKeyword(it) }
         )
     }) {
         Grid(
-            pagingCharacters = viewModel.pagingCharacters,
-            expandable = viewModel.isExpandable,
+            paging = viewModel.pagingCharacters,
+            scrollingState = viewModel.scrollingState,
+            isExpandable = viewModel.isExpandable,
             paddingValues = it
-        ) {
-            viewModel.expand()
+        ) { index, character ->
+            viewModel.expand(index, character)
         }
     }
 }
 
 @Composable
 private fun TopBar(
-    expandable: Boolean,
+    isExpandable: Boolean,
     searchKeyword: String,
     onClick: () -> Unit,
     onValueChange: (String) -> Unit
@@ -81,16 +91,16 @@ private fun TopBar(
     }, navigationIcon = {
         IconButton(
             onClick = onClick,
-            enabled = !expandable
+            enabled = !isExpandable
         ) {
-            if (expandable) {
+            if (isExpandable) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_character),
                     contentDescription = ""
                 )
             } else {
                 Image(
-                    imageVector = Icons.Filled.Close,
+                    imageVector = Icons.Filled.ZoomOutMap,
                     contentDescription = ""
                 )
             }
@@ -102,67 +112,96 @@ private fun TopBar(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun Grid(
-    pagingCharacters: Flow<PagingData<PresentationCharacter>>,
-    expandable: Boolean,
+    paging: Flow<PagingData<PresentationCharacter>>,
+    scrollingState: StateFlow<ScrollingState>,
+    isExpandable: Boolean,
     paddingValues: PaddingValues,
-    onClick: (character: PresentationCharacter) -> Unit
+    onClick: (index: Int, character: PresentationCharacter) -> Unit
 ) {
-    val lazyPagingCharacters = pagingCharacters.collectAsLazyPagingItems()
-    val cellCount = when (expandable) {
+    val lazyGridState = rememberLazyGridState()
+    val lazyPaging = paging.collectAsLazyPagingItems()
+
+    LaunchedEffect(Unit) {
+        scrollingState
+            .filter { it is ScrollingState.ScrollTo }
+            .map { it as ScrollingState.ScrollTo }
+            .collect { lazyGridState.scrollToItem(it.index) }
+    }
+
+    val cellCount = when (isExpandable) {
         true -> 3
         false -> 2
     }
-    val lazyGridState = rememberLazyGridState()
     LazyVerticalGrid(
         columns = GridCells.Fixed(cellCount),
         modifier = Modifier.padding(paddingValues),
         state = lazyGridState
     ) {
-        items(lazyPagingCharacters) {
+
+        itemsIndexed(lazyPaging) { index, character ->
 //        for (i in 0 until 10) {
 //            item {
             GridCell(
-                expandable = expandable,
-                character = it!!,
+                indexedCharacter = index to character!!,
+//                indexedCharacter = i to toxicRick,
+                isExpandable = isExpandable,
                 onClick = onClick
             )
-//        }
         }
+//        }
     }
 }
 
 @Composable
 private fun GridCell(
-    expandable: Boolean,
-    character: PresentationCharacter,
-    onClick: (character: PresentationCharacter) -> Unit
+    indexedCharacter: Pair<Int, PresentationCharacter>,
+    isExpandable: Boolean,
+    onClick: (index: Int, character: PresentationCharacter) -> Unit
 ) {
+    val (index, character) = indexedCharacter
     Surface(
-        modifier = Modifier.clickable { onClick.invoke(character) }
+        modifier = Modifier.clickable { onClick(index, character) }
     ) {
-        GlideImage(
-            imageModel = character.image,
-            modifier = Modifier.aspectRatio(1f),
-            contentScale = ContentScale.Crop,
-            placeHolder = painterResource(id = R.drawable.ic_place_holder),
-            previewPlaceholder = R.drawable.ic_place_holder
-        )
+        Box {
+            GlideImage(
+                imageModel = character.image,
+                modifier = Modifier.aspectRatio(1f),
+                contentScale = ContentScale.Crop,
+                placeHolder = painterResource(id = R.drawable.ic_place_holder),
+                previewPlaceholder = R.drawable.ic_place_holder
+            )
+            Row(
+                modifier = Modifier
+                    .padding(12.dp)
+                    .align(Alignment.BottomCenter)
+            ) {
+                Text(
+                    text = character.name,
+                    color = Color.White,
+                    fontWeight = FontWeight.ExtraBold,
+                    textAlign = TextAlign.Center,
+                    overflow = TextOverflow.Ellipsis,
+                    maxLines = 2
+                )
+            }
+        }
         if (character.isDead) {
             Box(
                 modifier = Modifier
                     .aspectRatio(1f)
-                    .alpha(0.5f)
+                    .alpha(0.4f)
                     .background(MaterialTheme.colors.error)
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_dead),
                     contentDescription = "",
                     modifier = Modifier
-                        .align(Alignment.Center)
+                        .padding(12.dp)
+                        .align(Alignment.TopEnd)
                         .size(
-                            when (expandable) {
-                                true -> 48.dp
-                                false -> 72.dp
+                            when (isExpandable) {
+                                true -> 24.dp
+                                false -> 48.dp
                             }
                         ),
                     colorFilter = ColorFilter.tint(Color.White)
@@ -175,45 +214,47 @@ private fun GridCell(
 @Preview
 @Composable
 private fun DefaultTopAppBarPreview() {
-    TopBar(expandable = true, searchKeyword = "", {}, {})
+    TopBar(isExpandable = true, searchKeyword = "", {}, {})
 }
 
 @Preview
 @Composable
 private fun DefaultTopAppBarWithSearchKeywordPreview() {
-    TopBar(expandable = true,
+    TopBar(isExpandable = true,
         searchKeyword = Catchphrase.burp(), {}, {})
 }
 
 @Preview
 @Composable
 private fun ClosableTopAppBarPreview() {
-    TopBar(expandable = false, searchKeyword = "", {}, {})
+    TopBar(isExpandable = false, searchKeyword = "", {}, {})
 }
 
 @Preview
 @Composable
 private fun DefaultGridPreview() {
     Grid(
-        pagingCharacters = flowOf(PagingData.from(listOf(toxicRick))),
-        expandable = true,
+        paging = flowOf(PagingData.from(listOf(toxicRick))),
+        scrollingState = MutableStateFlow(ScrollingState.ScrollTo(index = 0)),
+        isExpandable = true,
         paddingValues = PaddingValues(0.dp)
-    ) {}
+    ) { _, _ -> }
 }
 
 @Preview
 @Composable
 private fun ExpandedGridPreview() {
     Grid(
-        pagingCharacters = flowOf(PagingData.from(listOf(toxicRick))),
-        expandable = false,
+        paging = flowOf(PagingData.from(listOf(toxicRick))),
+        scrollingState = MutableStateFlow(ScrollingState.ScrollTo(index = 0)),
+        isExpandable = false,
         paddingValues = PaddingValues(0.dp)
-    ) {}
+    ) { _, _ -> }
 }
 
 private val toxicRick = PresentationCharacter(
     id = 361,
-    name = "Toxic Rick",
+    name = "Toxic Rick Toxic Rick",
     image = "https://rickandmortyapi.com/api/character/avatar/361.jpeg",
-    isDead = true
+    isDead = false
 )
