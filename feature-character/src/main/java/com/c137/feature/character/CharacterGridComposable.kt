@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -41,6 +42,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -113,6 +115,8 @@ private fun TopBar(
                         maxLines = 1
                     )
                 },
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                maxLines = 1,
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
