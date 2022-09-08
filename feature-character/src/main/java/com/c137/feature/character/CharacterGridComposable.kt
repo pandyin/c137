@@ -20,16 +20,22 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.darkColors
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ZoomOutMap
+import androidx.compose.material.icons.filled.Grid3x3
+import androidx.compose.material.icons.filled.Grid4x4
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
@@ -56,22 +62,23 @@ import kotlinx.coroutines.flow.map
 @Composable
 fun CharacterScaffold(viewModel: CharacterGridViewModel = viewModel()) {
     val searchKeyword by viewModel.searchInput.collectAsState()
-
-    Scaffold(topBar = {
-        TopBar(
-            isExpandable = viewModel.isExpandable,
-            searchKeyword = searchKeyword,
-            onClick = { viewModel.toggleIsExpandable() },
-            onValueChange = { viewModel.updateSearchInput(it) }
-        )
-    }) {
-        Grid(
-            paging = viewModel.pagingCharacters,
-            scrollingState = viewModel.scrollingState,
-            isExpandable = viewModel.isExpandable,
-            paddingValues = it
-        ) { index, character ->
-            viewModel.expand(index, character)
+    MaterialTheme(colors = darkColors()) {
+        Scaffold(topBar = {
+            TopBar(
+                isExpandable = viewModel.isExpandable,
+                searchKeyword = searchKeyword,
+                onClick = { viewModel.toggleIsExpandable() },
+                onValueChange = { viewModel.updateSearchInput(it) }
+            )
+        }) {
+            Grid(
+                paging = viewModel.pagingCharacters,
+                scrollingState = viewModel.scrollingState,
+                isExpandable = viewModel.isExpandable,
+                paddingValues = it
+            ) { index, character ->
+                viewModel.expand(index, character)
+            }
         }
     }
 }
@@ -83,46 +90,66 @@ private fun TopBar(
     onClick: () -> Unit,
     onValueChange: (String) -> Unit
 ) {
-    TopAppBar(title = {
-        TextField(
-            value = searchKeyword,
-            onValueChange = onValueChange,
-            modifier = Modifier.fillMaxWidth(),
-            label = {
-                Text(
-                    text = "Names, Species, Whereabouts and Dimension",
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1
+    val focusRequester = remember { FocusRequester() }
+    TopAppBar(
+        title = {
+            TextField(
+                value = searchKeyword,
+                onValueChange = onValueChange,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .focusRequester(focusRequester),
+                label = {
+                    Text(
+                        text = "Names, Species, Whereabouts and Dimension",
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1
+                    )
+                },
+                placeholder = {
+                    Text(
+                        text = "Rick, Alien, Microverse, C-137, etc.",
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1
+                    )
+                },
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
                 )
-            },
-            placeholder = {
-                Text(
-                    text = "Rick, Alien, Microverse, C-137, etc.",
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1
-                )
-            }
-        )
-    }, navigationIcon = {
-        IconButton(
-            onClick = onClick,
-            enabled = !isExpandable
-        ) {
-            if (isExpandable) {
+            )
+        },
+        navigationIcon = {
+            IconButton(onClick = {}) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_character),
                     contentDescription = ""
                 )
+            }
+        },
+        actions = {
+            if (isExpandable) {
+                IconButton(onClick = onClick) {
+                    Image(
+                        imageVector = Icons.Filled.Grid3x3,
+                        contentDescription = ""
+                    )
+                }
             } else {
-                Image(
-                    imageVector = Icons.Filled.ZoomOutMap,
-                    contentDescription = ""
-                )
+                IconButton(onClick = onClick) {
+                    Image(
+                        imageVector = Icons.Filled.Grid4x4,
+                        contentDescription = ""
+                    )
+                }
             }
         }
-    })
+    )
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
 }
-
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -144,7 +171,7 @@ private fun Grid(
     }
 
     val cellCount = when (isExpandable) {
-        true -> 3
+        true -> 4
         false -> 2
     }
     LazyVerticalGrid(
