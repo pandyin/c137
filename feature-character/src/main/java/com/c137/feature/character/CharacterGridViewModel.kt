@@ -23,7 +23,7 @@ class CharacterGridViewModel @Inject constructor(
     private val getCharacterByIdUseCase: GetCharacterByIdUseCase
 ) : ViewModel() {
 
-    var isExpandable by mutableStateOf(true)
+    var isExpanded by mutableStateOf(false)
         private set
 
     private val currentSearchInput = MutableStateFlow("")
@@ -56,8 +56,8 @@ class CharacterGridViewModel @Inject constructor(
             }
     }
 
-    fun toggleIsExpandable() {
-        isExpandable = !isExpandable
+    fun toggleIsExpanded() {
+        isExpanded = !isExpanded
     }
 
     fun updateSearchInput(newValue: String) {
@@ -65,8 +65,8 @@ class CharacterGridViewModel @Inject constructor(
     }
 
     fun expand(index: Int, character: PresentationCharacter) {
-        if (isExpandable) {
-            isExpandable = false
+        if (!isExpanded) {
+            isExpanded = true
         }
         currentScrollingState.value = ScrollingState.ScrollTo(index = index)
     }

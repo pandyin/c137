@@ -65,16 +65,16 @@ fun CharacterScaffold(viewModel: CharacterGridViewModel = viewModel()) {
     MaterialTheme(colors = darkColors()) {
         Scaffold(topBar = {
             TopBar(
-                isExpandable = viewModel.isExpandable,
+                isExpanded = viewModel.isExpanded,
                 searchKeyword = searchKeyword,
-                onClick = { viewModel.toggleIsExpandable() },
+                onClick = { viewModel.toggleIsExpanded() },
                 onValueChange = { viewModel.updateSearchInput(it) }
             )
         }) {
             Grid(
                 paging = viewModel.pagingCharacters,
                 scrollingState = viewModel.scrollingState,
-                isExpandable = viewModel.isExpandable,
+                isExpanded = viewModel.isExpanded,
                 paddingValues = it
             ) { index, character ->
                 viewModel.expand(index, character)
@@ -85,7 +85,7 @@ fun CharacterScaffold(viewModel: CharacterGridViewModel = viewModel()) {
 
 @Composable
 private fun TopBar(
-    isExpandable: Boolean,
+    isExpanded: Boolean,
     searchKeyword: String,
     onClick: () -> Unit,
     onValueChange: (String) -> Unit
@@ -129,17 +129,17 @@ private fun TopBar(
             }
         },
         actions = {
-            if (isExpandable) {
+            if (isExpanded) {
                 IconButton(onClick = onClick) {
                     Image(
-                        imageVector = Icons.Filled.Grid3x3,
+                        imageVector = Icons.Filled.Grid4x4,
                         contentDescription = ""
                     )
                 }
             } else {
                 IconButton(onClick = onClick) {
                     Image(
-                        imageVector = Icons.Filled.Grid4x4,
+                        imageVector = Icons.Filled.Grid3x3,
                         contentDescription = ""
                     )
                 }
@@ -156,7 +156,7 @@ private fun TopBar(
 private fun Grid(
     paging: Flow<PagingData<PresentationCharacter>>,
     scrollingState: StateFlow<ScrollingState>,
-    isExpandable: Boolean,
+    isExpanded: Boolean,
     paddingValues: PaddingValues,
     onClick: (index: Int, character: PresentationCharacter) -> Unit
 ) {
@@ -170,9 +170,9 @@ private fun Grid(
             .collect { lazyGridState.scrollToItem(it.index) }
     }
 
-    val cellCount = when (isExpandable) {
-        true -> 4
-        false -> 2
+    val cellCount = when (isExpanded) {
+        true -> 2
+        false -> 4
     }
     LazyVerticalGrid(
         columns = GridCells.Fixed(cellCount),
@@ -185,7 +185,7 @@ private fun Grid(
             GridCell(
                 indexedCharacter = index to character!!,
 //                indexedCharacter = i to toxicRick,
-                isExpandable = isExpandable,
+                isExpanded = isExpanded,
                 onClick = onClick
             )
 //            }
@@ -196,7 +196,7 @@ private fun Grid(
 @Composable
 private fun GridCell(
     indexedCharacter: Pair<Int, PresentationCharacter>,
-    isExpandable: Boolean,
+    isExpanded: Boolean,
     onClick: (index: Int, character: PresentationCharacter) -> Unit
 ) {
     val (index, character) = indexedCharacter
@@ -205,7 +205,7 @@ private fun GridCell(
     ) {
         Box {
             Image(url = character.image)
-            if (!isExpandable) {
+            if (isExpanded) {
                 SpeciesAndWhereaboutsColumn(character = character)
             }
             Name(
@@ -215,7 +215,7 @@ private fun GridCell(
             )
         }
         if (character.isDead) {
-            DeadBox(isExpandable)
+            DeadBox(isExpanded)
         }
     }
 }
@@ -280,11 +280,11 @@ private fun Name(name: String, modifier: Modifier) {
 }
 
 @Composable
-private fun DeadBox(isExpandable: Boolean) {
+private fun DeadBox(isExpanded: Boolean) {
     Box(
         modifier = Modifier
             .aspectRatio(1f)
-            .alpha(0.4f)
+            .alpha(0.5f)
             .background(MaterialTheme.colors.error)
     ) {
         Image(
@@ -294,9 +294,9 @@ private fun DeadBox(isExpandable: Boolean) {
                 .padding(12.dp)
                 .align(Alignment.TopEnd)
                 .size(
-                    when (isExpandable) {
-                        true -> 24.dp
-                        false -> 48.dp
+                    when (isExpanded) {
+                        true -> 48.dp
+                        false -> 24.dp
                     }
                 ),
             colorFilter = ColorFilter.tint(Color.White)
@@ -307,20 +307,19 @@ private fun DeadBox(isExpandable: Boolean) {
 @Preview
 @Composable
 private fun DefaultTopAppBarPreview() {
-    TopBar(isExpandable = true, searchKeyword = "", {}, {})
+    TopBar(isExpanded = true, searchKeyword = "", {}, {})
 }
 
 @Preview
 @Composable
 private fun DefaultTopAppBarWithSearchKeywordPreview() {
-    TopBar(isExpandable = true,
-        searchKeyword = Catchphrase.burp(), {}, {})
+    TopBar(isExpanded = true, searchKeyword = Catchphrase.burp(), {}, {})
 }
 
 @Preview
 @Composable
 private fun ClosableTopAppBarPreview() {
-    TopBar(isExpandable = false, searchKeyword = "", {}, {})
+    TopBar(isExpanded = false, searchKeyword = "", {}, {})
 }
 
 @Preview
@@ -329,7 +328,7 @@ private fun DefaultGridPreview() {
     Grid(
         paging = flowOf(PagingData.from(listOf(toxicRick))),
         scrollingState = MutableStateFlow(ScrollingState.ScrollTo(index = 0)),
-        isExpandable = true,
+        isExpanded = false,
         paddingValues = PaddingValues(0.dp)
     ) { _, _ -> }
 }
@@ -340,7 +339,7 @@ private fun ExpandedGridPreview() {
     Grid(
         paging = flowOf(PagingData.from(listOf(toxicRick))),
         scrollingState = MutableStateFlow(ScrollingState.ScrollTo(index = 0)),
-        isExpandable = false,
+        isExpanded = true,
         paddingValues = PaddingValues(0.dp)
     ) { _, _ -> }
 }
