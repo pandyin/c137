@@ -12,6 +12,7 @@ class DomainCharacterMapper : DataMapper<DomainCharacter, PresentationCharacter>
             id = domain.id,
             name = domain.name,
             image = domain.image,
+            species = domain.species,
             isDead = domain.isDead
         )
     }

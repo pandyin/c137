@@ -24,7 +24,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ZoomOutMap
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -52,12 +53,14 @@ import kotlinx.coroutines.flow.map
 
 @Composable
 fun CharacterScaffold(viewModel: CharacterGridViewModel = viewModel()) {
+    val searchKeyword by viewModel.searchInput.collectAsState()
+
     Scaffold(topBar = {
         TopBar(
             isExpandable = viewModel.isExpandable,
-            searchKeyword = viewModel.searchKeyword,
+            searchKeyword = searchKeyword,
             onClick = { viewModel.toggleIsExpandable() },
-            onValueChange = { viewModel.updateSearchKeyword(it) }
+            onValueChange = { viewModel.updateSearchInput(it) }
         )
     }) {
         Grid(
@@ -78,14 +81,12 @@ private fun TopBar(
     onClick: () -> Unit,
     onValueChange: (String) -> Unit
 ) {
-    val label = remember(Unit) { Catchphrase.burp() }
-    val placeholder = remember(Unit) { Catchphrase.burp() }
     TopAppBar(title = {
         TextField(
             value = searchKeyword,
             onValueChange = onValueChange,
-            label = { Text(text = label) },
-            placeholder = { Text(text = placeholder) },
+            label = { Text(text = "Search by names and species") },
+            placeholder = { Text(text = "Rick, Dr. Wong, wasp, humanoid, etc.") },
             singleLine = true
         )
     }, navigationIcon = {
@@ -256,5 +257,6 @@ private val toxicRick = PresentationCharacter(
     id = 361,
     name = "Toxic Rick Toxic Rick",
     image = "https://rickandmortyapi.com/api/character/avatar/361.jpeg",
+    species = "Human",
     isDead = false
 )

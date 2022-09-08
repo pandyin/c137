@@ -13,6 +13,7 @@ class CharacterDtoMapper : DtoMapper<CharacterDto, DataCharacter> {
             id = dto.id,
             name = dto.name,
             image = dto.image,
+            species = dto.species,
             status = CharacterStatus.fromName(dto.status)
         )
     }

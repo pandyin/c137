@@ -13,6 +13,7 @@ class DataCharacterMapper : DataMapper<DataCharacter, DomainCharacter> {
             id = data.id,
             name = data.name,
             image = data.image,
+            species = data.species,
             isDead = data.status == CharacterStatus.Dead
         )
     }

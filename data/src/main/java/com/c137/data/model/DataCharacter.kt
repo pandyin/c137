@@ -8,5 +8,6 @@ data class DataCharacter(
     @PrimaryKey override val id: Int,
     val name: String,
     val image: String,
+    val species: String,
     val status: CharacterStatus
 ) : BaseDataModel(id)
