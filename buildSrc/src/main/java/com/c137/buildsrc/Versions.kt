@@ -16,6 +16,7 @@ object Versions {
         const val activityCompose = "1.5.1"
         const val compose = "1.2.1"
         const val lifeCycle = "2.5.1"
+        const val room = "2.4.0-alpha03"
 
         object Paging {
             const val paging = "3.1.1"
@@ -30,6 +31,10 @@ object Versions {
     object Google {
         const val material = "1.6.1"
         const val hilt = "2.38.1"
+    }
+
+    object Retrofit{
+        const val retrofit = "2.9.0"
     }
 
     object Test {
