@@ -107,6 +107,7 @@ private fun TopBar(
                 label = {
                     Text(
                         text = "Names, Species, Whereabouts and Dimension",
+                        color = MaterialTheme.colors.onSurface,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 1
                     )
@@ -114,6 +115,7 @@ private fun TopBar(
                 placeholder = {
                     Text(
                         text = "Rick, Alien, Microverse, C-137, etc.",
+                        color = MaterialTheme.colors.onSurface,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 1
                     )
@@ -141,7 +143,7 @@ private fun TopBar(
                     Image(
                         imageVector = Icons.Outlined.Grid4x4,
                         contentDescription = "",
-                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onPrimary)
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
                     )
                 }
             } else {
@@ -149,7 +151,7 @@ private fun TopBar(
                     Image(
                         imageVector = Icons.Outlined.Grid3x3,
                         contentDescription = "",
-                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onPrimary)
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
                     )
                 }
             }
