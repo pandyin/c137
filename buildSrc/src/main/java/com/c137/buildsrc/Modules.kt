@@ -7,7 +7,7 @@ object Modules {
     const val data = ":data"
 
     object Features {
-        const val character = ":character"
-        const val domain = ":location"
+        const val character = ":feature-character"
+        const val domain = ":feature-location"
     }
 }
