@@ -47,6 +47,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -220,9 +221,9 @@ private fun GridCell(
                 SpeciesAndWhereaboutsColumn(character = character)
             }
             Name(
-                name = character.name, modifier = Modifier
-                    .padding(6.dp)
-                    .align(Alignment.BottomCenter)
+                isExpanded = isExpanded,
+                name = character.name,
+                modifier = Modifier.align(Alignment.BottomCenter)
             )
         }
         if (character.isDead) {
@@ -248,6 +249,7 @@ private fun SpeciesAndWhereaboutsColumn(character: PresentationCharacter) {
         Text(
             text = character.species,
             color = Color.White,
+            fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             overflow = TextOverflow.Ellipsis,
             maxLines = 1
@@ -260,6 +262,7 @@ private fun SpeciesAndWhereaboutsColumn(character: PresentationCharacter) {
                 Text(
                     text = it,
                     color = Color.White,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1
@@ -269,6 +272,7 @@ private fun SpeciesAndWhereaboutsColumn(character: PresentationCharacter) {
             Text(
                 text = it,
                 color = Color.White,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
@@ -278,11 +282,15 @@ private fun SpeciesAndWhereaboutsColumn(character: PresentationCharacter) {
 }
 
 @Composable
-private fun Name(name: String, modifier: Modifier) {
+private fun Name(isExpanded: Boolean, name: String, modifier: Modifier) {
     Text(
         text = name,
-        modifier = modifier,
+        modifier = modifier.padding(6.dp),
         color = Color.White,
+        fontSize = when (isExpanded) {
+            true -> 18.sp
+            false -> 9.sp
+        },
         fontWeight = FontWeight.ExtraBold,
         textAlign = TextAlign.Center,
         overflow = TextOverflow.Ellipsis,
