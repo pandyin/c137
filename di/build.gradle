@@ -38,8 +38,9 @@ dependencies {
 
     implementation Dependencies.AndroidX.coreKtx
     implementation Dependencies.AndroidX.appcompat
+
     implementation Dependencies.AndroidX.Room.room
-    implementation Dependencies.AndroidX.Room.roomCompiler
+    kapt Dependencies.AndroidX.Room.roomCompiler
 
     implementation Dependencies.Google.material
     implementation Dependencies.Google.Hilt.hilt
@@ -47,8 +48,8 @@ dependencies {
 
     implementation Dependencies.Coroutine.coroutine
 
-    implementation Dependencies.Retrofit.retrofit
-    implementation Dependencies.Retrofit.gsonConverter
+    implementation Dependencies.OkHttp.retrofit
+    implementation Dependencies.OkHttp.gsonConverter
 
     testImplementation Dependencies.Test.junit
     androidTestImplementation Dependencies.Test.extJunit

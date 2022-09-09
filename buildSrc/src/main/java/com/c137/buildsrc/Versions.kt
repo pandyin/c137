@@ -33,7 +33,8 @@ object Versions {
         const val hilt = "2.38.1"
     }
 
-    object Retrofit{
+    object Retrofit {
+        const val okHttp = "4.9.0"
         const val retrofit = "2.9.0"
     }
 
