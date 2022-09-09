@@ -1,5 +1,6 @@
 import com.c137.buildsrc.Dependencies
 import com.c137.buildsrc.Modules
+import com.c137.buildsrc.Versions
 
 plugins {
     id 'com.android.library'
@@ -9,11 +10,11 @@ plugins {
 }
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion Versions.AppConfig.compileSdk
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 33
+        minSdkVersion Versions.AppConfig.minSdk
+        targetSdkVersion Versions.AppConfig.targetSdk
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -45,7 +46,7 @@ dependencies {
     implementation Dependencies.AndroidX.coreKtx
     implementation Dependencies.AndroidX.appcompat
 
-    implementation Dependencies.AndroidX.Paging.pagingRuntime
+    implementation Dependencies.AndroidX.Paging.paging
     implementation Dependencies.AndroidX.Paging.pagingCompose
 
     implementation Dependencies.AndroidX.activityCompose
