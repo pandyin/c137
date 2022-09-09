@@ -19,7 +19,7 @@ object Dependencies {
         }
 
         object Paging {
-            const val pagingRuntime = "androidx.paging:paging-runtime:${Versions.AndroidX.Paging.paging}"
+            const val paging = "androidx.paging:paging-runtime:${Versions.AndroidX.Paging.paging}"
             const val pagingCompose = "androidx.paging:paging-compose:${Versions.AndroidX.Paging.pagingCompose}"
         }
 
@@ -27,6 +27,12 @@ object Dependencies {
             const val lifeCycle = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.AndroidX.lifeCycle}"
             const val viewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.AndroidX.lifeCycle}"
             const val viewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.AndroidX.lifeCycle}"
+        }
+
+        object Room {
+            const val room = "androidx.room:room-runtime:${Versions.AndroidX.room}"
+            const val roomKtx = "androidx.room:room-ktx:${Versions.AndroidX.room}"
+            const val roomCompiler = "androidx.room:room-compiler:${Versions.AndroidX.room}"
         }
     }
 
@@ -41,6 +47,12 @@ object Dependencies {
             const val hilt = "com.google.dagger:hilt-android:${Versions.Google.hilt}"
             const val hiltCompiler = "com.google.dagger:hilt-android-compiler:${Versions.Google.hilt}"
         }
+    }
+
+    object OkHttp {
+        const val okHttp = "com.squareup.okhttp3:okhttp:${Versions.Retrofit.okHttp}"
+        const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.Retrofit.retrofit}"
+        const val gsonConverter = "com.squareup.retrofit2:converter-gson:${Versions.Retrofit.retrofit}"
     }
 
     object Test {
