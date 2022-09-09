@@ -1,8 +1,11 @@
+import com.c137.buildsrc.Dependencies
+import com.c137.buildsrc.Modules
+
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-    id('dagger.hilt.android.plugin')
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -39,51 +42,44 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'com.google.android.material:material:1.4.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation Dependencies.AndroidX.coreKtx
+    implementation Dependencies.AndroidX.appcompat
 
-    implementation 'com.github.bumptech.glide:glide:4.13.0'
-    kapt 'com.github.bumptech.glide:compiler:4.13.0'
-    implementation "com.github.skydoves:landscapist-glide:1.6.1"
+    implementation Dependencies.AndroidX.Paging.pagingRuntime
+    implementation Dependencies.AndroidX.Paging.pagingCompose
 
-    //common
+    implementation Dependencies.AndroidX.activityCompose
 
-    implementation 'androidx.activity:activity-compose:1.5.1'
+    implementation Dependencies.AndroidX.Compose.ui
+    implementation Dependencies.AndroidX.Compose.uiTooling
+    implementation Dependencies.AndroidX.Compose.uiToolingPreview
+    implementation Dependencies.AndroidX.Compose.foundation
+    implementation Dependencies.AndroidX.Compose.material
+    implementation Dependencies.AndroidX.Compose.materialIconsCore
+    implementation Dependencies.AndroidX.Compose.materialIconsExtended
 
-    implementation("androidx.compose.ui:ui:1.2.1")
-    implementation("androidx.compose.ui:ui-tooling:1.2.1")
-    implementation "androidx.compose.ui:ui-tooling-preview:1.2.1"
-    implementation("androidx.compose.foundation:foundation:1.2.1")
-    implementation("androidx.compose.material:material:1.2.1")
-    implementation("androidx.compose.material:material-icons-core:1.2.1")
-    implementation("androidx.compose.material:material-icons-extended:1.2.1")
+    implementation Dependencies.AndroidX.LifeCycle.lifeCycle
+    implementation Dependencies.AndroidX.LifeCycle.viewModel
+    implementation Dependencies.AndroidX.LifeCycle.viewModelCompose
+
+    implementation Dependencies.Glide.glide
+    kapt Dependencies.Glide.glideCompiler
+    implementation Dependencies.Glide.landscapistGlide
 
     debugImplementation "androidx.customview:customview:1.1.0"
     debugImplementation "androidx.customview:customview-poolingcontainer:1.0.0"
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    implementation Dependencies.Google.material
+    implementation Dependencies.Google.Hilt.hilt
+    kapt Dependencies.Google.Hilt.hiltCompiler
 
-    implementation("com.google.dagger:hilt-android:2.38.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.38.1")
+    implementation Dependencies.Coroutine.coroutine
 
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
+    testImplementation Dependencies.Test.junit
+    androidTestImplementation Dependencies.Test.extJunit
+    androidTestImplementation Dependencies.Test.espressoCore
 
-    implementation("androidx.paging:paging-runtime:3.1.1")
-    implementation("androidx.paging:paging-compose:1.0.0-alpha16")
-
-    //
-
-//    implementation 'com.c137.shared.episode:domain:0.0.1'
-    implementation project(':shared:episode:domain')
-
-    implementation project(':domain')
-    implementation project(':di')
-
-    implementation project(':common')
+    implementation project(Modules.common)
+    implementation project(Modules.di)
+    implementation project(Modules.domain)
 }
