@@ -116,7 +116,7 @@ private fun TopBar(
                 placeholder = {
                     Text(
                         text = "Rick, Alien, Microverse, C-137, etc.",
-                        color = MaterialTheme.colors.onSurface,
+                        color = MaterialTheme.colors.onBackground,
                         overflow = TextOverflow.Ellipsis,
                         maxLines = 1
                     )
@@ -124,6 +124,8 @@ private fun TopBar(
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
                 maxLines = 1,
                 colors = TextFieldDefaults.textFieldColors(
+                    textColor = MaterialTheme.colors.onSurface,
+                    cursorColor = MaterialTheme.colors.onSurface,
                     backgroundColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent

@@ -7,7 +7,9 @@ private val Primary = Color(0xff263238)
 private val PrimaryLight = Color(0xff4f5b62)
 private val PrimaryDark = Color(0xff000a12)
 
-private val Error = Color(0xFFB00020)
+private val PrimaryText = Color.White
+private val SecondaryText = Color(0xff9d9d9d)
+private val Error = Color(0xffb00020)
 
 val darkColors = darkColors(
     primary = Primary,
@@ -17,9 +19,9 @@ val darkColors = darkColors(
     background = PrimaryDark,
     surface = PrimaryLight,
     error = Error,
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onBackground = Color.White,
-    onSurface = Color.White,
+    onPrimary = PrimaryText,
+    onSecondary = PrimaryText,
+    onBackground = SecondaryText,
+    onSurface = PrimaryText,
     onError = Color.White
 )
