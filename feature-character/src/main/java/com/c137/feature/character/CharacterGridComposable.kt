@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,10 +24,9 @@ import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.TopAppBar
-import androidx.compose.material.darkColors
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Grid3x3
-import androidx.compose.material.icons.filled.Grid4x4
+import androidx.compose.material.icons.outlined.Grid3x3
+import androidx.compose.material.icons.outlined.Grid4x4
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -53,6 +53,9 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.c137.common.Catchphrase
 import com.c137.common.model.toLocation
 import com.c137.domain.model.PresentationCharacter
+import com.c137.feature.character.compose.darkColors
+import com.c137.feature.character.compose.itemsIndexed
+import com.c137.feature.character.compose.lightColors
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -64,7 +67,7 @@ import kotlinx.coroutines.flow.map
 @Composable
 fun CharacterScaffold(viewModel: CharacterGridViewModel = viewModel()) {
     val searchKeyword by viewModel.searchInput.collectAsState()
-    MaterialTheme(colors = darkColors()) {
+    MaterialTheme(colors = if (isSystemInDarkTheme()) darkColors else lightColors) {
         Scaffold(topBar = {
             TopBar(
                 isExpanded = viewModel.isExpanded,
@@ -136,15 +139,17 @@ private fun TopBar(
             if (isExpanded) {
                 IconButton(onClick = onClick) {
                     Image(
-                        imageVector = Icons.Filled.Grid4x4,
-                        contentDescription = ""
+                        imageVector = Icons.Outlined.Grid4x4,
+                        contentDescription = "",
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onPrimary)
                     )
                 }
             } else {
                 IconButton(onClick = onClick) {
                     Image(
-                        imageVector = Icons.Filled.Grid3x3,
-                        contentDescription = ""
+                        imageVector = Icons.Outlined.Grid3x3,
+                        contentDescription = "",
+                        colorFilter = ColorFilter.tint(MaterialTheme.colors.onPrimary)
                     )
                 }
             }

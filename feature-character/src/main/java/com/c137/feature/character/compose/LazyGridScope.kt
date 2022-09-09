@@ -1,4 +1,4 @@
-package com.c137.feature.character
+package com.c137.feature.character.compose
 
 import android.annotation.SuppressLint
 import android.os.Parcel
