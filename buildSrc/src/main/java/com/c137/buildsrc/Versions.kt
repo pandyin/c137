@@ -12,11 +12,18 @@ object Versions {
         const val versionName = "1.0"
     }
 
+    object Navigation {
+        const val fragmentKtx = "2.4.2"
+        const val compose = "2.5.2"
+    }
+
     object AndroidX {
 
         const val coreKtx = "1.7.0"
         const val appcompat = "1.5.0"
         const val activityCompose = "1.5.1"
+        const val hiltCompose = "1.0.0"
+
         const val compose = "1.2.1"
         const val lifeCycle = "2.5.1"
         const val room = "2.4.0-alpha03"

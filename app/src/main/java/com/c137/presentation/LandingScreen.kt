@@ -1,9 +1,5 @@
 package com.c137.presentation
 
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -15,25 +11,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.c137.R
-import com.c137.feature.character.CharacterGridActivity
-import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.DurationUnit
-
-@AndroidEntryPoint
-class LandingScreenActivity : AppCompatActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            LandingPage {
-                startActivity(Intent(this, CharacterGridActivity::class.java))
-                finish()
-            }
-        }
-    }
-}
 
 @Composable
 fun LandingPage(onTimeOut: () -> Unit) {
@@ -55,5 +35,5 @@ fun LandingPage(onTimeOut: () -> Unit) {
 @Preview
 @Composable
 fun LandingPagePreview() {
-    LandingPage {}
+    LandingPage { }
 }

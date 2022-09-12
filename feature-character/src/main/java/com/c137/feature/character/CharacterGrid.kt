@@ -48,15 +48,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.c137.common.Catchphrase
 import com.c137.common.model.toLocation
+import com.c137.common.theme.darkColors
+import com.c137.common.theme.lightColors
 import com.c137.domain.model.PresentationCharacter
-import com.c137.feature.character.compose.darkColors
-import com.c137.feature.character.compose.itemsIndexed
-import com.c137.feature.character.compose.lightColors
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -66,7 +65,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 @Composable
-fun CharacterScaffold(viewModel: CharacterGridViewModel = viewModel()) {
+fun CharacterGrid(viewModel: CharacterGridViewModel = hiltViewModel()) {
     val searchKeyword by viewModel.searchInput.collectAsState()
     MaterialTheme(colors = if (isSystemInDarkTheme()) darkColors else lightColors) {
         Scaffold(topBar = {

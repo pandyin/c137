@@ -50,6 +50,8 @@ android {
 
 dependencies {
 
+    implementation Dependencies.Navigation.compose
+
     implementation Dependencies.AndroidX.coreKtx
     implementation Dependencies.AndroidX.appcompat
 

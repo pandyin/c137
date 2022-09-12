@@ -8,6 +8,6 @@ object Modules {
 
     object Features {
         const val character = ":feature-character"
-        const val domain = ":feature-location"
+        const val location = ":feature-location"
     }
 }

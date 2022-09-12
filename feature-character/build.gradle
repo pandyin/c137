@@ -43,6 +43,8 @@ android {
 
 dependencies {
 
+    implementation Dependencies.Navigation.fragmentKtx
+
     implementation Dependencies.AndroidX.coreKtx
     implementation Dependencies.AndroidX.appcompat
 
@@ -50,6 +52,7 @@ dependencies {
     implementation Dependencies.AndroidX.Paging.pagingCompose
 
     implementation Dependencies.AndroidX.activityCompose
+    implementation Dependencies.AndroidX.hiltCompose
 
     implementation Dependencies.AndroidX.Compose.ui
     implementation Dependencies.AndroidX.Compose.uiTooling

@@ -2,11 +2,17 @@ package com.c137.buildsrc
 
 object Dependencies {
 
+    object Navigation {
+        const val fragmentKtx = "androidx.navigation:navigation-fragment-ktx:${Versions.Navigation.fragmentKtx}"
+        const val compose = "androidx.navigation:navigation-compose:${Versions.Navigation.compose}"
+    }
+
     object AndroidX {
 
         const val coreKtx = "androidx.core:core-ktx:${Versions.AndroidX.coreKtx}"
         const val appcompat = "androidx.appcompat:appcompat:${Versions.AndroidX.appcompat}"
         const val activityCompose = "androidx.activity:activity-compose:${Versions.AndroidX.activityCompose}"
+        const val hiltCompose = "androidx.hilt:hilt-navigation-compose:${Versions.AndroidX.hiltCompose}"
 
         object Compose {
             const val ui = "androidx.compose.ui:ui:${Versions.AndroidX.compose}"
