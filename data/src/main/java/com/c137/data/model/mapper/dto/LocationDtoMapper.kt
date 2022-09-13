@@ -7,10 +7,10 @@ class LocationDtoMapper : DtoMapper<LocationDto, DataLocation> {
 
     override fun map(dto: LocationDto): DataLocation {
         return DataLocation(
-            id = dto.id ?: 0,
+            id = dto.id,
             name = dto.name,
-            type = dto.type ?: "",
-            dimension = dto.dimension ?: ""
+            type = dto.type,
+            dimension = dto.dimension
         )
     }
 }
