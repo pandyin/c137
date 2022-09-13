@@ -3,9 +3,9 @@ package com.c137.data.model.mapper
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.c137.data.model.CharacterStatus
+import com.c137.data.model.CharacterWithOriginAndLastKnown
 import com.c137.data.model.DataCharacter
 import com.c137.domain.model.DomainCharacter
-import com.c137.domain.model.DomainLocation
 
 class DataCharacterMapper : DataMapper<DataCharacter, DomainCharacter> {
 
@@ -15,8 +15,6 @@ class DataCharacterMapper : DataMapper<DataCharacter, DomainCharacter> {
             name = data.name,
             image = data.image,
             species = data.species,
-            origin = DomainLocation(data.id, "null", "null", "null"),
-            location = DomainLocation(data.id, "null", "null", "null"),
             dimensions = emptyList(),
             isDead = data.status == CharacterStatus.Dead
         )
@@ -26,5 +24,10 @@ class DataCharacterMapper : DataMapper<DataCharacter, DomainCharacter> {
 fun DataCharacter.toDomainModel(): DomainCharacter =
     DataCharacterMapper().map(data = this)
 
-fun PagingData<DataCharacter>.toDomainModel(): PagingData<DomainCharacter> =
-    map { DataCharacterMapper().map(data = it) }
+fun PagingData<CharacterWithOriginAndLastKnown>.toDomainModel(): PagingData<DomainCharacter> =
+    map {
+        DataCharacterMapper().map(data = it.character).apply {
+            origin = it.origin.toDomainModel()
+            lastKnown = it.lastKnown.toDomainModel()
+        }
+    }

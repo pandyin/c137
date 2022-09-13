@@ -4,7 +4,7 @@ import android.net.Uri
 import androidx.paging.PagingState
 import com.c137.data.datastore.local.api.CharacterDao
 import com.c137.data.datastore.paging.api.CharacterPagingService
-import com.c137.data.model.DataCharacter
+import com.c137.data.model.CharacterWithOriginAndLastKnown
 import com.c137.data.model.mapper.dto.toDataModel
 import com.c137.data.repository.api.CharacterPagingSource
 import dagger.hilt.android.scopes.ViewModelScoped
@@ -16,9 +16,10 @@ class CharacterPagingSourceImpl @Inject constructor(
     private val service: CharacterPagingService
 ) : CharacterPagingSource() {
 
-    override fun getRefreshKey(state: PagingState<Int, DataCharacter>) = state.anchorPosition
+    override fun getRefreshKey(state: PagingState<Int, CharacterWithOriginAndLastKnown>) =
+        state.anchorPosition
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, DataCharacter> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CharacterWithOriginAndLastKnown> {
         return try {
             val nextPage = params.key ?: 1
             val results = service.getCharactersByPage(page = nextPage)

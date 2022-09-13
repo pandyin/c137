@@ -14,7 +14,7 @@ class DomainCharacterMapper : DataMapper<DomainCharacter, PresentationCharacter>
             image = domain.image,
             species = domain.species,
             origin = domain.origin.toPresentationModel(),
-            location = domain.location.toPresentationModel(),
+            lastKnown = domain.lastKnown.toPresentationModel(),
             dimensions = domain.dimensions,
             isDead = domain.isDead
         )

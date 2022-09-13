@@ -9,7 +9,7 @@ data class DataCharacter(
     val name: String,
     val image: String,
     val species: String,
-    val origin: Int,
-    val location: Int,
+    val originId: Int,
+    val locationId: Int,
     val status: CharacterStatus
 ) : BaseDataModel(id)

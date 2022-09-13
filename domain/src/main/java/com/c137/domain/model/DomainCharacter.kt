@@ -5,8 +5,10 @@ data class DomainCharacter(
     val name: String,
     val image: String,
     val species: String,
-    val origin: DomainLocation,
-    val location: DomainLocation,
     val dimensions: List<String>,
     val isDead: Boolean
-) : BaseDomainModel()
+) : BaseDomainModel() {
+
+    lateinit var origin: DomainLocation
+    lateinit var lastKnown: DomainLocation
+}

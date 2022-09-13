@@ -1,10 +1,10 @@
 package com.c137.domain.api
 
 import androidx.paging.PagingData
-import com.c137.domain.model.DomainCharacter
+import com.c137.domain.model.DomainLocation
 import kotlinx.coroutines.flow.Flow
 
 interface LocationPagingRepository {
 
-    fun getPagingCharacter(): Flow<PagingData<DomainCharacter>>
+    fun getPagingCharacter(): Flow<PagingData<DomainLocation>>
 }

@@ -259,7 +259,7 @@ private fun SpeciesAndWhereaboutsColumn(character: PresentationCharacter) {
             overflow = TextOverflow.Ellipsis,
             maxLines = 1
         )
-        listOf(character.origin, character.location)
+        listOf(character.origin, character.lastKnown)
             .map { it.name }
             .distinct()
             .forEach {
@@ -380,7 +380,7 @@ private val toxicRick = PresentationCharacter(
     image = "https://rickandmortyapi.com/api/character/avatar/361.jpeg",
     species = "Human",
     origin = earth,
-    location = earth,
+    lastKnown = earth,
     dimensions = emptyList(),
     isDead = false
 )

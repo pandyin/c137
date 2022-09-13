@@ -1,7 +1,5 @@
 package com.c137.data.model.mapper.dto
 
-import androidx.paging.PagingData
-import androidx.paging.map
 import com.c137.data.model.DataLocation
 import com.c137.data.model.dto.LocationDto
 
@@ -9,10 +7,10 @@ class LocationDtoMapper : DtoMapper<LocationDto, DataLocation> {
 
     override fun map(dto: LocationDto): DataLocation {
         return DataLocation(
-            id = dto.id,
+            id = dto.id ?: 0,
             name = dto.name,
-            type = dto.type,
-            dimension = dto.dimension
+            type = dto.type ?: "",
+            dimension = dto.dimension ?: ""
         )
     }
 }
@@ -20,8 +18,6 @@ class LocationDtoMapper : DtoMapper<LocationDto, DataLocation> {
 fun LocationDto.toDataModel(): DataLocation =
     LocationDtoMapper().map(dto = this)
 
+@Deprecated("to be removed", ReplaceWith(""))
 fun List<LocationDto>.toDataModel(): List<DataLocation> =
-    map { LocationDtoMapper().map(dto = it) }
-
-fun PagingData<LocationDto>.toDataModel(): PagingData<DataLocation> =
     map { LocationDtoMapper().map(dto = it) }
