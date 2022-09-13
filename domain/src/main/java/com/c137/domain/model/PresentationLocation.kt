@@ -1,8 +1,8 @@
-package com.c137.data.model.dto
+package com.c137.domain.model
 
-data class LocationDto(
+class PresentationLocation(
     val id: Int,
     val name: String,
     val type: String,
     val dimension: String
-)
+) : BasePresentationModel()

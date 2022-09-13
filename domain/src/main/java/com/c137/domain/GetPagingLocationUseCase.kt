@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 @ViewModelScoped
-class GetPagingCharacterUseCase @Inject constructor(private val repository: CharacterPagingRepository) {
+class GetPagingLocationUseCase @Inject constructor(private val repository: CharacterPagingRepository) {
 
     fun execute(): Flow<PagingData<PresentationCharacter>> =
         repository.getPagingCharacter().map { it.toPresentationModel() }

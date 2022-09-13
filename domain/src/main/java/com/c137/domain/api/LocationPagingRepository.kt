@@ -4,7 +4,7 @@ import androidx.paging.PagingData
 import com.c137.domain.model.DomainCharacter
 import kotlinx.coroutines.flow.Flow
 
-interface PagingCharacterRepository {
+interface LocationPagingRepository {
 
     fun getPagingCharacter(): Flow<PagingData<DomainCharacter>>
 }

@@ -1,4 +1,4 @@
-package com.c137.data.model.mapper
+package com.c137.data.model.mapper.dto
 
 import com.c137.data.model.BaseDataModel
 

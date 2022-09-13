@@ -32,6 +32,11 @@ object Versions {
             const val paging = "3.1.1"
             const val pagingCompose = "1.0.0-alpha16"
         }
+
+        object CustomView {
+            const val customView = "1.1.0"
+            const val customViewPollingContainer = "1.0.0"
+        }
     }
 
     object Coroutine {

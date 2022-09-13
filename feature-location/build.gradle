@@ -41,10 +41,27 @@ android {
 
 dependencies {
 
+    implementation Dependencies.Navigation.compose
+
     implementation Dependencies.AndroidX.coreKtx
     implementation Dependencies.AndroidX.appcompat
 
+    implementation Dependencies.AndroidX.activityCompose
+    implementation Dependencies.AndroidX.hiltCompose
+    implementation Dependencies.AndroidX.CustomView.customView
+    implementation Dependencies.AndroidX.CustomView.customViewPollingContainer
+
+    implementation Dependencies.AndroidX.Compose.ui
+    implementation Dependencies.AndroidX.Compose.uiTooling
+    implementation Dependencies.AndroidX.Compose.uiToolingPreview
+    implementation Dependencies.AndroidX.Compose.foundation
+    implementation Dependencies.AndroidX.Compose.material
+    implementation Dependencies.AndroidX.Compose.materialIconsCore
+    implementation Dependencies.AndroidX.Compose.materialIconsExtended
+
     implementation Dependencies.Google.material
+    implementation Dependencies.Google.Hilt.hilt
+    kapt Dependencies.Google.Hilt.hiltCompiler
 
     testImplementation Dependencies.Test.junit
     androidTestImplementation Dependencies.Test.extJunit

@@ -1,4 +1,4 @@
-package com.c137.data.model.mapper
+package com.c137.data.model.mapper.dto
 
 import androidx.paging.PagingData
 import androidx.paging.map
@@ -14,8 +14,8 @@ class CharacterDtoMapper : DtoMapper<CharacterDto, DataCharacter> {
             name = dto.name,
             image = dto.image,
             species = dto.species,
-            origin = dto.origin.name,
-            location = dto.location.name,
+            origin = dto.location.id,
+            location = dto.location.id,
             status = CharacterStatus.fromName(dto.status)
         )
     }

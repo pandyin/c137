@@ -26,18 +26,19 @@ class CharacterGridViewModel @Inject constructor(
     var isExpanded by mutableStateOf(false)
         private set
 
+    private var currentLocations = MutableStateFlow(mutableListOf<String>())
+    val locations: StateFlow<List<String>> = currentLocations
+
     private val currentSearchInput = MutableStateFlow("")
     val searchInput: StateFlow<String> = currentSearchInput
 
-    private val currentScrollingState =
-        MutableStateFlow<ScrollingState>(ScrollingState.ScrollTo(index = 0))
-
+    private val currentScrollingState = MutableStateFlow<ScrollingState>(ScrollingState.ScrollTo(index = 0))
     val scrollingState: StateFlow<ScrollingState> = currentScrollingState
 
     val pagingCharacters by lazy {
         getPagingCharacterUseCase.execute()
-            .cachedIn(viewModelScope)
-            .combine(searchInput) { paging, input ->
+            .cachedIn(scope = viewModelScope)
+            .combine(flow = searchInput) { paging, input ->
                 if (input.isEmpty()) {
                     paging
                 } else {
@@ -58,6 +59,12 @@ class CharacterGridViewModel @Inject constructor(
 
     fun toggleIsExpanded() {
         isExpanded = !isExpanded
+    }
+
+    fun addLocation(newLocation: String) {
+        currentLocations.value.apply {
+            add(newLocation)
+        }
     }
 
     fun updateSearchInput(newValue: String) {

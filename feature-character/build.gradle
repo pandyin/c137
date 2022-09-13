@@ -53,6 +53,8 @@ dependencies {
 
     implementation Dependencies.AndroidX.activityCompose
     implementation Dependencies.AndroidX.hiltCompose
+    implementation Dependencies.AndroidX.CustomView.customView
+    implementation Dependencies.AndroidX.CustomView.customViewPollingContainer
 
     implementation Dependencies.AndroidX.Compose.ui
     implementation Dependencies.AndroidX.Compose.uiTooling
@@ -83,4 +85,5 @@ dependencies {
     implementation project(Modules.common)
     implementation project(Modules.di)
     implementation project(Modules.domain)
+    implementation project(Modules.Features.location)
 }

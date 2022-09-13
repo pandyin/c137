@@ -40,6 +40,11 @@ object Dependencies {
             const val roomKtx = "androidx.room:room-ktx:${Versions.AndroidX.room}"
             const val roomCompiler = "androidx.room:room-compiler:${Versions.AndroidX.room}"
         }
+
+        object CustomView {
+            const val customView = "androidx.customview:customview:${Versions.AndroidX.CustomView.customView}"
+            const val customViewPollingContainer = "androidx.customview:customview-poolingcontainer:${Versions.AndroidX.CustomView.customViewPollingContainer}"
+        }
     }
 
     object Coroutine {

@@ -9,13 +9,4 @@ import javax.inject.Inject
 
 @ViewModelScoped
 class CharacterLocalDataSourceImpl @Inject constructor(private val dao: CharacterDao) :
-    CharacterLocalDataSource {
-
-    override fun getCharacterById(id: Int): Flow<DataCharacter> {
-        return dao.getCharacterById(id)
-    }
-
-    override suspend fun insertCharacter(character: DataCharacter) {
-        return dao.insertCharacter(character)
-    }
-}
+    CharacterLocalDataSource

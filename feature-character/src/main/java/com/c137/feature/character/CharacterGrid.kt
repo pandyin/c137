@@ -52,10 +52,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.c137.common.Catchphrase
-import com.c137.common.model.toLocation
 import com.c137.common.theme.darkColors
 import com.c137.common.theme.lightColors
 import com.c137.domain.model.PresentationCharacter
+import com.c137.domain.model.PresentationLocation
+import com.c137.feature.location.LocationCarousel
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -76,13 +77,16 @@ fun CharacterGrid(viewModel: CharacterGridViewModel = hiltViewModel()) {
                 onValueChange = { viewModel.updateSearchInput(it) }
             )
         }) {
-            Grid(
-                paging = viewModel.pagingCharacters,
-                scrollingState = viewModel.scrollingState,
-                isExpanded = viewModel.isExpanded,
-                paddingValues = it
-            ) { index, character ->
-                viewModel.expand(index, character)
+            Column {
+                LocationCarousel()
+                Grid(
+                    paging = viewModel.pagingCharacters,
+                    scrollingState = viewModel.scrollingState,
+                    isExpanded = viewModel.isExpanded,
+                    paddingValues = it
+                ) { index, character ->
+                    viewModel.expand(index, character)
+                }
             }
         }
     }
@@ -256,7 +260,6 @@ private fun SpeciesAndWhereaboutsColumn(character: PresentationCharacter) {
             maxLines = 1
         )
         listOf(character.origin, character.location)
-            .filter { !it.isUnknown() }
             .map { it.name }
             .distinct()
             .forEach {
@@ -364,13 +367,20 @@ private fun ExpandedGridPreview() {
     ) { _, _ -> }
 }
 
+private val earth = PresentationLocation(
+    id = 1,
+    name = "Earth",
+    type = "null",
+    dimension = "null"
+)
+
 private val toxicRick = PresentationCharacter(
     id = 361,
     name = "Toxic Rick Toxic Rick",
     image = "https://rickandmortyapi.com/api/character/avatar/361.jpeg",
     species = "Human",
-    origin = "Earth".toLocation(),
-    location = "Earth".toLocation(),
+    origin = earth,
+    location = earth,
     dimensions = emptyList(),
     isDead = false
 )

@@ -2,6 +2,10 @@ package com.c137.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material.Surface
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.BackHand
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -36,4 +40,21 @@ fun LandingPage(onTimeOut: () -> Unit) {
 @Composable
 fun LandingPagePreview() {
     LandingPage { }
+}
+
+@Composable
+fun CharacterCarousel() {
+    LazyRow {
+        item {
+            Surface {
+                Image(imageVector = Icons.Outlined.BackHand, contentDescription = "")
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun CharacterCarouselPreview() {
+    CharacterCarousel()
 }
