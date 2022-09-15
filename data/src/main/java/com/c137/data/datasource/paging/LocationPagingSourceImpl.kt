@@ -1,9 +1,9 @@
-package com.c137.data.datastore.paging
+package com.c137.data.datasource.paging
 
 import android.net.Uri
 import androidx.paging.PagingState
-import com.c137.data.datastore.local.api.LocationDao
-import com.c137.data.datastore.paging.api.LocationPagingService
+import com.c137.data.datasource.local.api.LocationDao
+import com.c137.data.datasource.paging.api.LocationPagingService
 import com.c137.data.model.DataLocation
 import com.c137.data.model.mapper.dto.toDataModel
 import com.c137.data.repository.api.LocationPagingSource
@@ -24,13 +24,13 @@ class LocationPagingSourceImpl @Inject constructor(
             val results = service.getLocationsByPage(page = nextPage)
             LoadResult.Page(
                 data = results.results.toDataModel(),
-                prevKey = results.info.prev?.let { extractPage(it) },
-                nextKey = results.info.next?.let { extractPage(it) })
+                prevKey = results.info.prev?.let { pageFromUrl(it) },
+                nextKey = results.info.next?.let { pageFromUrl(it) })
         } catch (e: Exception) {
             LoadResult.Error(e)
         }
     }
 
-    private fun extractPage(uriString: String): Int? =
+    private fun pageFromUrl(uriString: String): Int? =
         Uri.parse(uriString).getQueryParameter("page")?.toIntOrNull()
 }

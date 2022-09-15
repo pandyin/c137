@@ -5,8 +5,8 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.c137.data.datastore.local.api.CharacterDao
-import com.c137.data.datastore.local.api.LocationDao
+import com.c137.data.datasource.local.api.CharacterDao
+import com.c137.data.datasource.local.api.LocationDao
 import com.c137.data.model.DataCharacter
 import com.c137.data.model.DataLocation
 import com.c137.data.model.converter.CharacterStatusConverter

@@ -1,4 +1,4 @@
-package com.c137.data.datastore.paging.api
+package com.c137.data.datasource.paging.api
 
 import com.c137.data.model.dto.CharacterDto
 import com.c137.data.model.dto.ResultsDto

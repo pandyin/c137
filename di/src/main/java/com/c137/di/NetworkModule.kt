@@ -1,8 +1,8 @@
 package com.c137.di
 
 import android.content.Context
-import com.c137.data.datastore.paging.api.CharacterPagingService
-import com.c137.data.datastore.remote.api.CharacterService
+import com.c137.data.datasource.paging.api.CharacterPagingService
+import com.c137.data.datasource.remote.api.CharacterService
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides

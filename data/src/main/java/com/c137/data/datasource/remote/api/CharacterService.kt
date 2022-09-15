@@ -1,4 +1,4 @@
-package com.c137.data.datastore.remote.api
+package com.c137.data.datasource.remote.api
 
 import com.c137.data.model.dto.CharacterDto
 import retrofit2.http.GET

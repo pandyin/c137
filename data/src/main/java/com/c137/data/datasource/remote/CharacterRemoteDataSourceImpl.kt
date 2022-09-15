@@ -1,6 +1,6 @@
-package com.c137.data.datastore.remote
+package com.c137.data.datasource.remote
 
-import com.c137.data.datastore.remote.api.CharacterService
+import com.c137.data.datasource.remote.api.CharacterService
 import com.c137.data.repository.api.CharacterRemoteDataSource
 import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
