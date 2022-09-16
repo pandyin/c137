@@ -1,8 +1,13 @@
 package com.c137.domain.model
 
-class PresentationLocation(
+data class PresentationLocation(
     val id: Int,
     val name: String,
     val type: String,
-    val dimension: String
-) : BasePresentationModel()
+    val dimension: String,
+    val residents: List<Int>
+) : BasePresentationModel() {
+
+    private val hashResidents = residents.toHashSet()
+    fun isResident(id: Int) = hashResidents.contains(id)
+}

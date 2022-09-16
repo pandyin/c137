@@ -8,5 +8,6 @@ data class DataLocation(
     @PrimaryKey override val id: Int,
     val name: String,
     val type: String,
-    val dimension: String
+    val dimension: String,
+    val residents: List<Int>
 ) : BaseDataModel(id)

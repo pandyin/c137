@@ -20,32 +20,32 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemsIndexed
+import com.c137.domain.model.PresentationLocation
 
 @Composable
 fun LocationCarousel(
     viewModel: LocationCarouselViewModel = hiltViewModel(),
-    locations: HashSet<Int>,
-    onClick: (Int) -> Unit
+    locations: HashSet<PresentationLocation>,
+    onClick: (PresentationLocation) -> Unit
 ) {
     val lazyPaging = viewModel.locationCharacters.collectAsLazyPagingItems()
     LazyRow {
         itemsIndexed(lazyPaging) { _, location ->
             LocationItem(
-                selected = locations.contains(location!!.id),
-                id = location.id,
-                name = location.name,
-                onClick = onClick
+                selected = locations.contains(location),
+                name = location!!.name,
+                onClick = { onClick(location) }
             )
         }
     }
 }
 
 @Composable
-fun LocationItem(selected: Boolean, id: Int, name: String, onClick: (Int) -> Unit) {
+fun LocationItem(selected: Boolean, name: String, onClick: () -> Unit) {
     Surface(color = MaterialTheme.colors.background) {
         Box(
             modifier = Modifier
-                .clickable { onClick(id) }
+                .clickable { onClick() }
                 .padding(horizontal = 6.dp, vertical = 6.dp)
                 .clip(RoundedCornerShape(6.dp))
                 .background(color = MaterialTheme.colors.surface)
@@ -58,10 +58,7 @@ fun LocationItem(selected: Boolean, id: Int, name: String, onClick: (Int) -> Uni
                     false -> MaterialTheme.colors.onBackground
                 },
                 fontSize = 9.sp,
-                fontWeight = when (selected) {
-                    true -> FontWeight.Bold
-                    false -> FontWeight.Normal
-                }
+                fontWeight = FontWeight.Bold
             )
         }
     }

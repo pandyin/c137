@@ -1,5 +1,6 @@
 package com.c137.data.model.mapper.dto
 
+import android.net.Uri
 import com.c137.data.model.DataLocation
 import com.c137.data.model.dto.LocationDto
 
@@ -10,7 +11,8 @@ class LocationDtoMapper : DtoMapper<LocationDto, DataLocation> {
             id = dto.id,
             name = dto.name,
             type = dto.type,
-            dimension = dto.dimension
+            dimension = dto.dimension,
+            residents = dto.residents.mapNotNull { Uri.parse(it).lastPathSegment?.toIntOrNull() }
         )
     }
 }

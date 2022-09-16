@@ -12,7 +12,8 @@ class DataLocationCharacterMapper : DataMapper<DataLocation, DomainLocation> {
             id = data.id,
             name = data.name,
             type = data.type,
-            dimension = data.dimension
+            dimension = data.dimension,
+            residents = data.residents
         )
     }
 }

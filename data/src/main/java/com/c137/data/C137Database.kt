@@ -10,12 +10,13 @@ import com.c137.data.datasource.local.api.LocationDao
 import com.c137.data.model.DataCharacter
 import com.c137.data.model.DataLocation
 import com.c137.data.model.converter.CharacterStatusConverter
+import com.c137.data.model.converter.ListOfIntsConverter
 
 @Database(
     version = 1,
     entities = [DataCharacter::class, DataLocation::class]
 )
-@TypeConverters(CharacterStatusConverter::class)
+@TypeConverters(CharacterStatusConverter::class, ListOfIntsConverter::class)
 abstract class C137Database : RoomDatabase() {
 
     abstract fun characterDao(): CharacterDao

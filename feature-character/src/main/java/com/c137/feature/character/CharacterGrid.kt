@@ -374,7 +374,8 @@ private val earth = PresentationLocation(
     id = 1,
     name = "Earth",
     type = "null",
-    dimension = "null"
+    dimension = "null",
+    residents = emptyList()
 )
 
 private val toxicRick = PresentationCharacter(

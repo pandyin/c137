@@ -12,7 +12,8 @@ class DomainLocationMapper : DataMapper<DomainLocation, PresentationLocation> {
             id = domain.id,
             name = domain.name,
             type = domain.type,
-            dimension = domain.dimension
+            dimension = domain.dimension,
+            residents = domain.residents
         )
     }
 }

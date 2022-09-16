@@ -10,12 +10,15 @@ import androidx.paging.filter
 import com.c137.domain.GetCharacterByIdUseCase
 import com.c137.domain.GetPagingCharacterUseCase
 import com.c137.domain.model.PresentationCharacter
+import com.c137.domain.model.PresentationLocation
 import com.c137.domain.model.searchKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
+
+private const val NOT_FOUND_INDEX = -1
 
 @HiltViewModel
 class CharacterGridViewModel @Inject constructor(
@@ -26,8 +29,8 @@ class CharacterGridViewModel @Inject constructor(
     var isExpanded by mutableStateOf(false)
         private set
 
-    private var currentLocations = MutableStateFlow(hashSetOf<Int>())
-    val locations: StateFlow<HashSet<Int>> = currentLocations
+    private var currentLocations = MutableStateFlow(hashSetOf<PresentationLocation>())
+    val locations: StateFlow<HashSet<PresentationLocation>> = currentLocations
 
     private val currentSearchInput = MutableStateFlow("")
     val searchInput: StateFlow<String> = currentSearchInput
@@ -37,33 +40,44 @@ class CharacterGridViewModel @Inject constructor(
     val scrollingState: StateFlow<ScrollingState> = currentScrollingState
 
     val pagingCharacters by lazy {
-        getPagingCharacterUseCase.execute()
-            .cachedIn(scope = viewModelScope)
-            .combine(flow = searchInput) { paging, input ->
-                if (input.isEmpty()) {
-                    paging
-                } else {
-                    val notFoundIndex = -1
-                    paging.filter {
-                        when (input.lowercase().trim().split(" ").indexOfFirst { input ->
-                            it.searchKeys().indexOfFirst { key ->
-                                key.contains(input)
-                            } > notFoundIndex
-                        }) {
-                            notFoundIndex -> false
-                            else -> true
-                        }
-                    }
-                }
+        combine(
+            getPagingCharacterUseCase.execute().cachedIn(scope = viewModelScope),
+            searchInput,
+            locations
+        ) { paging, searchInput, locations ->
+            paging.filter {
+                ((searchInput.isEmpty() || isMatched(
+                    searchInput = searchInput,
+                    searchKeys = it.searchKeys()
+                )) && (locations.isEmpty() || isResident(
+                    id = it.id,
+                    locations = locations
+                )))
             }
+        }
     }
+
+    private fun isMatched(searchInput: String, searchKeys: MutableList<String>) =
+        searchInput.lowercase()
+            .trim()
+            .split(" ")
+            .indexOfFirst { input ->
+                searchKeys.indexOfFirst { it.contains(input) } > NOT_FOUND_INDEX
+            } > NOT_FOUND_INDEX
+
+    private fun isResident(id: Int, locations: HashSet<PresentationLocation>) =
+        locations.indexOfFirst { it.isResident(id) } > NOT_FOUND_INDEX
 
     fun toggleIsExpanded() {
         isExpanded = !isExpanded
     }
 
-    fun toggleLocation(location: Int) {
-
+    fun toggleLocation(location: PresentationLocation) {
+        val newList = hashSetOf(*currentLocations.value.toTypedArray())
+        if (!newList.remove(location)) {
+            newList.add(location)
+        }
+        currentLocations.value = newList
     }
 
     fun updateSearchInput(newValue: String) {
