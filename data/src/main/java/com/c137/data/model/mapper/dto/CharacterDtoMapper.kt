@@ -30,14 +30,14 @@ fun List<CharacterDto>.toDataModel(): List<CharacterWithOriginAndLastKnown> =
         CharacterWithOriginAndLastKnown(
             character = it.toDataModel(),
             origin = DataLocation(
-                id = 0,
+                id = it.origin.id,
                 name = it.origin.name,
                 type = "",
                 dimension = "",
                 residents = emptyList()
             ),
             lastKnown = DataLocation(
-                id = 0,
+                id = it.location.id,
                 name = it.location.name,
                 type = "",
                 dimension = "",

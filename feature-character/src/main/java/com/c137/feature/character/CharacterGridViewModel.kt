@@ -51,6 +51,8 @@ class CharacterGridViewModel @Inject constructor(
                     searchKeys = it.searchKeys()
                 )) && (locations.isEmpty() || isResident(
                     id = it.id,
+                    origin = it.origin.id,
+                    lastKnown = it.lastKnown.id,
                     locations = locations
                 )))
             }
@@ -65,8 +67,16 @@ class CharacterGridViewModel @Inject constructor(
                 searchKeys.indexOfFirst { it.contains(input) } > NOT_FOUND_INDEX
             } > NOT_FOUND_INDEX
 
-    private fun isResident(id: Int, locations: HashSet<PresentationLocation>) =
-        locations.indexOfFirst { it.isResident(id) } > NOT_FOUND_INDEX
+    private fun isResident(
+        id: Int,
+        origin: Int,
+        lastKnown: Int,
+        locations: HashSet<PresentationLocation>
+    ) = locations.indexOfFirst {
+        it.isResident(id)
+                || it.id == origin
+                || it.id == lastKnown
+    } > NOT_FOUND_INDEX
 
     fun toggleIsExpanded() {
         isExpanded = !isExpanded

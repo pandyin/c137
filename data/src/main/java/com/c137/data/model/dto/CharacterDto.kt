@@ -14,6 +14,6 @@ data class CharacterDto(
 
 data class CharacterLocation(val name: String, val url: String) {
 
-    val id: Int?
-        get() = Uri.parse(url).lastPathSegment?.toIntOrNull()
+    val id: Int
+        get() = Uri.parse(url).lastPathSegment?.toIntOrNull() ?: 0
 }
