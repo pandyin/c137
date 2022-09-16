@@ -1,6 +1,5 @@
 package com.c137.data.datasource.paging
 
-import android.net.Uri
 import androidx.paging.PagingState
 import com.c137.data.datasource.local.api.CharacterDao
 import com.c137.data.datasource.paging.api.CharacterPagingService
@@ -19,19 +18,16 @@ class CharacterPagingSourceImpl @Inject constructor(
     override fun getRefreshKey(state: PagingState<Int, CharacterWithOriginAndLastKnown>) =
         state.anchorPosition
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CharacterWithOriginAndLastKnown> {
-        return try {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, CharacterWithOriginAndLastKnown> =
+        try {
             val nextPage = params.key ?: 1
             val results = service.getCharactersByPage(page = nextPage)
             LoadResult.Page(
                 data = results.results.toDataModel(),
-                prevKey = results.info.prev?.let { pageFromUrl(it) },
-                nextKey = results.info.next?.let { pageFromUrl(it) })
+                prevKey = results.info.prev?.pageFromUrl(),
+                nextKey = results.info.next?.pageFromUrl()
+            )
         } catch (e: Exception) {
             LoadResult.Error(e)
         }
-    }
-
-    private fun pageFromUrl(uriString: String): Int? =
-        Uri.parse(uriString).getQueryParameter("page")?.toIntOrNull()
 }

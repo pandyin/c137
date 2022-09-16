@@ -26,13 +26,14 @@ class CharacterGridViewModel @Inject constructor(
     var isExpanded by mutableStateOf(false)
         private set
 
-    private var currentLocations = MutableStateFlow(mutableListOf<String>())
-    val locations: StateFlow<List<String>> = currentLocations
+    private var currentLocations = MutableStateFlow(hashSetOf<Int>())
+    val locations: StateFlow<HashSet<Int>> = currentLocations
 
     private val currentSearchInput = MutableStateFlow("")
     val searchInput: StateFlow<String> = currentSearchInput
 
-    private val currentScrollingState = MutableStateFlow<ScrollingState>(ScrollingState.ScrollTo(index = 0))
+    private val currentScrollingState =
+        MutableStateFlow<ScrollingState>(ScrollingState.ScrollTo(index = 0))
     val scrollingState: StateFlow<ScrollingState> = currentScrollingState
 
     val pagingCharacters by lazy {
@@ -61,10 +62,8 @@ class CharacterGridViewModel @Inject constructor(
         isExpanded = !isExpanded
     }
 
-    fun addLocation(newLocation: String) {
-        currentLocations.value.apply {
-            add(newLocation)
-        }
+    fun toggleLocation(location: Int) {
+
     }
 
     fun updateSearchInput(newValue: String) {

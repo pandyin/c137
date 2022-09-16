@@ -68,6 +68,7 @@ import kotlinx.coroutines.flow.map
 @Composable
 fun CharacterGrid(viewModel: CharacterGridViewModel = hiltViewModel()) {
     val searchKeyword by viewModel.searchInput.collectAsState()
+    val locations by viewModel.locations.collectAsState()
     MaterialTheme(colors = if (isSystemInDarkTheme()) darkColors else lightColors) {
         Scaffold(topBar = {
             TopBar(
@@ -78,7 +79,9 @@ fun CharacterGrid(viewModel: CharacterGridViewModel = hiltViewModel()) {
             )
         }) {
             Column {
-                LocationCarousel()
+                LocationCarousel(
+                    locations = locations,
+                    onClick = { viewModel.toggleLocation(it) })
                 Grid(
                     paging = viewModel.pagingCharacters,
                     scrollingState = viewModel.scrollingState,
