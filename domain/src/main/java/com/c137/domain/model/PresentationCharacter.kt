@@ -11,7 +11,7 @@ data class PresentationCharacter(
     val isDead: Boolean
 ) : BasePresentationModel()
 
-fun PresentationCharacter.searchKeys(): MutableList<String> {
+fun PresentationCharacter.searchKeys(): List<String> {
     val keys = name.lowercase().trim().split(" ").toMutableList()
     keys.add(species.lowercase())
     keys.add(origin.name.lowercase())

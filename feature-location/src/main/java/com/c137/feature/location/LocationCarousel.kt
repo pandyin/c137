@@ -3,6 +3,7 @@ package com.c137.feature.location
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
@@ -25,23 +26,37 @@ import com.c137.domain.model.PresentationLocation
 @Composable
 fun LocationCarousel(
     viewModel: LocationCarouselViewModel = hiltViewModel(),
-    locations: HashSet<PresentationLocation>,
-    onClick: (PresentationLocation) -> Unit
+    locations: List<PresentationLocation>,
+    dimensions: List<String>,
+    onLocationClick: (PresentationLocation) -> Unit,
+    onDimensionClick: (String) -> Unit,
 ) {
-    val lazyPaging = viewModel.locationCharacters.collectAsLazyPagingItems()
-    LazyRow {
-        itemsIndexed(lazyPaging) { _, location ->
-            LocationItem(
-                selected = locations.contains(location),
-                name = location!!.name,
-                onClick = { onClick(location) }
-            )
+    val lazyLocationPaging = viewModel.locations.collectAsLazyPagingItems()
+    val lazyDimensionPaging = viewModel.dimensions.collectAsLazyPagingItems()
+    Column {
+        LazyRow {
+            itemsIndexed(lazyLocationPaging) { _, location ->
+                Item(
+                    selected = locations.contains(location),
+                    name = location!!.name,
+                    onClick = { onLocationClick(location) }
+                )
+            }
+        }
+        LazyRow {
+            itemsIndexed(lazyDimensionPaging) { _, location ->
+                Item(
+                    selected = dimensions.contains(location),
+                    name = location!!,
+                    onClick = { onDimensionClick(location) }
+                )
+            }
         }
     }
 }
 
 @Composable
-fun LocationItem(selected: Boolean, name: String, onClick: () -> Unit) {
+private fun Item(selected: Boolean, name: String, onClick: () -> Unit) {
     Surface(color = MaterialTheme.colors.background) {
         Box(
             modifier = Modifier
