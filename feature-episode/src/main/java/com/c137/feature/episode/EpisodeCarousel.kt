@@ -30,7 +30,7 @@ fun EpisodeCarousel(
 ) {
     val lazyPaging = viewModel.episodes.collectAsLazyPagingItems()
     Column {
-        LazyRow(modifier = Modifier.padding(start = 3.dp, end = 3.dp)) {
+        LazyRow {
             itemsIndexed(lazyPaging) { _, episode ->
                 EpisodeItem(
                     selected = episodes.contains(episode),
@@ -48,7 +48,7 @@ private fun EpisodeItem(selected: Boolean, name: String, onClick: () -> Unit) {
         Box(
             modifier = Modifier
                 .clickable { onClick() }
-                .padding(start = 3.dp, end = 3.dp, bottom = 6.dp)
+                .padding(horizontal = 4.dp, vertical = 4.dp)
                 .clip(RoundedCornerShape(6.dp))
                 .background(color = MaterialTheme.colors.surface)
         ) {
@@ -59,7 +59,7 @@ private fun EpisodeItem(selected: Boolean, name: String, onClick: () -> Unit) {
                     true -> MaterialTheme.colors.onSurface
                     false -> MaterialTheme.colors.onBackground
                 },
-                fontSize = 9.sp,
+                fontSize = 12.sp,
                 fontWeight = FontWeight.Bold
             )
         }

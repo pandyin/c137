@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -40,12 +41,16 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.ExperimentalUnitApi
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType.Companion.Sp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -60,10 +65,8 @@ import com.c137.feature.episode.EpisodeCarousel
 import com.c137.feature.location.LocationCarousel
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 @Composable
@@ -233,11 +236,13 @@ private fun GridCell(
             if (isExpanded) {
                 SpeciesAndWhereaboutsColumn(character = character)
             }
-            Name(
-                isExpanded = isExpanded,
-                name = character.name,
-                modifier = Modifier.align(Alignment.BottomCenter)
-            )
+            if (!isExpanded) {
+                Name(
+                    isExpanded = isExpanded,
+                    name = character.name,
+                    modifier = Modifier.align(Alignment.BottomCenter)
+                )
+            }
         }
         if (character.isDead) {
             DeadBox(isExpanded)
@@ -256,30 +261,41 @@ private fun Image(url: String) {
     )
 }
 
+@OptIn(ExperimentalUnitApi::class)
 @Composable
 private fun SpeciesAndWhereaboutsColumn(character: PresentationCharacter) {
-    Column(modifier = Modifier.padding(6.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colors.surface.copy(alpha = 0.5f))
+            .height(with(LocalDensity.current) { 72.sp.toDp() })
+            .padding(6.dp)
+    ) {
         Text(
-            text = character.species,
-            color = Color.White,
-            fontSize = 18.sp,
+            text = character.name,
+            color = MaterialTheme.colors.onSurface,
+            fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
+            lineHeight = TextUnit(20f, Sp),
             overflow = TextOverflow.Ellipsis,
             maxLines = 1
         )
-        listOf(character.origin, character.lastKnown)
-            .map { it.name }
-            .distinct()
-            .forEach {
-                Text(
-                    text = it,
-                    color = Color.White,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    overflow = TextOverflow.Ellipsis,
-                    maxLines = 1
-                )
-            }
+        Text(
+            text = mutableListOf(
+                character.origin,
+                character.lastKnown
+            )
+                .filter { !it.isUnknown() }
+                .map { it.name }
+                .apply { (this as MutableList).add(character.species) }
+                .distinct()
+                .joinToString(),
+            color = MaterialTheme.colors.onSurface,
+            fontSize = 14.sp,
+            lineHeight = TextUnit(20f, Sp),
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 2
+        )
     }
 }
 
@@ -313,7 +329,12 @@ private fun DeadBox(isExpanded: Boolean) {
             contentDescription = "",
             modifier = Modifier
                 .padding(12.dp)
-                .align(Alignment.TopEnd)
+                .align(
+                    when (isExpanded) {
+                        true -> Alignment.BottomEnd
+                        false -> Alignment.TopEnd
+                    }
+                )
                 .size(
                     when (isExpanded) {
                         true -> 48.dp
@@ -353,12 +374,7 @@ private fun ClosableTopAppBarPreview() {
 @Composable
 private fun DefaultGridPreview() {
     MaterialTheme(colors = darkColors) {
-        Grid(
-            paging = flowOf(PagingData.from(listOf(toxicRick))),
-            scrollingState = MutableStateFlow(ScrollingState.ScrollTo(index = 0)),
-            isExpanded = false,
-            paddingValues = PaddingValues(0.dp)
-        ) { _, _ -> }
+        GridCell(indexedCharacter = 0 to toxicRick, isExpanded = false, onClick = { _, _ -> })
     }
 }
 
@@ -366,20 +382,23 @@ private fun DefaultGridPreview() {
 @Composable
 private fun ExpandedGridPreview() {
     MaterialTheme(colors = darkColors) {
-        Grid(
-            paging = flowOf(PagingData.from(listOf(toxicRick))),
-            scrollingState = MutableStateFlow(ScrollingState.ScrollTo(index = 0)),
-            isExpanded = true,
-            paddingValues = PaddingValues(0.dp)
-        ) { _, _ -> }
+        GridCell(indexedCharacter = 0 to toxicRick, isExpanded = true, onClick = { _, _ -> })
     }
 }
 
 private val earth = PresentationLocation(
     id = 1,
     name = "Earth",
-    type = "null",
-    dimension = "null",
+    type = "Planet",
+    dimension = "C-137",
+    residents = emptyList()
+)
+
+private val sun = PresentationLocation(
+    id = 2,
+    name = "The Sun",
+    type = "Planet",
+    dimension = "C-137",
     residents = emptyList()
 )
 
@@ -389,6 +408,6 @@ private val toxicRick = PresentationCharacter(
     image = "https://rickandmortyapi.com/api/character/avatar/361.jpeg",
     species = "Human",
     origin = earth,
-    lastKnown = earth,
+    lastKnown = sun,
     isDead = false
 )

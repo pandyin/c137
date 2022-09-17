@@ -10,4 +10,6 @@ data class PresentationLocation(
 
     private val hashResidents = residents.toHashSet()
     fun isResident(id: Int) = hashResidents.contains(id)
+
+    fun isUnknown() = id == 0
 }
