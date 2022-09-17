@@ -5,7 +5,6 @@ data class DomainCharacter(
     val name: String,
     val image: String,
     val species: String,
-    val dimensions: List<String>,
     val isDead: Boolean
 ) : BaseDomainModel() {
 

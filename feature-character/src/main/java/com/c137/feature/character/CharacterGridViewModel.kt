@@ -32,9 +32,6 @@ class CharacterGridViewModel @Inject constructor(
     private var currentLocations = MutableStateFlow(listOf<PresentationLocation>())
     val locations: StateFlow<List<PresentationLocation>> = currentLocations
 
-    private var currentDimensions = MutableStateFlow(listOf<String>())
-    val dimensions: StateFlow<List<String>> = currentDimensions
-
     private val currentSearchInput = MutableStateFlow("")
     val searchInput: StateFlow<String> = currentSearchInput
 
@@ -45,9 +42,8 @@ class CharacterGridViewModel @Inject constructor(
         combine(
             getPagingCharacterUseCase.execute().cachedIn(scope = viewModelScope),
             searchInput,
-            locations,
-            dimensions
-        ) { paging, searchInput, locations, dimensions ->
+            locations
+        ) { paging, searchInput, locations ->
             paging.filter {
                 ((searchInput.isEmpty() || isMatched(
                     searchInput = searchInput,
@@ -57,9 +53,6 @@ class CharacterGridViewModel @Inject constructor(
                     origin = it.origin.id,
                     lastKnown = it.lastKnown.id,
                     locations = locations
-                )) && (dimensions.isEmpty() || beenToDimensions(
-                    beenTo = it.dimensions,
-                    dimensions = dimensions
                 )))
             }
         }
@@ -84,9 +77,6 @@ class CharacterGridViewModel @Inject constructor(
                 || it.id == lastKnown
     } > NOT_FOUND_INDEX
 
-    private fun beenToDimensions(beenTo: List<String>, dimensions: List<String>) =
-        beenTo.indexOfFirst { dimensions.contains(it) } > NOT_FOUND_INDEX
-
     fun toggleIsExpanded() {
         isExpanded = !isExpanded
     }
@@ -97,14 +87,6 @@ class CharacterGridViewModel @Inject constructor(
             newList.add(location)
         }
         currentLocations.value = newList
-    }
-
-    fun toggleDimension(dimension: String) {
-        val newList = mutableListOf(*currentDimensions.value.toTypedArray())
-        if (!newList.remove(dimension)) {
-            newList.add(dimension)
-        }
-        currentDimensions.value = newList
     }
 
     fun updateSearchInput(newValue: String) {

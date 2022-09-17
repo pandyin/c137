@@ -2,8 +2,6 @@ package com.c137.di
 
 import android.content.Context
 import com.c137.data.C137Database
-import com.c137.data.datasource.local.api.CharacterDao
-import com.c137.data.datasource.local.api.LocationDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,19 +15,13 @@ class DatabaseModule {
 
     @Singleton
     @Provides
-    fun database(@ApplicationContext context: Context): C137Database {
-        return C137Database.invoke(context)
-    }
+    fun database(@ApplicationContext context: Context) = C137Database.invoke(context)
 
     @Singleton
     @Provides
-    fun characterDao(database: C137Database): CharacterDao {
-        return database.characterDao()
-    }
+    fun characterDao(database: C137Database) = database.characterDao()
 
     @Singleton
     @Provides
-    fun locationDao(database: C137Database): LocationDao {
-        return database.locationDao()
-    }
+    fun locationDao(database: C137Database) = database.locationDao()
 }

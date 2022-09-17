@@ -7,7 +7,6 @@ data class PresentationCharacter(
     val species: String,
     val origin: PresentationLocation,
     val lastKnown: PresentationLocation,
-    val dimensions: List<String>,
     val isDead: Boolean
 ) : BasePresentationModel()
 
@@ -16,6 +15,5 @@ fun PresentationCharacter.searchKeys(): List<String> {
     keys.add(species.lowercase())
     keys.add(origin.name.lowercase())
     keys.add(lastKnown.name.lowercase())
-    keys.addAll(dimensions.map { it.lowercase() })
     return keys
 }

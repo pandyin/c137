@@ -27,28 +27,16 @@ import com.c137.domain.model.PresentationLocation
 fun LocationCarousel(
     viewModel: LocationCarouselViewModel = hiltViewModel(),
     locations: List<PresentationLocation>,
-    dimensions: List<String>,
-    onLocationClick: (PresentationLocation) -> Unit,
-    onDimensionClick: (String) -> Unit,
+    onClick: (PresentationLocation) -> Unit
 ) {
     val lazyLocationPaging = viewModel.locations.collectAsLazyPagingItems()
-    val lazyDimensionPaging = viewModel.dimensions.collectAsLazyPagingItems()
     Column {
-        LazyRow {
+        LazyRow(modifier = Modifier.padding(start = 3.dp, top = 6.dp, end = 3.dp, bottom = 6.dp)) {
             itemsIndexed(lazyLocationPaging) { _, location ->
-                Item(
+                LocationItem(
                     selected = locations.contains(location),
                     name = location!!.name,
-                    onClick = { onLocationClick(location) }
-                )
-            }
-        }
-        LazyRow {
-            itemsIndexed(lazyDimensionPaging) { _, location ->
-                Item(
-                    selected = dimensions.contains(location),
-                    name = location!!,
-                    onClick = { onDimensionClick(location) }
+                    onClick = { onClick(location) }
                 )
             }
         }
@@ -56,12 +44,12 @@ fun LocationCarousel(
 }
 
 @Composable
-private fun Item(selected: Boolean, name: String, onClick: () -> Unit) {
+private fun LocationItem(selected: Boolean, name: String, onClick: () -> Unit) {
     Surface(color = MaterialTheme.colors.background) {
         Box(
             modifier = Modifier
                 .clickable { onClick() }
-                .padding(horizontal = 6.dp, vertical = 6.dp)
+                .padding(horizontal = 3.dp)
                 .clip(RoundedCornerShape(6.dp))
                 .background(color = MaterialTheme.colors.surface)
         ) {

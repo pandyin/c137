@@ -69,7 +69,6 @@ import kotlinx.coroutines.flow.map
 fun CharacterGrid(viewModel: CharacterGridViewModel = hiltViewModel()) {
     val searchKeyword by viewModel.searchInput.collectAsState()
     val locations by viewModel.locations.collectAsState()
-    val dimensions by viewModel.dimensions.collectAsState()
     MaterialTheme(colors = if (isSystemInDarkTheme()) darkColors else lightColors) {
         Scaffold(topBar = {
             TopBar(
@@ -82,9 +81,7 @@ fun CharacterGrid(viewModel: CharacterGridViewModel = hiltViewModel()) {
             Column {
                 LocationCarousel(
                     locations = locations,
-                    dimensions = dimensions,
-                    onLocationClick = { viewModel.toggleLocation(it) },
-                    onDimensionClick = { viewModel.toggleDimension(it)})
+                    onClick = { viewModel.toggleLocation(it) })
                 Grid(
                     paging = viewModel.pagingCharacters,
                     scrollingState = viewModel.scrollingState,
@@ -278,16 +275,6 @@ private fun SpeciesAndWhereaboutsColumn(character: PresentationCharacter) {
                     maxLines = 1
                 )
             }
-        character.dimensions.forEach {
-            Text(
-                text = it,
-                color = Color.White,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1
-            )
-        }
     }
 }
 
@@ -388,6 +375,5 @@ private val toxicRick = PresentationCharacter(
     species = "Human",
     origin = earth,
     lastKnown = earth,
-    dimensions = emptyList(),
     isDead = false
 )

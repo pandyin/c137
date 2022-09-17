@@ -15,7 +15,6 @@ class DataCharacterMapper : DataMapper<DataCharacter, DomainCharacter> {
             name = data.name,
             image = data.image,
             species = data.species,
-            dimensions = emptyList(),
             isDead = data.status == CharacterStatus.Dead
         )
     }

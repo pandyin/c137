@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+private const val PAGE_SIZE = 60
+
 @ViewModelScoped
 class LocationPagingRepositoryImpl @Inject constructor(private val pagingSource: LocationPagingSource) :
     LocationPagingRepository {

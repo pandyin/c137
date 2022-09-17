@@ -15,7 +15,6 @@ class DomainCharacterMapper : DataMapper<DomainCharacter, PresentationCharacter>
             species = domain.species,
             origin = domain.origin.toPresentationModel(),
             lastKnown = domain.lastKnown.toPresentationModel(),
-            dimensions = domain.dimensions,
             isDead = domain.isDead
         )
     }
