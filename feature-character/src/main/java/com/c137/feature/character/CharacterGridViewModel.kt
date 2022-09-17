@@ -10,6 +10,7 @@ import androidx.paging.filter
 import com.c137.domain.GetCharacterByIdUseCase
 import com.c137.domain.GetPagingCharacterUseCase
 import com.c137.domain.model.PresentationCharacter
+import com.c137.domain.model.PresentationEpisode
 import com.c137.domain.model.PresentationLocation
 import com.c137.domain.model.searchKeys
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,18 +33,23 @@ class CharacterGridViewModel @Inject constructor(
     private var currentLocations = MutableStateFlow(listOf<PresentationLocation>())
     val locations: StateFlow<List<PresentationLocation>> = currentLocations
 
+    private var currentEpisodes = MutableStateFlow(listOf<PresentationEpisode>())
+    val episodes: StateFlow<List<PresentationEpisode>> = currentEpisodes
+
     private val currentSearchInput = MutableStateFlow("")
     val searchInput: StateFlow<String> = currentSearchInput
 
-    private val currentScrollingState = MutableStateFlow<ScrollingState>(ScrollingState.ScrollTo(index = 0))
+    private val currentScrollingState =
+        MutableStateFlow<ScrollingState>(ScrollingState.ScrollTo(index = 0))
     val scrollingState: StateFlow<ScrollingState> = currentScrollingState
 
     val pagingCharacters by lazy {
         combine(
             getPagingCharacterUseCase.execute().cachedIn(scope = viewModelScope),
             searchInput,
-            locations
-        ) { paging, searchInput, locations ->
+            locations,
+            episodes
+        ) { paging, searchInput, locations, episodes ->
             paging.filter {
                 ((searchInput.isEmpty() || isMatched(
                     searchInput = searchInput,
@@ -53,6 +59,9 @@ class CharacterGridViewModel @Inject constructor(
                     origin = it.origin.id,
                     lastKnown = it.lastKnown.id,
                     locations = locations
+                )) && (episodes.isEmpty() || isPartOfEpisodes(
+                    id = it.id,
+                    episodes = episodes
                 )))
             }
         }
@@ -77,6 +86,9 @@ class CharacterGridViewModel @Inject constructor(
                 || it.id == lastKnown
     } > NOT_FOUND_INDEX
 
+    private fun isPartOfEpisodes(id: Int, episodes: List<PresentationEpisode>) =
+        episodes.indexOfFirst { it.characters.contains(id) } > NOT_FOUND_INDEX
+
     fun toggleIsExpanded() {
         isExpanded = !isExpanded
     }
@@ -87,6 +99,14 @@ class CharacterGridViewModel @Inject constructor(
             newList.add(location)
         }
         currentLocations.value = newList
+    }
+
+    fun toggleEpisode(episode: PresentationEpisode) {
+        val newList = mutableListOf(*currentEpisodes.value.toTypedArray())
+        if (!newList.remove(episode)) {
+            newList.add(episode)
+        }
+        currentEpisodes.value = newList
     }
 
     fun updateSearchInput(newValue: String) {

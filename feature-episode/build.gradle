@@ -1,9 +1,11 @@
 import com.c137.buildsrc.Dependencies
+import com.c137.buildsrc.Modules
 import com.c137.buildsrc.Versions
 
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -17,6 +19,9 @@ android {
         consumerProguardFiles "consumer-rules.pro"
     }
 
+    buildFeatures {
+        compose true
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -26,6 +31,9 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion '1.1.1'
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -37,6 +45,9 @@ dependencies {
     implementation Dependencies.AndroidX.coreKtx
     implementation Dependencies.AndroidX.appcompat
 
+    implementation Dependencies.AndroidX.activityCompose
+    implementation Dependencies.AndroidX.hiltCompose
+
     implementation Dependencies.AndroidX.Compose.ui
     implementation Dependencies.AndroidX.Compose.uiTooling
     implementation Dependencies.AndroidX.Compose.uiToolingPreview
@@ -46,8 +57,14 @@ dependencies {
     implementation Dependencies.AndroidX.Compose.materialIconsExtended
 
     implementation Dependencies.Google.material
+    implementation Dependencies.Google.Hilt.hilt
+    kapt Dependencies.Google.Hilt.hiltCompiler
 
     testImplementation Dependencies.Test.junit
     androidTestImplementation Dependencies.Test.extJunit
     androidTestImplementation Dependencies.Test.espressoCore
+
+    implementation project(Modules.common)
+    implementation project(Modules.di)
+    implementation project(Modules.domain)
 }

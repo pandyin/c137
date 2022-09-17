@@ -1,8 +1,10 @@
 package com.c137.di
 
 import com.c137.data.datasource.local.CharacterLocalDataSourceImpl
+import com.c137.data.datasource.local.EpisodeLocalDataSourceImpl
 import com.c137.data.datasource.local.LocationLocalDataSourceImpl
 import com.c137.data.repository.api.CharacterLocalDataSource
+import com.c137.data.repository.api.EpisodeLocalDataSource
 import com.c137.data.repository.api.LocationLocalDataSource
 import dagger.Binds
 import dagger.Module
@@ -21,4 +23,8 @@ abstract class LocalDataSourceModule {
     @ViewModelScoped
     @Binds
     abstract fun bindLocationLocalDataSource(localDataSource: LocationLocalDataSourceImpl): LocationLocalDataSource
+
+    @ViewModelScoped
+    @Binds
+    abstract fun bindEpisodeLocalDataSource(episodeLocalDataSource: EpisodeLocalDataSourceImpl): EpisodeLocalDataSource
 }

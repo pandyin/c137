@@ -41,7 +41,7 @@ fun List<CharacterDto>.toDataModel(): List<CharacterWithOriginAndLastKnown> =
                 name = it.location.name,
                 type = "",
                 dimension = "",
-                emptyList()
+                residents = emptyList()
             )
         )
     }

@@ -52,10 +52,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.c137.common.Catchphrase
-import com.c137.common.theme.darkColors
-import com.c137.common.theme.lightColors
+import com.c137.common.darkColors
+import com.c137.common.lightColors
 import com.c137.domain.model.PresentationCharacter
 import com.c137.domain.model.PresentationLocation
+import com.c137.feature.episode.EpisodeCarousel
 import com.c137.feature.location.LocationCarousel
 import com.skydoves.landscapist.glide.GlideImage
 import kotlinx.coroutines.flow.Flow
@@ -69,6 +70,7 @@ import kotlinx.coroutines.flow.map
 fun CharacterGrid(viewModel: CharacterGridViewModel = hiltViewModel()) {
     val searchKeyword by viewModel.searchInput.collectAsState()
     val locations by viewModel.locations.collectAsState()
+    val episodes by viewModel.episodes.collectAsState()
     MaterialTheme(colors = if (isSystemInDarkTheme()) darkColors else lightColors) {
         Scaffold(topBar = {
             TopBar(
@@ -82,6 +84,9 @@ fun CharacterGrid(viewModel: CharacterGridViewModel = hiltViewModel()) {
                 LocationCarousel(
                     locations = locations,
                     onClick = { viewModel.toggleLocation(it) })
+                EpisodeCarousel(
+                    episodes = episodes,
+                    onClick = { viewModel.toggleEpisode(it) })
                 Grid(
                     paging = viewModel.pagingCharacters,
                     scrollingState = viewModel.scrollingState,
@@ -323,41 +328,51 @@ private fun DeadBox(isExpanded: Boolean) {
 @Preview
 @Composable
 private fun DefaultTopAppBarPreview() {
-    TopBar(isExpanded = true, searchKeyword = "", {}, {})
+    MaterialTheme(colors = darkColors) {
+        TopBar(isExpanded = true, searchKeyword = "", {}, {})
+    }
 }
 
 @Preview
 @Composable
 private fun DefaultTopAppBarWithSearchKeywordPreview() {
-    TopBar(isExpanded = true, searchKeyword = Catchphrase.burp(), {}, {})
+    MaterialTheme(colors = darkColors) {
+        TopBar(isExpanded = true, searchKeyword = Catchphrase.burp(), {}, {})
+    }
 }
 
 @Preview
 @Composable
 private fun ClosableTopAppBarPreview() {
-    TopBar(isExpanded = false, searchKeyword = "", {}, {})
+    MaterialTheme(colors = darkColors) {
+        TopBar(isExpanded = false, searchKeyword = "", {}, {})
+    }
 }
 
 @Preview
 @Composable
 private fun DefaultGridPreview() {
-    Grid(
-        paging = flowOf(PagingData.from(listOf(toxicRick))),
-        scrollingState = MutableStateFlow(ScrollingState.ScrollTo(index = 0)),
-        isExpanded = false,
-        paddingValues = PaddingValues(0.dp)
-    ) { _, _ -> }
+    MaterialTheme(colors = darkColors) {
+        Grid(
+            paging = flowOf(PagingData.from(listOf(toxicRick))),
+            scrollingState = MutableStateFlow(ScrollingState.ScrollTo(index = 0)),
+            isExpanded = false,
+            paddingValues = PaddingValues(0.dp)
+        ) { _, _ -> }
+    }
 }
 
 @Preview
 @Composable
 private fun ExpandedGridPreview() {
-    Grid(
-        paging = flowOf(PagingData.from(listOf(toxicRick))),
-        scrollingState = MutableStateFlow(ScrollingState.ScrollTo(index = 0)),
-        isExpanded = true,
-        paddingValues = PaddingValues(0.dp)
-    ) { _, _ -> }
+    MaterialTheme(colors = darkColors) {
+        Grid(
+            paging = flowOf(PagingData.from(listOf(toxicRick))),
+            scrollingState = MutableStateFlow(ScrollingState.ScrollTo(index = 0)),
+            isExpanded = true,
+            paddingValues = PaddingValues(0.dp)
+        ) { _, _ -> }
+    }
 }
 
 private val earth = PresentationLocation(

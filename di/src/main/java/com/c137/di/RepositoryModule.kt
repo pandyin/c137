@@ -1,8 +1,10 @@
 package com.c137.di
 
 import com.c137.data.repository.CharacterRepositoryImpl
+import com.c137.data.repository.EpisodeRepositoryImpl
 import com.c137.data.repository.LocationRepositoryImpl
 import com.c137.domain.api.CharacterRepository
+import com.c137.domain.api.EpisodeRepository
 import com.c137.domain.api.LocationRepository
 import dagger.Binds
 import dagger.Module
@@ -21,4 +23,8 @@ abstract class RepositoryModule {
     @ViewModelScoped
     @Binds
     abstract fun bindLocationRepository(repository: LocationRepositoryImpl): LocationRepository
+
+    @ViewModelScoped
+    @Binds
+    abstract fun bindEpisodeRepository(repository: EpisodeRepositoryImpl): EpisodeRepository
 }

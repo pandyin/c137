@@ -86,4 +86,5 @@ dependencies {
     implementation project(Modules.di)
     implementation project(Modules.domain)
     implementation project(Modules.Features.location)
+    implementation project(Modules.Features.episode)
 }

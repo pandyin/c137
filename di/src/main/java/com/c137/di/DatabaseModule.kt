@@ -24,4 +24,8 @@ class DatabaseModule {
     @Singleton
     @Provides
     fun locationDao(database: C137Database) = database.locationDao()
+
+    @Singleton
+    @Provides
+    fun episodeDao(database: C137Database) = database.episodeDao()
 }
