@@ -31,7 +31,7 @@ fun LocationCarousel(
 ) {
     val lazyLocationPaging = viewModel.locations.collectAsLazyPagingItems()
     Column {
-        LazyRow(modifier = Modifier.padding(start = 3.dp, top = 6.dp, end = 3.dp, bottom = 6.dp)) {
+        LazyRow(modifier = Modifier.padding(start = 3.dp, end = 3.dp)) {
             itemsIndexed(lazyLocationPaging) { _, location ->
                 LocationItem(
                     selected = locations.contains(location),
@@ -49,7 +49,7 @@ private fun LocationItem(selected: Boolean, name: String, onClick: () -> Unit) {
         Box(
             modifier = Modifier
                 .clickable { onClick() }
-                .padding(horizontal = 3.dp)
+                .padding(horizontal = 3.dp, vertical = 6.dp)
                 .clip(RoundedCornerShape(6.dp))
                 .background(color = MaterialTheme.colors.surface)
         ) {
