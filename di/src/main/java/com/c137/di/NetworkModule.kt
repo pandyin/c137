@@ -2,9 +2,8 @@ package com.c137.di
 
 import android.content.Context
 import com.c137.data.datasource.paging.api.CharacterPagingService
+import com.c137.data.datasource.paging.api.EpisodePagingService
 import com.c137.data.datasource.paging.api.LocationPagingService
-import com.c137.data.datasource.remote.api.CharacterService
-import com.c137.data.datasource.remote.api.EpisodeService
 import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
@@ -49,18 +48,6 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun characterService(retrofit: Retrofit): CharacterService {
-        return retrofit.create(CharacterService::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun pagingEpisodeService(retrofit: Retrofit): EpisodeService {
-        return retrofit.create(EpisodeService::class.java)
-    }
-
-    @Singleton
-    @Provides
     fun pagingCharacterService(retrofit: Retrofit): CharacterPagingService {
         return retrofit.create(CharacterPagingService::class.java)
     }
@@ -69,5 +56,11 @@ class NetworkModule {
     @Provides
     fun pagingLocationService(retrofit: Retrofit): LocationPagingService {
         return retrofit.create(LocationPagingService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun pagingEpisodeService(retrofit: Retrofit): EpisodePagingService {
+        return retrofit.create(EpisodePagingService::class.java)
     }
 }

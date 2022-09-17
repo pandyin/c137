@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface LocationPagingRepository {
 
-    fun getPagingCharacter(): Flow<PagingData<DomainLocation>>
+    fun getPagingLocation(): Flow<PagingData<DomainLocation>>
 }

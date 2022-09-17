@@ -1,8 +1,10 @@
 package com.c137.di
 
 import com.c137.data.repository.CharacterPagingRepositoryImpl
+import com.c137.data.repository.EpisodePagingRepositoryImpl
 import com.c137.data.repository.LocationPagingRepositoryImpl
 import com.c137.domain.api.CharacterPagingRepository
+import com.c137.domain.api.EpisodePagingRepository
 import com.c137.domain.api.LocationPagingRepository
 import dagger.Binds
 import dagger.Module
@@ -21,4 +23,8 @@ abstract class PagingRepositoryModule {
     @ViewModelScoped
     @Binds
     abstract fun bindLocationPagingRepository(repository: LocationPagingRepositoryImpl): LocationPagingRepository
+
+    @ViewModelScoped
+    @Binds
+    abstract fun bindPagingEpisodeRepository(repository: EpisodePagingRepositoryImpl): EpisodePagingRepository
 }

@@ -26,3 +26,7 @@ class EpisodeDtoMapper : DtoMapper<EpisodeDto, DataEpisode> {
 
 fun EpisodeDto.toDataModel(): DataEpisode =
     EpisodeDtoMapper().map(dto = this)
+
+@Deprecated("to be removed", ReplaceWith(""))
+fun List<EpisodeDto>.toDataModel(): List<DataEpisode> =
+    map { EpisodeDtoMapper().map(dto = it) }

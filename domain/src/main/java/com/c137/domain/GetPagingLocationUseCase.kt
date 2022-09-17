@@ -13,5 +13,5 @@ import javax.inject.Inject
 class GetPagingLocationUseCase @Inject constructor(private val repository: LocationPagingRepository) {
 
     fun execute(): Flow<PagingData<PresentationLocation>> =
-        repository.getPagingCharacter().map { it.toPresentationModel() }
+        repository.getPagingLocation().map { it.toPresentationModel() }
 }

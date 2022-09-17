@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import androidx.paging.filter
-import com.c137.domain.GetCharacterByIdUseCase
 import com.c137.domain.GetPagingCharacterUseCase
 import com.c137.domain.model.PresentationCharacter
 import com.c137.domain.model.PresentationEpisode
@@ -23,8 +22,7 @@ private const val NOT_FOUND_INDEX = -1
 
 @HiltViewModel
 class CharacterGridViewModel @Inject constructor(
-    private val getPagingCharacterUseCase: GetPagingCharacterUseCase,
-    private val getCharacterByIdUseCase: GetCharacterByIdUseCase
+    private val getPagingCharacterUseCase: GetPagingCharacterUseCase
 ) : ViewModel() {
 
     var isExpanded by mutableStateOf(false)

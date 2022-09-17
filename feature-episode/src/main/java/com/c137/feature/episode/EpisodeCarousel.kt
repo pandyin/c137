@@ -7,19 +7,19 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemsIndexed
 import com.c137.domain.model.PresentationEpisode
 
 @Composable
@@ -28,14 +28,14 @@ fun EpisodeCarousel(
     episodes: List<PresentationEpisode>,
     onClick: (PresentationEpisode) -> Unit
 ) {
-    val state = viewModel.episodes.collectAsState(initial = emptyList())
+    val lazyPaging = viewModel.episodes.collectAsLazyPagingItems()
     Column {
         LazyRow(modifier = Modifier.padding(start = 3.dp, end = 3.dp)) {
-            items(state.value) {
+            itemsIndexed(lazyPaging) { _, episode ->
                 EpisodeItem(
-                    selected = episodes.contains(it),
-                    name = it.name,
-                    onClick = { onClick(it) }
+                    selected = episodes.contains(episode),
+                    name = episode!!.name,
+                    onClick = { onClick(episode) }
                 )
             }
         }
