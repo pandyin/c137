@@ -113,7 +113,7 @@ class CharacterGridViewModel @Inject constructor(
         currentSearchInput.value = newValue
     }
 
-    fun expand(index: Int, character: PresentationCharacter) {
+    fun expand(index: Int) {
         if (!isExpanded) {
             isExpanded = true
         }

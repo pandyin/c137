@@ -95,8 +95,8 @@ fun CharacterGrid(viewModel: CharacterGridViewModel = hiltViewModel()) {
                     scrollingState = viewModel.scrollingState,
                     isExpanded = viewModel.isExpanded,
                     paddingValues = it
-                ) { index, character ->
-                    viewModel.expand(index, character)
+                ) { index, _ ->
+                    viewModel.expand(index)
                 }
             }
         }
