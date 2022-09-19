@@ -25,7 +25,7 @@ import com.c137.domain.model.PresentationEpisode
 @Composable
 fun EpisodeCarousel(
     viewModel: EpisodeCarouselViewModel = hiltViewModel(),
-    episodes: List<PresentationEpisode>,
+    episodes: LinkedHashMap<Int, PresentationEpisode>,
     onClick: (PresentationEpisode) -> Unit
 ) {
     val lazyPaging = viewModel.episodes.collectAsLazyPagingItems()
@@ -33,8 +33,8 @@ fun EpisodeCarousel(
         LazyRow {
             itemsIndexed(lazyPaging) { _, episode ->
                 EpisodeItem(
-                    selected = episodes.contains(episode),
-                    name = episode!!.name,
+                    selected = episodes.contains(episode!!.id),
+                    name = episode.name,
                     onClick = { onClick(episode) }
                 )
             }

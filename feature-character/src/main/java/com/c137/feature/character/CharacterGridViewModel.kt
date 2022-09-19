@@ -28,11 +28,11 @@ class CharacterGridViewModel @Inject constructor(
     var isExpanded by mutableStateOf(false)
         private set
 
-    private var currentLocations = MutableStateFlow(listOf<PresentationLocation>())
-    val locations: StateFlow<List<PresentationLocation>> = currentLocations
+    private var currentLocations = MutableStateFlow(LinkedHashMap<Int, PresentationLocation>())
+    val locations: StateFlow<LinkedHashMap<Int, PresentationLocation>> = currentLocations
 
-    private var currentEpisodes = MutableStateFlow(listOf<PresentationEpisode>())
-    val episodes: StateFlow<List<PresentationEpisode>> = currentEpisodes
+    private var currentEpisodes = MutableStateFlow(LinkedHashMap<Int, PresentationEpisode>())
+    val episodes: StateFlow<LinkedHashMap<Int, PresentationEpisode>> = currentEpisodes
 
     private val currentSearchInput = MutableStateFlow("")
     val searchInput: StateFlow<String> = currentSearchInput
@@ -77,34 +77,36 @@ class CharacterGridViewModel @Inject constructor(
         id: Int,
         origin: Int,
         lastKnown: Int,
-        locations: List<PresentationLocation>
-    ) = locations.indexOfFirst {
+        locations: LinkedHashMap<Int, PresentationLocation>
+    ) = locations.values.firstOrNull {
         it.isResident(id)
                 || it.id == origin
                 || it.id == lastKnown
-    } > NOT_FOUND_INDEX
+    } != null
 
-    private fun isPartOfEpisodes(id: Int, episodes: List<PresentationEpisode>) =
-        episodes.indexOfFirst { it.characters.contains(id) } > NOT_FOUND_INDEX
+    private fun isPartOfEpisodes(id: Int, episodes: LinkedHashMap<Int, PresentationEpisode>) =
+        episodes.values.firstOrNull { it.characters.contains(id) } != null
 
     fun toggleIsExpanded() {
         isExpanded = !isExpanded
     }
 
     fun toggleLocation(location: PresentationLocation) {
-        val newList = mutableListOf(*currentLocations.value.toTypedArray())
-        if (!newList.remove(location)) {
-            newList.add(location)
+        val linkedMap = linkedMapOf<Int, PresentationLocation>()
+        linkedMap.putAll(currentLocations.value)
+        if (linkedMap.remove(key = location.id) == null) {
+            linkedMap[location.id] = location
         }
-        currentLocations.value = newList
+        currentLocations.value = linkedMap
     }
 
     fun toggleEpisode(episode: PresentationEpisode) {
-        val newList = mutableListOf(*currentEpisodes.value.toTypedArray())
-        if (!newList.remove(episode)) {
-            newList.add(episode)
+        val linkedMap = linkedMapOf<Int, PresentationEpisode>()
+        linkedMap.putAll(currentEpisodes.value)
+        if (linkedMap.remove(key = episode.id) == null) {
+            linkedMap[episode.id] = episode
         }
-        currentEpisodes.value = newList
+        currentEpisodes.value = linkedMap
     }
 
     fun updateSearchInput(newValue: String) {

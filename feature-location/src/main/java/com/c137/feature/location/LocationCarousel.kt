@@ -27,7 +27,7 @@ import com.c137.domain.model.PresentationLocation
 @Composable
 fun LocationCarousel(
     viewModel: LocationCarouselViewModel = hiltViewModel(),
-    locations: List<PresentationLocation>,
+    locations: LinkedHashMap<Int, PresentationLocation>,
     onClick: (PresentationLocation) -> Unit
 ) {
     val lazyPaging = viewModel.locations.collectAsLazyPagingItems()
@@ -35,8 +35,8 @@ fun LocationCarousel(
         LazyRow {
             itemsIndexed(lazyPaging) { _, location ->
                 LocationItem(
-                    selected = locations.contains(location),
-                    name = location!!.name,
+                    selected = locations.contains(location!!.id),
+                    name = location.name,
                     onClick = { onClick(location) }
                 )
             }
