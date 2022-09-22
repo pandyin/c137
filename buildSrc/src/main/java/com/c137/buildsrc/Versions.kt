@@ -57,6 +57,8 @@ object Versions {
         const val junit = "4.13.2"
         const val extJunit = "1.1.3"
         const val espressoCore = "3.4.0"
+        const val mockk = "1.12.8"
+        const val assertj = "3.23.1"
     }
 
     object Glide {

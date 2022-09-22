@@ -49,6 +49,9 @@ dependencies {
     implementation Dependencies.Coroutine.coroutine
 
     testImplementation Dependencies.Test.junit
+    testImplementation Dependencies.Test.mockk
+    testImplementation Dependencies.Test.assertj
+
     androidTestImplementation Dependencies.Test.extJunit
     androidTestImplementation Dependencies.Test.espressoCore
 

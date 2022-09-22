@@ -70,6 +70,8 @@ object Dependencies {
         const val junit = "junit:junit:${Versions.Test.junit}"
         const val extJunit = "androidx.test.ext:junit:${Versions.Test.extJunit}"
         const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.Test.espressoCore}"
+        const val mockk = "io.mockk:mockk:${Versions.Test.mockk}"
+        const val assertj = "org.assertj:assertj-core:${Versions.Test.assertj}"
     }
 
     object Glide {
