@@ -59,6 +59,7 @@ object Versions {
         const val espressoCore = "3.4.0"
         const val mockk = "1.12.8"
         const val assertj = "3.23.1"
+        const val robolectric = "4.8"
     }
 
     object Glide {

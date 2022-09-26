@@ -2,14 +2,18 @@ package com.c137.data.model.mapper.dto
 
 import android.annotation.SuppressLint
 import android.net.Uri
+import androidx.annotation.VisibleForTesting
 import com.c137.data.model.DataEpisode
 import com.c137.data.model.dto.EpisodeDto
 import java.text.SimpleDateFormat
 
+@VisibleForTesting
+const val AIR_DATE_PATTERN = "MMMM dd, yyyy"
+
 class EpisodeDtoMapper : DtoMapper<EpisodeDto, DataEpisode> {
 
     @SuppressLint("SimpleDateFormat")
-    private val pattern = SimpleDateFormat("MMMM dd, yyyy")
+    private val pattern = SimpleDateFormat(AIR_DATE_PATTERN)
 
     override fun map(dto: EpisodeDto): DataEpisode {
         return DataEpisode(

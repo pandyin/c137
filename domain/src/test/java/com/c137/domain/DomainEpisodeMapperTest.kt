@@ -11,20 +11,19 @@ import java.util.UUID
 class DomainEpisodeMapperTest {
 
     @Test
-    fun `should map a presentation episode to a domain episode correctly`(): Unit =
-        runBlocking {
-            val dataModel = DomainEpisode(
-                id = UUID.randomUUID().hashCode(),
-                name = UUID.randomUUID().toString(),
-                airDate = Calendar.getInstance().time,
-                episode = UUID.randomUUID().toString(),
-                characters = listOf(
-                    UUID.randomUUID().hashCode(),
-                    UUID.randomUUID().hashCode()
-                )
+    fun `should map a presentation episode to a domain episode correctly`() {
+        val dataModel = DomainEpisode(
+            id = UUID.randomUUID().hashCode(),
+            name = UUID.randomUUID().toString(),
+            airDate = Calendar.getInstance().time,
+            episode = UUID.randomUUID().toString(),
+            characters = listOf(
+                UUID.randomUUID().hashCode(),
+                UUID.randomUUID().hashCode()
             )
+        )
 
-            Assertions.assertThat(dataModel).usingRecursiveComparison()
-                .isEqualTo(dataModel.toPresentationModel())
-        }
+        Assertions.assertThat(dataModel).usingRecursiveComparison()
+            .isEqualTo(dataModel.toPresentationModel())
+    }
 }

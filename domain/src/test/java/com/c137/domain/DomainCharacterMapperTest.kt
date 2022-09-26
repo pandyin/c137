@@ -12,38 +12,37 @@ import kotlin.random.Random
 class DomainCharacterMapperTest {
 
     @Test
-    fun `should map a presentation character to a domain character correctly`(): Unit =
-        runBlocking {
-            val dataModel = DomainCharacter(
+    fun `should map a presentation character to a domain character correctly`() {
+        val dataModel = DomainCharacter(
+            id = UUID.randomUUID().hashCode(),
+            name = UUID.randomUUID().toString(),
+            image = UUID.randomUUID().toString(),
+            species = UUID.randomUUID().toString(),
+            isDead = Random.nextBoolean()
+        ).apply {
+            origin = DomainLocation(
                 id = UUID.randomUUID().hashCode(),
                 name = UUID.randomUUID().toString(),
-                image = UUID.randomUUID().toString(),
-                species = UUID.randomUUID().toString(),
-                isDead = Random.nextBoolean()
-            ).apply {
-                origin = DomainLocation(
-                    id = UUID.randomUUID().hashCode(),
-                    name = UUID.randomUUID().toString(),
-                    type = UUID.randomUUID().toString(),
-                    dimension = UUID.randomUUID().toString(),
-                    residents = listOf(
-                        UUID.randomUUID().hashCode(),
-                        UUID.randomUUID().hashCode()
-                    )
+                type = UUID.randomUUID().toString(),
+                dimension = UUID.randomUUID().toString(),
+                residents = listOf(
+                    UUID.randomUUID().hashCode(),
+                    UUID.randomUUID().hashCode()
                 )
-                lastKnown = DomainLocation(
-                    id = UUID.randomUUID().hashCode(),
-                    name = UUID.randomUUID().toString(),
-                    type = UUID.randomUUID().toString(),
-                    dimension = UUID.randomUUID().toString(),
-                    residents = listOf(
-                        UUID.randomUUID().hashCode(),
-                        UUID.randomUUID().hashCode()
-                    )
+            )
+            lastKnown = DomainLocation(
+                id = UUID.randomUUID().hashCode(),
+                name = UUID.randomUUID().toString(),
+                type = UUID.randomUUID().toString(),
+                dimension = UUID.randomUUID().toString(),
+                residents = listOf(
+                    UUID.randomUUID().hashCode(),
+                    UUID.randomUUID().hashCode()
                 )
-            }
-
-            Assertions.assertThat(dataModel).usingRecursiveComparison()
-                .isEqualTo(dataModel.toPresentationModel())
+            )
         }
+
+        Assertions.assertThat(dataModel).usingRecursiveComparison()
+            .isEqualTo(dataModel.toPresentationModel())
+    }
 }

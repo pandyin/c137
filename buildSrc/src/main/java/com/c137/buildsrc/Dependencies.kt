@@ -72,6 +72,7 @@ object Dependencies {
         const val espressoCore = "androidx.test.espresso:espresso-core:${Versions.Test.espressoCore}"
         const val mockk = "io.mockk:mockk:${Versions.Test.mockk}"
         const val assertj = "org.assertj:assertj-core:${Versions.Test.assertj}"
+        const val robolectric = "org.robolectric:robolectric:${Versions.Test.robolectric}"
     }
 
     object Glide {
