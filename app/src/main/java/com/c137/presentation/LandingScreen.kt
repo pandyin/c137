@@ -2,16 +2,13 @@ package com.c137.presentation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.Surface
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.BackHand
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.c137.R
@@ -28,33 +25,19 @@ fun LandingPage(onTimeOut: () -> Unit) {
         newOnTimeOut()
     }
 
-    Image(
-        painter = painterResource(id = R.drawable.landing_foreground),
-        contentDescription = "",
+    Surface(
         modifier = Modifier.fillMaxSize(),
-        contentScale = ContentScale.FillHeight
-    )
+        color = colorResource(id = R.color.landing_background)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_character),
+            contentDescription = "",
+        )
+    }
 }
 
 @Preview
 @Composable
 fun LandingPagePreview() {
     LandingPage { }
-}
-
-@Composable
-fun CharacterCarousel() {
-    LazyRow {
-        item {
-            Surface {
-                Image(imageVector = Icons.Outlined.BackHand, contentDescription = "")
-            }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun CharacterCarouselPreview() {
-    CharacterCarousel()
 }

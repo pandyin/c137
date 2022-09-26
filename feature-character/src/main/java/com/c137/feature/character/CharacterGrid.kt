@@ -256,8 +256,8 @@ private fun Image(url: String) {
         imageModel = url,
         modifier = Modifier.aspectRatio(1f),
         contentScale = ContentScale.Crop,
-        placeHolder = painterResource(id = R.drawable.ic_place_holder),
-        previewPlaceholder = R.drawable.ic_place_holder
+        placeHolder = painterResource(id = R.drawable.ic_character),
+        previewPlaceholder = R.drawable.ic_character
     )
 }
 
