@@ -7,7 +7,7 @@ The app was built using [RickAndMortAPI](https://rickandmortyapi.com/). Big shou
 
 <a href='https://play.google.com/store/apps/details?id=com.c137&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png'/></a>
 
-#### Techinal details
+#### Techinal details (as of 01/10/22)
 - 100% Written by Kotlin and Jetpack Compose.
 - Coroutines and Kotlin Flow.
 - MVVM, Modularization and Clean Architecture.
